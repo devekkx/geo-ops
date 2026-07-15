@@ -1,6 +1,6 @@
 import { FormControl } from "@angular/forms";
 
-import { rangeValidator } from "./range-validator";
+import { rangeValidator } from "./range.validator";
 
 describe("rangeValidator", () => {
   it("returns null when the control has no value", () => {

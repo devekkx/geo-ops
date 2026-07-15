@@ -1,7 +1,7 @@
 import { InjectionToken } from "@angular/core";
 import type { Observable } from "rxjs";
 
-import type { Facility, FacilityDraft } from "@core/models/facility.model";
+import type { Facility, FacilityDraft } from "@core/interfaces/facility.interface";
 
 export interface FacilityRepository {
   getAll(): Observable<Facility[]>;

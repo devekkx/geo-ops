@@ -6,8 +6,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Router } from "@angular/router";
 
-import { AUTH_PORT } from "@core/auth/auth-port";
-import { DEMO_CREDENTIALS } from "@core/auth/mock-auth.service";
+import { AUTH_PORT } from "@core/tokens/auth.token";
+import { DEMO_CREDENTIALS } from "@core/services/mock-auth.service";
 
 @Component({
   selector: "geo-login",
