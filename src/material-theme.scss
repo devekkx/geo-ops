@@ -23,6 +23,11 @@ html {
     )
   );
 
+  // Align the Material "primary" role with the app's own interactive brand blue (rather than
+  // Material's generic blue palette) so input focus outlines, labels, and carets match the
+  // rest of the design system.
+  --mat-sys-primary: var(--color-brand-blue-600);
+
   @include mat.button-overrides(
     (
       filled-container-height: $control-height,
