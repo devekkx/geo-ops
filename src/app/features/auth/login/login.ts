@@ -7,9 +7,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Router } from "@angular/router";
 
 import { AUTH_PORT } from "@core/auth/auth-port";
-
-const DEMO_EMAIL = "emmanuelkpendo1@gmail.com";
-const DEMO_PASSWORD = "demo1234";
+import { DEMO_CREDENTIALS } from "@core/auth/mock-auth.service";
 
 @Component({
   selector: "geo-login",
@@ -25,14 +23,14 @@ const DEMO_PASSWORD = "demo1234";
 })
 export class Login {
   protected readonly form = new FormGroup({
-    email: new FormControl(DEMO_EMAIL, {
+    email: new FormControl(DEMO_CREDENTIALS.email, {
       nonNullable: true,
       validators: [
         (control) => Validators.required(control),
         (control) => Validators.email(control)
       ]
     }),
-    password: new FormControl(DEMO_PASSWORD, {
+    password: new FormControl(DEMO_CREDENTIALS.password, {
       nonNullable: true,
       validators: [(control) => Validators.required(control)]
     })

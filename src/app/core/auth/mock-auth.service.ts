@@ -1,5 +1,5 @@
-import { Injectable, computed, signal } from "@angular/core";
-import { type Observable, delay, map, of, throwError } from "rxjs";
+import { computed, Injectable, signal } from "@angular/core";
+import { delay, map, type Observable, of, throwError } from "rxjs";
 
 import type { AuthUser } from "@core/models/auth.model";
 import type { AuthPort } from "./auth-port";
@@ -8,9 +8,9 @@ const SESSION_KEY = "geo-ops.auth-user";
 const LOGIN_LATENCY_MS = 600;
 
 const DEMO_USER: AuthUser = {
-  uid: "demo-ama-owusu",
-  email: "ama.owusu@amalitech.com",
-  displayName: "Ama Owusu"
+  uid: "demo-emmanuel-kpendo",
+  email: "emmanuelkpendo1@gmail.com",
+  displayName: "Emmanuel Komla Kpendo"
 };
 const DEMO_PASSWORD = "demo1234";
 

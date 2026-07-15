@@ -7,7 +7,7 @@
         <span class="bg-brand-orange-500 block h-0.5 w-5 rounded-full"></span>
       </div>
       <div class="leading-tight">
-        <div class="text-base font-bold tracking-wide text-white">GeoOps</div>
+        <div class="font-display text-base font-bold tracking-wide text-white">GeoOps</div>
         <div class="text-xs text-white/55">Facility Manager</div>
       </div>
     </div>
@@ -76,14 +76,14 @@
     </div>
   </aside>
 
-  <div class="flex min-w-0 flex-1 flex-col bg-gray-50">
+  <div class="bg-brand-gray-50 flex min-w-0 flex-1 flex-col">
     <header
-      class="flex h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-7"
+      class="border-brand-gray-200 flex h-16 shrink-0 items-center justify-between border-b bg-white px-7"
     >
       <div>
-        <h1 class="text-brand-blue-900 text-lg font-semibold">{{ pageTitle() }}</h1>
+        <h1 class="text-brand-blue-900 font-display text-lg font-semibold">{{ pageTitle() }}</h1>
         @if (pageSubtitle()) {
-          <p class="mt-0.5 text-xs text-gray-500">{{ pageSubtitle() }}</p>
+          <p class="text-brand-gray-500 mt-0.5 text-xs">{{ pageSubtitle() }}</p>
         }
       </div>
       <div class="flex items-center gap-3.5">

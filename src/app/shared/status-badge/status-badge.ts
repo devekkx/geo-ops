@@ -3,9 +3,9 @@ import { Component, computed, input } from "@angular/core";
 import type { FacilityStatus } from "@core/models/facility.model";
 
 const STYLES: Record<FacilityStatus, { pill: string; dot: string }> = {
-  Active: { pill: "bg-green-50 text-green-700", dot: "bg-green-600" },
-  Inactive: { pill: "bg-gray-100 text-gray-600", dot: "bg-gray-400" },
-  Maintenance: { pill: "bg-amber-50 text-amber-700", dot: "bg-amber-500" }
+  Active: { pill: "bg-brand-success-50 text-brand-success-700", dot: "bg-brand-success-500" },
+  Inactive: { pill: "bg-brand-gray-100 text-brand-gray-600", dot: "bg-brand-gray-400" },
+  Maintenance: { pill: "bg-brand-warning-50 text-brand-warning-700", dot: "bg-brand-warning-500" }
 };
 
 @Component({

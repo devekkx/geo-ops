@@ -14,9 +14,8 @@ bun install
 bun start
 ```
 
-Open `http://localhost:4200`. Sign in with the pre-filled demo credentials
-(`ama.owusu@amalitech.com` / `demo1234`) — the field values are already populated, just click
-**Sign in**.
+Open `http://localhost:4200`. Sign in with the pre-filled demo credentials — the field values are
+already populated, just click **Sign in**.
 
 No backend, database, or external account is required. Facility data ships as a bundled JSON file
 (`public/data/facilities.json`, 15 facilities across Ghana and Rwanda) served by an in-memory

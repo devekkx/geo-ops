@@ -14,40 +14,40 @@
     </mat-select>
   </mat-form-field>
 
-  <span class="ml-auto text-sm text-gray-500">{{ rangeLabel() }}</span>
+  <span class="text-brand-gray-500 ml-auto text-sm">{{ rangeLabel() }}</span>
 </div>
 
 @switch (state()) {
   @case ("loading") {
     <div
-      class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
+      class="border-brand-gray-200 overflow-hidden rounded-xl border bg-white shadow-sm"
       aria-busy="true"
     >
       <table class="w-full border-collapse">
         <thead>
-          <tr class="bg-gray-50">
+          <tr class="bg-brand-gray-50">
             <th
-              class="px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide text-gray-500 uppercase"
+              class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
             >
               Name
             </th>
             <th
-              class="px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide text-gray-500 uppercase"
+              class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
             >
               Type
             </th>
             <th
-              class="px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide text-gray-500 uppercase"
+              class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
             >
               Status
             </th>
             <th
-              class="px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide text-gray-500 uppercase"
+              class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
             >
               Last updated
             </th>
             <th
-              class="px-4 py-3.5 text-right text-[11px] font-semibold tracking-wide text-gray-500 uppercase"
+              class="text-brand-gray-500 px-4 py-3.5 text-right text-[11px] font-semibold tracking-wide uppercase"
             >
               Actions
             </th>
@@ -55,21 +55,21 @@
         </thead>
         <tbody>
           @for (row of skeletonRows; track $index) {
-            <tr class="border-t border-gray-200">
+            <tr class="border-brand-gray-200 border-t">
               <td class="px-4 py-4">
-                <div class="h-3.5 w-40 animate-pulse rounded bg-gray-200"></div>
+                <div class="bg-brand-gray-200 h-3.5 w-40 animate-pulse rounded"></div>
               </td>
               <td class="px-4 py-4">
-                <div class="h-3.5 w-24 animate-pulse rounded bg-gray-200"></div>
+                <div class="bg-brand-gray-200 h-3.5 w-24 animate-pulse rounded"></div>
               </td>
               <td class="px-4 py-4">
-                <div class="h-5.5 w-20 animate-pulse rounded-full bg-gray-200"></div>
+                <div class="bg-brand-gray-200 h-5.5 w-20 animate-pulse rounded-full"></div>
               </td>
               <td class="px-4 py-4">
-                <div class="h-3.5 w-20 animate-pulse rounded bg-gray-200"></div>
+                <div class="bg-brand-gray-200 h-3.5 w-20 animate-pulse rounded"></div>
               </td>
               <td class="px-4 py-4 text-right">
-                <div class="ml-auto h-7.5 w-18 animate-pulse rounded bg-gray-200"></div>
+                <div class="bg-brand-gray-200 ml-auto h-7.5 w-18 animate-pulse rounded"></div>
               </td>
             </tr>
           }
@@ -78,9 +78,9 @@
     </div>
   }
   @case ("error") {
-    <div class="rounded-xl border border-gray-200 bg-white p-15 text-center shadow-sm">
+    <div class="border-brand-gray-200 rounded-xl border bg-white p-15 text-center shadow-sm">
       <div
-        class="mx-auto mb-4 flex size-14 items-center justify-center rounded-full bg-red-50 text-red-600"
+        class="bg-brand-error-50 text-brand-error-500 mx-auto mb-4 flex size-14 items-center justify-center rounded-full"
       >
         <svg
           width="26"
@@ -99,7 +99,7 @@
         </svg>
       </div>
       <p class="text-brand-blue-900 m-0 text-lg font-semibold">Couldn't load facilities</p>
-      <p class="mx-auto mt-1.5 max-w-95 text-sm text-gray-500">{{ errorMessage() }}</p>
+      <p class="text-brand-gray-500 mx-auto mt-1.5 max-w-95 text-sm">{{ errorMessage() }}</p>
       <button
         mat-flat-button
         type="button"
@@ -112,7 +112,7 @@
   }
   @case ("loaded") {
     @if (total() === 0) {
-      <div class="rounded-xl border border-gray-200 bg-white p-15 text-center shadow-sm">
+      <div class="border-brand-gray-200 rounded-xl border bg-white p-15 text-center shadow-sm">
         <div
           class="bg-brand-orange-50 text-brand-orange-500 mx-auto mb-4 flex size-14 items-center justify-center rounded-full"
         >
@@ -133,7 +133,7 @@
           </svg>
         </div>
         <p class="text-brand-blue-900 m-0 text-lg font-semibold">No facilities found</p>
-        <p class="mx-auto mt-1.5 max-w-100 text-sm text-gray-500">
+        <p class="text-brand-gray-500 mx-auto mt-1.5 max-w-100 text-sm">
           @if (isFiltered()) {
             No facilities match your search or filter.
           } @else {
@@ -147,7 +147,7 @@
         }
       </div>
     } @else {
-      <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+      <div class="border-brand-gray-200 overflow-hidden rounded-xl border bg-white shadow-sm">
         <table mat-table [dataSource]="paged()" class="w-full">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -157,7 +157,7 @@
                 class="text-brand-blue-900 hover:text-brand-orange-500 font-semibold no-underline hover:underline"
                 >{{ facility.name }}</a
               >
-              <div class="mt-0.5 text-xs text-gray-500">
+              <div class="text-brand-gray-500 mt-0.5 text-xs">
                 {{ facility.region }} · {{ facility.id }}
               </div>
             </td>
@@ -165,7 +165,9 @@
 
           <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef>Type</th>
-            <td mat-cell *matCellDef="let facility" class="text-gray-700">{{ facility.type }}</td>
+            <td mat-cell *matCellDef="let facility" class="text-brand-gray-700">
+              {{ facility.type }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="status">
@@ -177,7 +179,7 @@
 
           <ng-container matColumnDef="updatedAt">
             <th mat-header-cell *matHeaderCellDef>Last updated</th>
-            <td mat-cell *matCellDef="let facility" class="text-gray-700">
+            <td mat-cell *matCellDef="let facility" class="text-brand-gray-700">
               {{ facility.updatedAt }}
             </td>
           </ng-container>
