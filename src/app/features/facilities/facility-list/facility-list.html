@@ -236,9 +236,9 @@
 
         <mat-paginator
           [length]="total()"
-          [pageSize]="pageSize"
+          [pageSize]="pageSize()"
+          [pageSizeOptions]="pageSizeOptions"
           [pageIndex]="clampedPageIndex()"
-          [hidePageSize]="true"
           (page)="onPage($event)"
         />
       </div>
