@@ -6,7 +6,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Router } from "@angular/router";
 
-import { AUTH_PORT } from "../../../core/auth/auth-port";
+import { AUTH_PORT } from "@core/auth/auth-port";
 
 const DEMO_EMAIL = "emmanuelkpendo1@gmail.com";
 const DEMO_PASSWORD = "demo1234";

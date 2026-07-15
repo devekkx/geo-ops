@@ -1,7 +1,7 @@
 import { Injectable, computed, signal } from "@angular/core";
 import { type Observable, delay, map, of, throwError } from "rxjs";
 
-import type { AuthUser } from "../models/auth.model";
+import type { AuthUser } from "@core/models/auth.model";
 import type { AuthPort } from "./auth-port";
 
 const SESSION_KEY = "geo-ops.auth-user";

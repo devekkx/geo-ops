@@ -21,7 +21,7 @@ import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 
-import type { Facility, FacilityStatus } from "../../../core/models/facility.model";
+import type { Facility, FacilityStatus } from "@core/models/facility.model";
 
 const SINGLE_MARKER_ZOOM = 13;
 const MAX_FIT_ZOOM = 15;

@@ -10,9 +10,9 @@ import { MatTableModule } from "@angular/material/table";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { debounceTime, timer } from "rxjs";
 
-import { FACILITY_REPOSITORY } from "../../../core/facilities/facility-repository";
-import type { Facility, FacilityStatus } from "../../../core/models/facility.model";
-import { StatusBadge } from "../../../shared/status-badge/status-badge";
+import { FACILITY_REPOSITORY } from "@core/facilities/facility-repository";
+import type { Facility, FacilityStatus } from "@core/models/facility.model";
+import { StatusBadge } from "@shared/status-badge/status-badge";
 
 type ListState = "loading" | "loaded" | "error";
 type StatusFilter = FacilityStatus | "all";

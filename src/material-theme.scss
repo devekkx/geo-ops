@@ -5,6 +5,11 @@
 // custom components at https://material.angular.dev/guide/theming
 @use "@angular/material" as mat;
 
+// Tailwind's `rounded-md` (0.375rem) and a shared 40px control height, applied to every
+// Material button/form-field variant so buttons and inputs read as one consistent system.
+$control-radius: 0.375rem;
+$control-height: 40px;
+
 html {
   height: 100%;
   @include mat.theme(
@@ -15,6 +20,35 @@ html {
       ),
       typography: Roboto,
       density: 0
+    )
+  );
+
+  @include mat.button-overrides(
+    (
+      filled-container-height: $control-height,
+      filled-container-shape: $control-radius,
+      outlined-container-height: $control-height,
+      outlined-container-shape: $control-radius,
+      protected-container-height: $control-height,
+      protected-container-shape: $control-radius,
+      text-container-height: $control-height,
+      text-container-shape: $control-radius
+    )
+  );
+
+  @include mat.icon-button-overrides(
+    (
+      container-shape: $control-radius,
+      state-layer-size: $control-height
+    )
+  );
+
+  @include mat.form-field-overrides(
+    (
+      container-height: $control-height,
+      container-vertical-padding: 8px,
+      filled-container-shape: $control-radius,
+      outlined-container-shape: $control-radius
     )
   );
 }

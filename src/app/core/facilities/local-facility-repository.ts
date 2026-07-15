@@ -2,10 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { BehaviorSubject, type Observable, delay, map, of, shareReplay, tap } from "rxjs";
 
-import type { FacilityDto } from "../models/facility.dto";
-import { toFacility } from "../models/facility.mapper";
-import type { Facility, FacilityDraft } from "../models/facility.model";
-import { Clock } from "../utils/clock";
+import type { FacilityDto } from "@core/models/facility.dto";
+import { toFacility } from "@core/models/facility.mapper";
+import type { Facility, FacilityDraft } from "@core/models/facility.model";
+import { Clock } from "@core/utils/clock";
 import type { FacilityRepository } from "./facility-repository";
 
 const DATA_URL = "data/facilities.json";

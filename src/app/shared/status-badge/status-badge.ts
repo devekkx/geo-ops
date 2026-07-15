@@ -1,6 +1,6 @@
 import { Component, computed, input } from "@angular/core";
 
-import type { FacilityStatus } from "../../core/models/facility.model";
+import type { FacilityStatus } from "@core/models/facility.model";
 
 const STYLES: Record<FacilityStatus, { pill: string; dot: string }> = {
   Active: { pill: "bg-green-50 text-green-700", dot: "bg-green-600" },

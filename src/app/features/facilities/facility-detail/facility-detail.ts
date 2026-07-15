@@ -4,10 +4,10 @@ import { Component, computed, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from "../../../core/facilities/facility-repository";
-import type { Facility } from "../../../core/models/facility.model";
-import { StatusBadge } from "../../../shared/status-badge/status-badge";
-import { FacilityMap } from "../facility-map/facility-map";
+import { FACILITY_REPOSITORY } from "@core/facilities/facility-repository";
+import type { Facility } from "@core/models/facility.model";
+import { StatusBadge } from "@shared/status-badge/status-badge";
+import { FacilityMap } from "@features/facilities/facility-map/facility-map";
 
 type DetailState = "loading" | "loaded" | "error";
 

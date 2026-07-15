@@ -2,10 +2,10 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Component, DestroyRef, computed, inject, signal } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from "../../../core/facilities/facility-repository";
-import type { Facility } from "../../../core/models/facility.model";
-import { StatusBadge } from "../../../shared/status-badge/status-badge";
-import { FacilityMap } from "../facility-map/facility-map";
+import { FACILITY_REPOSITORY } from "@core/facilities/facility-repository";
+import type { Facility } from "@core/models/facility.model";
+import { StatusBadge } from "@shared/status-badge/status-badge";
+import { FacilityMap } from "@features/facilities/facility-map/facility-map";
 
 type OverviewState = "loading" | "loaded" | "error";
 

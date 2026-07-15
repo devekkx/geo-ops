@@ -11,7 +11,7 @@ import {
 } from "@angular/router";
 import { filter } from "rxjs";
 
-import { AUTH_PORT } from "../../core/auth/auth-port";
+import { AUTH_PORT } from "@core/auth/auth-port";
 
 interface NavItem {
   label: string;
