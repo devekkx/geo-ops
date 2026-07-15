@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { Component, DestroyRef, computed, effect, inject, signal } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
@@ -36,7 +37,8 @@ const ERROR_MESSAGE =
     MatPaginatorModule,
     MatButtonModule,
     StatusBadge,
-    SentenceCasePipe
+    SentenceCasePipe,
+    DatePipe
   ],
   templateUrl: "./facility-list.html",
   styleUrl: "./facility-list.css"
