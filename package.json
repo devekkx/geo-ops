@@ -10,7 +10,7 @@
     "test:coverage": "ng test --configuration=coverage",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix=true",
-    "format": "yarn prettier src/ --write",
+    "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "private": true,

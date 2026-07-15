@@ -77,7 +77,7 @@ All routes are lazy-loaded (`loadComponent`) under `app.routes.ts`.
 `FacilityRepository` and `AuthPort` are plain interfaces with a single `Local*`/`Mock*`
 implementation each, injected via `InjectionToken`s in `app.config.ts`. There's no second
 (e.g. real-backend) implementation today — the point isn't speculative future-proofing, it's that
-the rest of the app (list, detail, form, guards) depends on the *interface*, not on
+the rest of the app (list, detail, form, guards) depends on the _interface_, not on
 `HttpClient`/`sessionStorage` directly, which is what actually makes the mock swappable and the
 components easy to test in isolation.
 
@@ -88,7 +88,7 @@ interface Facility {
   id: string;
   name: string;
   type: string;
-  status: 'Active' | 'Inactive' | 'Maintenance';
+  status: "Active" | "Inactive" | "Maintenance";
   updatedAt: string;
   latitude: number;
   longitude: number;
@@ -142,6 +142,7 @@ coverage number end to end:
 
 Not covered: component-level tests (list/detail/form rendering, route guards in situ) and E2E.
 With more time, I'd add:
+
 - component tests for `FacilityList` (query-param sync, pagination, all three non-loaded states)
   and `FacilityForm` (validation messages, duplicate-submit guard);
 - a Playwright E2E smoke test for the full create → view → edit flow;
