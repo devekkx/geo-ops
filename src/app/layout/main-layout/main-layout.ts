@@ -34,12 +34,12 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 @Component({
-  selector: "geo-shell",
+  selector: "geo-main-layout",
   imports: [RouterOutlet, RouterLink, RouterLinkActive, MatButtonModule],
-  templateUrl: "./shell.html",
-  styleUrl: "./shell.css"
+  templateUrl: "./main-layout.html",
+  styleUrl: "./main-layout.css"
 })
-export class Shell {
+export class MainLayout {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AUTH_PORT);
