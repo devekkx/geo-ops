@@ -1,3 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@theme {
+  --color-brand-blue-950: #061c2a;
+  --color-brand-blue-900: #08283b;
+  --color-brand-blue-800: #08344e;
+  --color-brand-blue-700: #094589;
+  --color-brand-orange-600: #c54600;
+  --color-brand-orange-500: #ff5a00;
+  --color-brand-orange-300: #ff8a3d;
+  --color-brand-orange-100: #ffd8b8;
+  --color-brand-orange-50: #fff1e5;
+  --color-status-active: #007d00;
+  --color-status-inactive: #6b6b6b;
+  --color-status-maintenance: #b45309;
+}
+
+html,
+body {
+  height: 100%;
+}
