@@ -1,5 +1,5 @@
 import { toSignal } from "@angular/core/rxjs-interop";
-import { Component, computed, inject } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import {
   ActivatedRoute,
@@ -46,6 +46,7 @@ export class MainLayout {
 
   protected readonly navItems = NAV_ITEMS;
   protected readonly user = this.auth.currentUser;
+  protected readonly navOpen = signal(false);
 
   private readonly navigationEnd = toSignal(
     this.router.events.pipe(
@@ -76,6 +77,14 @@ export class MainLayout {
 
   protected onNewFacility(): void {
     void this.router.navigate(["/facilities/new"]);
+  }
+
+  protected toggleNav(): void {
+    this.navOpen.update((open) => !open);
+  }
+
+  protected closeNav(): void {
+    this.navOpen.set(false);
   }
 
   protected onLogout(): void {
