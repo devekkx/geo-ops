@@ -1,51 +1,33 @@
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Component, DestroyRef, computed, inject, signal } from "@angular/core";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSelectModule } from "@angular/material/select";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from '../../../core/facilities/facility-repository';
-import { FACILITY_STATUSES, FACILITY_TYPES } from '../../../core/models/facility.model';
-import type { FacilityDraft, FacilityStatus } from '../../../core/models/facility.model';
-import { NotificationService } from '../../../core/notifications/notification.service';
+import { FACILITY_REPOSITORY } from "../../../core/facilities/facility-repository";
+import { FACILITY_STATUSES, FACILITY_TYPES } from "../../../core/models/facility.model";
+import type { FacilityDraft, FacilityStatus } from "../../../core/models/facility.model";
+import { NotificationService } from "../../../core/notifications/notification.service";
+import { rangeValidator } from "../../../core/validators/range-validator";
 
-type FormState = 'loading' | 'ready' | 'error';
-
-function range(min: number, max: number): ValidatorFn {
-  return (control: AbstractControl<number | null>): ValidationErrors | null => {
-    const value = control.value;
-    if (value === null || value === undefined) {
-      return null;
-    }
-    const numeric = Number(value);
-    return Number.isNaN(numeric) || numeric < min || numeric > max ? { range: { min, max } } : null;
-  };
-}
+type FormState = "loading" | "ready" | "error";
 
 @Component({
-  selector: 'geo-facility-form',
+  selector: "geo-facility-form",
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
-  templateUrl: './facility-form.html',
-  styleUrl: './facility-form.css',
+  templateUrl: "./facility-form.html",
+  styleUrl: "./facility-form.css"
 })
 export class FacilityForm {
   private readonly repository = inject(FACILITY_REPOSITORY);
@@ -54,43 +36,43 @@ export class FacilityForm {
   private readonly notifications = inject(NotificationService);
   private readonly destroyRef = inject(DestroyRef);
 
-  private readonly facilityId = this.route.snapshot.paramMap.get('id');
+  private readonly facilityId = this.route.snapshot.paramMap.get("id");
 
   protected readonly isEditMode = this.facilityId !== null;
   protected readonly facilityTypes = FACILITY_TYPES;
   protected readonly facilityStatuses = FACILITY_STATUSES;
 
-  protected readonly state = signal<FormState>(this.isEditMode ? 'loading' : 'ready');
+  protected readonly state = signal<FormState>(this.isEditMode ? "loading" : "ready");
   protected readonly saving = signal(false);
-  protected readonly errorMessage = signal('');
+  protected readonly errorMessage = signal("");
 
   protected readonly form = new FormGroup({
-    name: new FormControl('', {
+    name: new FormControl("", {
       nonNullable: true,
-      validators: [(control) => Validators.required(control)],
+      validators: [(control) => Validators.required(control)]
     }),
-    type: new FormControl('', {
+    type: new FormControl("", {
       nonNullable: true,
-      validators: [(control) => Validators.required(control)],
+      validators: [(control) => Validators.required(control)]
     }),
-    status: new FormControl<FacilityStatus | ''>('', {
+    status: new FormControl<FacilityStatus | "">("", {
       nonNullable: true,
-      validators: [(control) => Validators.required(control)],
+      validators: [(control) => Validators.required(control)]
     }),
     latitude: new FormControl<number | null>(null, {
-      validators: [(control) => Validators.required(control), range(-90, 90)],
+      validators: [(control) => Validators.required(control), rangeValidator(-90, 90)]
     }),
     longitude: new FormControl<number | null>(null, {
-      validators: [(control) => Validators.required(control), range(-180, 180)],
+      validators: [(control) => Validators.required(control), rangeValidator(-180, 180)]
     }),
-    manager: new FormControl('', { nonNullable: true }),
-    capacity: new FormControl('', { nonNullable: true }),
-    description: new FormControl('', { nonNullable: true }),
+    manager: new FormControl("", { nonNullable: true }),
+    capacity: new FormControl("", { nonNullable: true }),
+    description: new FormControl("", { nonNullable: true })
   });
 
-  protected readonly title = computed(() => (this.isEditMode ? 'Edit facility' : 'New facility'));
+  protected readonly title = computed(() => (this.isEditMode ? "Edit facility" : "New facility"));
   protected readonly subtitle = computed(() =>
-    this.isEditMode ? 'Update this facility’s details' : 'Register a facility in the network',
+    this.isEditMode ? "Update this facility’s details" : "Register a facility in the network"
   );
 
   constructor() {
@@ -101,7 +83,7 @@ export class FacilityForm {
 
   protected onCancel(): void {
     const target =
-      this.isEditMode && this.facilityId ? ['/facilities', this.facilityId] : ['/facilities'];
+      this.isEditMode && this.facilityId ? ["/facilities", this.facilityId] : ["/facilities"];
     void this.router.navigate(target);
   }
 
@@ -124,7 +106,7 @@ export class FacilityForm {
       longitude: Number(raw.longitude),
       manager: raw.manager.trim() || undefined,
       capacity: raw.capacity.trim() || undefined,
-      description: raw.description.trim() || undefined,
+      description: raw.description.trim() || undefined
     };
 
     const save$ =
@@ -136,14 +118,14 @@ export class FacilityForm {
       next: (facility) => {
         this.saving.set(false);
         this.notifications.success(
-          this.isEditMode ? `${facility.name} was updated.` : `${facility.name} was created.`,
+          this.isEditMode ? `${facility.name} was updated.` : `${facility.name} was created.`
         );
-        void this.router.navigate(['/facilities', facility.id]);
+        void this.router.navigate(["/facilities", facility.id]);
       },
       error: () => {
         this.saving.set(false);
-        this.notifications.error('Unable to save this facility. Please try again.');
-      },
+        this.notifications.error("Unable to save this facility. Please try again.");
+      }
     });
   }
 
@@ -154,17 +136,17 @@ export class FacilityForm {
       .subscribe({
         next: (facility) => {
           if (!facility) {
-            this.state.set('error');
+            this.state.set("error");
             this.errorMessage.set(`We couldn't find a facility with id "${id}".`);
             return;
           }
           this.form.patchValue(facility);
-          this.state.set('ready');
+          this.state.set("ready");
         },
         error: () => {
-          this.state.set('error');
-          this.errorMessage.set('Something went wrong while retrieving this facility.');
-        },
+          this.state.set("error");
+          this.errorMessage.set("Something went wrong while retrieving this facility.");
+        }
       });
   }
 }
