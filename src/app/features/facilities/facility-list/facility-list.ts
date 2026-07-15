@@ -11,8 +11,10 @@ import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { debounceTime, timer } from "rxjs";
 
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import { FACILITY_STATUSES } from "@core/interfaces/facility.interface";
 import type { Facility, FacilityStatus } from "@core/interfaces/facility.interface";
 import { StatusBadge } from "@shared/status-badge/status-badge";
+import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
 
 type ListState = "loading" | "loaded" | "error";
 type StatusFilter = FacilityStatus | "all";
@@ -33,7 +35,8 @@ const ERROR_MESSAGE =
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
-    StatusBadge
+    StatusBadge,
+    SentenceCasePipe
   ],
   templateUrl: "./facility-list.html",
   styleUrl: "./facility-list.css"
@@ -48,6 +51,7 @@ export class FacilityList {
 
   protected readonly displayedColumns = ["name", "type", "status", "updatedAt", "actions"];
   protected readonly pageSize = PAGE_SIZE;
+  protected readonly facilityStatuses = FACILITY_STATUSES;
   protected readonly skeletonRows = Array.from({ length: 6 });
 
   protected readonly searchControl = new FormControl(this.initialParams.get("search") ?? "", {

@@ -15,7 +15,7 @@ const DTOS: FacilityDto[] = [
     id: "FC-0001",
     name: "Accra Central Data Center",
     type: "Data Center",
-    status: "Active",
+    status: "active",
     updated: "2025-06-12",
     lat: 5.6037,
     lng: -0.187
@@ -24,7 +24,7 @@ const DTOS: FacilityDto[] = [
     id: "FC-0002",
     name: "Kumasi Solar Plant",
     type: "Solar Plant",
-    status: "Maintenance",
+    status: "maintenance",
     updated: "2025-05-28",
     lat: 6.6885,
     lng: -1.6244
@@ -63,7 +63,7 @@ describe("LocalFacilityRepository", () => {
 
     expect(result).toEqual([
       expect.objectContaining({ id: "FC-0001", latitude: 5.6037, longitude: -0.187 }),
-      expect.objectContaining({ id: "FC-0002", status: "Maintenance" })
+      expect.objectContaining({ id: "FC-0002", status: "maintenance" })
     ]);
   });
 
@@ -87,7 +87,7 @@ describe("LocalFacilityRepository", () => {
     const draft: FacilityDraft = {
       name: "New Facility",
       type: "Office",
-      status: "Active",
+      status: "active",
       latitude: 1,
       longitude: 1
     };
@@ -105,7 +105,7 @@ describe("LocalFacilityRepository", () => {
     const draft: FacilityDraft = {
       name: "Accra Central Data Center (Renamed)",
       type: "Data Center",
-      status: "Inactive",
+      status: "inactive",
       latitude: 5.6037,
       longitude: -0.187
     };
@@ -118,7 +118,7 @@ describe("LocalFacilityRepository", () => {
       expect.objectContaining({
         id: "FC-0001",
         name: "Accra Central Data Center (Renamed)",
-        status: "Inactive",
+        status: "inactive",
         updatedAt: "2026-01-15"
       })
     );
@@ -129,7 +129,7 @@ describe("LocalFacilityRepository", () => {
       repository.update("FC-9999", {
         name: "Ghost",
         type: "Office",
-        status: "Active",
+        status: "active",
         latitude: 0,
         longitude: 0
       })

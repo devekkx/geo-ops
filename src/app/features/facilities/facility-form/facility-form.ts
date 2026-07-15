@@ -13,6 +13,7 @@ import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/interfaces/facility.int
 import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility.interface";
 import { NotificationService } from "@core/services/notification.service";
 import { rangeValidator } from "@core/validators/range.validator";
+import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
 
 type FormState = "loading" | "ready" | "error";
 
@@ -24,7 +25,8 @@ type FormState = "loading" | "ready" | "error";
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SentenceCasePipe
   ],
   templateUrl: "./facility-form.html",
   styleUrl: "./facility-form.css"

@@ -1,4 +1,4 @@
-export type FacilityStatus = "Active" | "Inactive" | "Maintenance";
+export type FacilityStatus = "active" | "inactive" | "maintenance";
 
 export interface Facility {
   id: string;
@@ -16,7 +16,7 @@ export interface Facility {
 
 export type FacilityDraft = Omit<Facility, "id" | "updatedAt">;
 
-export const FACILITY_STATUSES: FacilityStatus[] = ["Active", "Inactive", "Maintenance"];
+export const FACILITY_STATUSES: FacilityStatus[] = ["active", "inactive", "maintenance"];
 
 export const FACILITY_TYPES: string[] = [
   "Data Center",

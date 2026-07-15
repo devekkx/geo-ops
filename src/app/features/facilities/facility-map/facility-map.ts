@@ -28,9 +28,9 @@ const MAX_FIT_ZOOM = 15;
 const FIT_PADDING = [48, 48, 48, 48];
 
 const STATUS_COLORS: Record<FacilityStatus, string> = {
-  Active: "#007d00",
-  Inactive: "#6b6b6b",
-  Maintenance: "#b45309"
+  active: "#007d00",
+  inactive: "#6b6b6b",
+  maintenance: "#b45309"
 };
 
 @Component({
