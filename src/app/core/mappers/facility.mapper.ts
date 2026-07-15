@@ -1,7 +1,7 @@
 import type { FacilityDto } from "@core/dtos/facility.dto";
 import type { Facility, FacilityStatus } from "@core/interfaces/facility.interface";
 
-const VALID_STATUSES: readonly FacilityStatus[] = ["Active", "Inactive", "Maintenance"];
+const VALID_STATUSES: readonly FacilityStatus[] = ["active", "inactive", "maintenance"];
 
 function toFacilityStatus(value: string): FacilityStatus {
   const match = VALID_STATUSES.find((status) => status === value);

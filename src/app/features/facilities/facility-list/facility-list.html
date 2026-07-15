@@ -8,9 +8,9 @@
     <mat-label>Status</mat-label>
     <mat-select [value]="status()" (selectionChange)="onStatusChange($event.value)">
       <mat-option value="all">All statuses</mat-option>
-      <mat-option value="Active">Active</mat-option>
-      <mat-option value="Inactive">Inactive</mat-option>
-      <mat-option value="Maintenance">Maintenance</mat-option>
+      @for (facilityStatus of facilityStatuses; track facilityStatus) {
+        <mat-option [value]="facilityStatus">{{ facilityStatus | sentenceCase }}</mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
