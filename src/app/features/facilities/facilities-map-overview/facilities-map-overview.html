@@ -1,0 +1,75 @@
+@switch (state()) {
+  @case ('loading') {
+    <div class="flex h-[calc(100vh-64px-52px)] items-center justify-center text-sm text-gray-500">
+      Loading facilities…
+    </div>
+  }
+  @case ('error') {
+    <div
+      class="flex h-[calc(100vh-64px-52px)] flex-col items-center justify-center gap-4 text-center"
+    >
+      <p class="m-0 text-lg font-semibold text-brand-blue-900">Couldn't load facilities</p>
+      <p class="m-0 max-w-100 text-sm text-gray-500">{{ errorMessage() }}</p>
+      <button
+        class="rounded-lg bg-brand-orange-500 px-4.5 py-2.5 text-sm font-medium text-white"
+        type="button"
+        (click)="onRetry()"
+      >
+        Retry
+      </button>
+    </div>
+  }
+  @case ('loaded') {
+    <div
+      class="grid h-[calc(100vh-64px-52px)] grid-cols-1 gap-5 md:grid-cols-[328px_minmax(0,1fr)]"
+    >
+      <div
+        class="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
+      >
+        <div
+          class="flex shrink-0 items-center justify-between border-b border-gray-200 px-4.5 py-4"
+        >
+          <div class="text-[15px] font-semibold text-brand-blue-900">All facilities</div>
+          <span
+            class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-500"
+            >{{ count() }}</span
+          >
+        </div>
+        <div class="flex-1 overflow-auto">
+          @for (facility of facilities(); track facility.id) {
+            <button
+              type="button"
+              class="flex w-full items-center gap-3 border-b border-gray-100 px-4 py-3.25 text-left hover:bg-gray-50"
+              [class.bg-gray-50]="facility.id === selectedId()"
+              (click)="onSelect(facility.id)"
+            >
+              <geo-status-badge [status]="facility.status" />
+              <span class="min-w-0 flex-1">
+                <span class="block truncate text-sm font-semibold text-brand-blue-900">{{
+                  facility.name
+                }}</span>
+                <span class="block text-xs text-gray-500"
+                  >{{ facility.type }} · {{ facility.region }}</span
+                >
+              </span>
+              <a
+                [routerLink]="['/facilities', facility.id]"
+                class="shrink-0 text-xs font-semibold text-blue-600 hover:underline"
+                (click)="$event.stopPropagation()"
+                >View</a
+              >
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+        <geo-facility-map
+          [facilities]="facilities()"
+          [selectedId]="selectedId()"
+          (markerClick)="onSelect($event)"
+        />
+      </div>
+    </div>
+  }
+}
