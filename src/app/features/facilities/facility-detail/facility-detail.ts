@@ -1,4 +1,4 @@
-import { Location } from "@angular/common";
+import { DatePipe, Location } from "@angular/common";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Component, computed, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
@@ -13,7 +13,7 @@ type DetailState = "loading" | "loaded" | "error";
 
 @Component({
   selector: "geo-facility-detail",
-  imports: [MatButtonModule, StatusBadge, FacilityMap],
+  imports: [MatButtonModule, StatusBadge, FacilityMap, DatePipe],
   templateUrl: "./facility-detail.html",
   styleUrl: "./facility-detail.css"
 })

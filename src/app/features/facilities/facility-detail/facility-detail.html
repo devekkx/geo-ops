@@ -134,7 +134,7 @@
               <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
                 <dt class="text-brand-gray-500 text-[13px]">Last updated</dt>
                 <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
-                  {{ facility.updatedAt }}
+                  {{ facility.updatedAt | date: "d MMM y" }}
                 </dd>
               </div>
               <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
