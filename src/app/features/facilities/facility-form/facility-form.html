@@ -78,6 +78,20 @@
           </mat-form-field>
         </div>
 
+        <div>
+          <p class="text-brand-gray-700 mb-1.5 text-sm font-medium">Location</p>
+          <p class="text-brand-gray-500 mb-2 text-xs">
+            Click the map, drag the marker, or type coordinates directly below.
+          </p>
+          <div class="border-brand-gray-200 h-80 overflow-hidden rounded-lg border">
+            <geo-facility-location-picker
+              [latitude]="latitude()"
+              [longitude]="longitude()"
+              (coordinatesChange)="onCoordinatesChange($event)"
+            />
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <mat-form-field appearance="outline">
             <mat-label>Latitude</mat-label>

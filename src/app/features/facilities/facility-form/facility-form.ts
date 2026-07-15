@@ -1,4 +1,4 @@
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { Component, DestroyRef, computed, inject, signal } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
@@ -14,6 +14,10 @@ import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility.in
 import { NotificationService } from "@core/services/notification.service";
 import { rangeValidator } from "@core/validators/range.validator";
 import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
+import {
+  FacilityLocationPicker,
+  type FacilityCoordinates
+} from "@features/facilities/facility-location-picker/facility-location-picker";
 
 type FormState = "loading" | "ready" | "error";
 
@@ -26,7 +30,8 @@ type FormState = "loading" | "ready" | "error";
     MatSelectModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    SentenceCasePipe
+    SentenceCasePipe,
+    FacilityLocationPicker
   ],
   templateUrl: "./facility-form.html",
   styleUrl: "./facility-form.css"
@@ -72,6 +77,13 @@ export class FacilityForm {
     description: new FormControl("", { nonNullable: true })
   });
 
+  protected readonly latitude = toSignal(this.form.controls.latitude.valueChanges, {
+    initialValue: this.form.controls.latitude.value
+  });
+  protected readonly longitude = toSignal(this.form.controls.longitude.valueChanges, {
+    initialValue: this.form.controls.longitude.value
+  });
+
   protected readonly title = computed(() => (this.isEditMode ? "Edit facility" : "New facility"));
   protected readonly subtitle = computed(() =>
     this.isEditMode ? "Update this facility’s details" : "Register a facility in the network"
@@ -81,6 +93,15 @@ export class FacilityForm {
     if (this.isEditMode && this.facilityId) {
       this.loadFacility(this.facilityId);
     }
+  }
+
+  protected onCoordinatesChange(coordinates: FacilityCoordinates): void {
+    this.form.patchValue({
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude
+    });
+    this.form.controls.latitude.markAsTouched();
+    this.form.controls.longitude.markAsTouched();
   }
 
   protected onCancel(): void {
