@@ -3,10 +3,10 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from "@angular/
 import { provideRouter } from "@angular/router";
 
 import { routes } from "./app.routes";
-import { AUTH_PORT } from "./core/auth/auth-port";
-import { MockAuthService } from "./core/auth/mock-auth.service";
-import { FACILITY_REPOSITORY } from "./core/facilities/facility-repository";
-import { LocalFacilityRepository } from "./core/facilities/local-facility-repository";
+import { AUTH_PORT } from "./core/tokens/auth.token";
+import { MockAuthService } from "./core/services/mock-auth.service";
+import { FACILITY_REPOSITORY } from "./core/tokens/facility-repository.token";
+import { LocalFacilityRepository } from "./core/services/local-facility-repository.service";
 
 export const appConfig: ApplicationConfig = {
   providers: [

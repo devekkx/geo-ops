@@ -8,11 +8,11 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from "@core/facilities/facility-repository";
-import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/models/facility.model";
-import type { FacilityDraft, FacilityStatus } from "@core/models/facility.model";
-import { NotificationService } from "@core/notifications/notification.service";
-import { rangeValidator } from "@core/validators/range-validator";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/interfaces/facility.interface";
+import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility.interface";
+import { NotificationService } from "@core/services/notification.service";
+import { rangeValidator } from "@core/validators/range.validator";
 
 type FormState = "loading" | "ready" | "error";
 

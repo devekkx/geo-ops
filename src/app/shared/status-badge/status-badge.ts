@@ -1,6 +1,6 @@
 import { Component, computed, input } from "@angular/core";
 
-import type { FacilityStatus } from "@core/models/facility.model";
+import type { FacilityStatus } from "@core/interfaces/facility.interface";
 
 const STYLES: Record<FacilityStatus, { pill: string; dot: string }> = {
   Active: { pill: "bg-brand-success-50 text-brand-success-700", dot: "bg-brand-success-500" },

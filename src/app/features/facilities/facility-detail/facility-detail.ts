@@ -4,8 +4,8 @@ import { Component, computed, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from "@core/facilities/facility-repository";
-import type { Facility } from "@core/models/facility.model";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import type { Facility } from "@core/interfaces/facility.interface";
 import { StatusBadge } from "@shared/status-badge/status-badge";
 import { FacilityMap } from "@features/facilities/facility-map/facility-map";
 

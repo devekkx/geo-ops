@@ -1,8 +1,8 @@
 import { computed, Injectable, signal } from "@angular/core";
 import { delay, map, type Observable, of, throwError } from "rxjs";
 
-import type { AuthUser } from "@core/models/auth.model";
-import type { AuthPort } from "./auth-port";
+import type { AuthUser } from "@core/interfaces/auth.interface";
+import type { AuthPort } from "../tokens/auth.token";
 
 const SESSION_KEY = "geo-ops.auth-user";
 const LOGIN_LATENCY_MS = 600;
