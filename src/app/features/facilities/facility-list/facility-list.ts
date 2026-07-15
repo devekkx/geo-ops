@@ -21,6 +21,7 @@ type ListState = "loading" | "loaded" | "error";
 type StatusFilter = FacilityStatus | "all";
 
 const PAGE_SIZE = 8;
+const PAGE_SIZE_OPTIONS = [5, 8, 10, 25, 50];
 const SEARCH_DEBOUNCE_MS = 300;
 const ERROR_MESSAGE =
   "Something went wrong while retrieving the data. Please check your connection and try again.";
@@ -52,7 +53,7 @@ export class FacilityList {
   private readonly initialParams = this.route.snapshot.queryParamMap;
 
   protected readonly displayedColumns = ["name", "type", "status", "updatedAt", "actions"];
-  protected readonly pageSize = PAGE_SIZE;
+  protected readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
   protected readonly facilityStatuses = FACILITY_STATUSES;
   protected readonly skeletonRows = Array.from({ length: 6 });
 
@@ -65,6 +66,7 @@ export class FacilityList {
   protected readonly pageIndex = signal(
     Math.max(0, Number.parseInt(this.initialParams.get("page") ?? "1", 10) - 1 || 0)
   );
+  protected readonly pageSize = signal(this.readInitialPageSize());
 
   protected readonly search = toSignal(
     this.searchControl.valueChanges.pipe(debounceTime(SEARCH_DEBOUNCE_MS)),
@@ -87,23 +89,23 @@ export class FacilityList {
 
   protected readonly total = computed(() => this.filtered().length);
   protected readonly pageCount = computed(() =>
-    Math.max(1, Math.ceil(this.total() / this.pageSize))
+    Math.max(1, Math.ceil(this.total() / this.pageSize()))
   );
   protected readonly clampedPageIndex = computed(() =>
     Math.min(this.pageIndex(), this.pageCount() - 1)
   );
 
   protected readonly paged = computed(() => {
-    const start = this.clampedPageIndex() * this.pageSize;
-    return this.filtered().slice(start, start + this.pageSize);
+    const start = this.clampedPageIndex() * this.pageSize();
+    return this.filtered().slice(start, start + this.pageSize());
   });
 
   protected readonly rangeLabel = computed(() => {
     if (this.total() === 0) {
       return "0 facilities";
     }
-    const start = this.clampedPageIndex() * this.pageSize + 1;
-    const end = Math.min(start + this.pageSize - 1, this.total());
+    const start = this.clampedPageIndex() * this.pageSize() + 1;
+    const end = Math.min(start + this.pageSize() - 1, this.total());
     return `${start}-${end} of ${this.total()} facilities`;
   });
 
@@ -116,7 +118,8 @@ export class FacilityList {
       const queryParams: Record<string, string | null> = {
         search: this.search().trim() || null,
         status: this.status() === "all" ? null : this.status(),
-        page: this.clampedPageIndex() > 0 ? String(this.clampedPageIndex() + 1) : null
+        page: this.clampedPageIndex() > 0 ? String(this.clampedPageIndex() + 1) : null,
+        pageSize: this.pageSize() !== PAGE_SIZE ? String(this.pageSize()) : null
       };
       void this.router.navigate([], {
         relativeTo: this.route,
@@ -136,6 +139,7 @@ export class FacilityList {
 
   protected onPage(event: PageEvent): void {
     this.pageIndex.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
   }
 
   protected onClearFilters(): void {
@@ -146,6 +150,11 @@ export class FacilityList {
 
   protected onRetry(): void {
     this.loadFacilities();
+  }
+
+  private readInitialPageSize(): number {
+    const parsed = Number.parseInt(this.initialParams.get("pageSize") ?? "", 10);
+    return PAGE_SIZE_OPTIONS.includes(parsed) ? parsed : PAGE_SIZE;
   }
 
   private loadFacilities(): void {
