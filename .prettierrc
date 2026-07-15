@@ -1,6 +1,12 @@
 {
+  "plugins": [
+    "prettier-plugin-tailwindcss"
+  ],
+  "semi": true,
   "printWidth": 100,
-  "singleQuote": true,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "none",
   "overrides": [
     {
       "files": "*.html",

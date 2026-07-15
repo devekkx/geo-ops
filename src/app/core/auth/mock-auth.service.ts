@@ -1,18 +1,18 @@
-import { Injectable, computed, signal } from '@angular/core';
-import { type Observable, delay, map, of, throwError } from 'rxjs';
+import { Injectable, computed, signal } from "@angular/core";
+import { type Observable, delay, map, of, throwError } from "rxjs";
 
-import type { AuthUser } from '../models/auth.model';
-import type { AuthPort } from './auth-port';
+import type { AuthUser } from "../models/auth.model";
+import type { AuthPort } from "./auth-port";
 
-const SESSION_KEY = 'geo-ops.auth-user';
+const SESSION_KEY = "geo-ops.auth-user";
 const LOGIN_LATENCY_MS = 600;
 
 const DEMO_USER: AuthUser = {
-  uid: 'demo-ama-owusu',
-  email: 'ama.owusu@amalitech.com',
-  displayName: 'Ama Owusu',
+  uid: "demo-ama-owusu",
+  email: "ama.owusu@amalitech.com",
+  displayName: "Ama Owusu"
 };
-const DEMO_PASSWORD = 'demo1234';
+const DEMO_PASSWORD = "demo1234";
 
 function readStoredUser(): AuthUser | null {
   const raw = sessionStorage.getItem(SESSION_KEY);
@@ -26,8 +26,8 @@ export class MockAuthService implements AuthPort {
 
   login(email: string, password: string): Observable<AuthUser> {
     if (email.trim().toLowerCase() !== DEMO_USER.email || password !== DEMO_PASSWORD) {
-      return throwError(() => new Error('Invalid email or password.')).pipe(
-        delay(LOGIN_LATENCY_MS),
+      return throwError(() => new Error("Invalid email or password.")).pipe(
+        delay(LOGIN_LATENCY_MS)
       );
     }
     return of(DEMO_USER).pipe(
@@ -36,7 +36,7 @@ export class MockAuthService implements AuthPort {
         sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
         this.currentUser.set(user);
         return user;
-      }),
+      })
     );
   }
 

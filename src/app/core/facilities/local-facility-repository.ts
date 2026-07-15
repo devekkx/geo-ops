@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, type Observable, delay, map, of, shareReplay, tap } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable, inject } from "@angular/core";
+import { BehaviorSubject, type Observable, delay, map, of, shareReplay, tap } from "rxjs";
 
-import type { FacilityDto } from '../models/facility.dto';
-import { toFacility } from '../models/facility.mapper';
-import type { Facility, FacilityDraft } from '../models/facility.model';
-import { Clock } from '../utils/clock';
-import type { FacilityRepository } from './facility-repository';
+import type { FacilityDto } from "../models/facility.dto";
+import { toFacility } from "../models/facility.mapper";
+import type { Facility, FacilityDraft } from "../models/facility.model";
+import { Clock } from "../utils/clock";
+import type { FacilityRepository } from "./facility-repository";
 
-const DATA_URL = 'data/facilities.json';
+const DATA_URL = "data/facilities.json";
 const READ_LATENCY_MS = 500;
 const WRITE_LATENCY_MS = 700;
 
@@ -26,7 +26,7 @@ export class LocalFacilityRepository implements FacilityRepository {
   getById(id: string): Observable<Facility | undefined> {
     return this.ensureLoaded().pipe(
       delay(READ_LATENCY_MS),
-      map((facilities) => facilities.find((facility) => facility.id === id)),
+      map((facilities) => facilities.find((facility) => facility.id === id))
     );
   }
 
@@ -37,11 +37,11 @@ export class LocalFacilityRepository implements FacilityRepository {
         const facility: Facility = {
           ...draft,
           id: this.nextId(facilities),
-          updatedAt: this.clock.now().toISOString().slice(0, 10),
+          updatedAt: this.clock.now().toISOString().slice(0, 10)
         };
         this.store.next([facility, ...facilities]);
         return facility;
-      }),
+      })
     );
   }
 
@@ -56,11 +56,11 @@ export class LocalFacilityRepository implements FacilityRepository {
         const updated: Facility = {
           ...draft,
           id,
-          updatedAt: this.clock.now().toISOString().slice(0, 10),
+          updatedAt: this.clock.now().toISOString().slice(0, 10)
         };
         this.store.next(facilities.map((facility) => (facility.id === id ? updated : facility)));
         return updated;
-      }),
+      })
     );
   }
 
@@ -72,16 +72,16 @@ export class LocalFacilityRepository implements FacilityRepository {
     this.load$ ??= this.http.get<FacilityDto[]>(DATA_URL).pipe(
       map((dtos) => dtos.map(toFacility)),
       tap((facilities) => this.store.next(facilities)),
-      shareReplay(1),
+      shareReplay(1)
     );
     return this.load$;
   }
 
   private nextId(facilities: Facility[]): string {
     const maxSequence = facilities.reduce((max, facility) => {
-      const sequence = Number.parseInt(facility.id.replace(/\D/g, ''), 10);
+      const sequence = Number.parseInt(facility.id.replace(/\D/g, ""), 10);
       return Number.isNaN(sequence) ? max : Math.max(max, sequence);
     }, 0);
-    return `FC-${String(maxSequence + 1).padStart(4, '0')}`;
+    return `FC-${String(maxSequence + 1).padStart(4, "0")}`;
   }
 }

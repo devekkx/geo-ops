@@ -1,7 +1,7 @@
-import type { FacilityDto } from './facility.dto';
-import type { Facility, FacilityStatus } from './facility.model';
+import type { FacilityDto } from "./facility.dto";
+import type { Facility, FacilityStatus } from "./facility.model";
 
-const VALID_STATUSES: readonly FacilityStatus[] = ['Active', 'Inactive', 'Maintenance'];
+const VALID_STATUSES: readonly FacilityStatus[] = ["Active", "Inactive", "Maintenance"];
 
 function toFacilityStatus(value: string): FacilityStatus {
   const match = VALID_STATUSES.find((status) => status === value);
@@ -23,7 +23,7 @@ export function toFacility(dto: FacilityDto): Facility {
     region: dto.region,
     manager: dto.manager,
     capacity: dto.capacity,
-    description: dto.description,
+    description: dto.description
   };
 }
 
@@ -39,6 +39,6 @@ export function toFacilityDto(facility: Facility): FacilityDto {
     region: facility.region,
     manager: facility.manager,
     capacity: facility.capacity,
-    description: facility.description,
+    description: facility.description
   };
 }

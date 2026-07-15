@@ -1,10 +1,10 @@
 <div class="mb-4 flex flex-wrap items-center gap-3">
-  <mat-form-field appearance="outline" class="min-w-60 flex-1 max-w-100 !mb-[-1.25em]">
+  <mat-form-field appearance="outline" class="!mb-[-1.25em] max-w-100 min-w-60 flex-1">
     <mat-label>Search facilities by name</mat-label>
     <input matInput [formControl]="searchControl" />
   </mat-form-field>
 
-  <mat-form-field appearance="outline" class="w-45 !mb-[-1.25em]">
+  <mat-form-field appearance="outline" class="!mb-[-1.25em] w-45">
     <mat-label>Status</mat-label>
     <mat-select [value]="status()" (selectionChange)="onStatusChange($event.value)">
       <mat-option value="all">All statuses</mat-option>
@@ -18,7 +18,7 @@
 </div>
 
 @switch (state()) {
-  @case ('loading') {
+  @case ("loading") {
     <div
       class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
       aria-busy="true"
@@ -77,7 +77,7 @@
       </table>
     </div>
   }
-  @case ('error') {
+  @case ("error") {
     <div class="rounded-xl border border-gray-200 bg-white p-15 text-center shadow-sm">
       <div
         class="mx-auto mb-4 flex size-14 items-center justify-center rounded-full bg-red-50 text-red-600"
@@ -98,23 +98,23 @@
           <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
         </svg>
       </div>
-      <p class="m-0 text-lg font-semibold text-brand-blue-900">Couldn't load facilities</p>
+      <p class="text-brand-blue-900 m-0 text-lg font-semibold">Couldn't load facilities</p>
       <p class="mx-auto mt-1.5 max-w-95 text-sm text-gray-500">{{ errorMessage() }}</p>
       <button
         mat-flat-button
         type="button"
-        class="!mt-5 !bg-brand-orange-500 !text-white"
+        class="!bg-brand-orange-500 !mt-5 !text-white"
         (click)="onRetry()"
       >
         Retry
       </button>
     </div>
   }
-  @case ('loaded') {
+  @case ("loaded") {
     @if (total() === 0) {
       <div class="rounded-xl border border-gray-200 bg-white p-15 text-center shadow-sm">
         <div
-          class="mx-auto mb-4 flex size-14 items-center justify-center rounded-full bg-brand-orange-50 text-brand-orange-500"
+          class="bg-brand-orange-50 text-brand-orange-500 mx-auto mb-4 flex size-14 items-center justify-center rounded-full"
         >
           <svg
             width="26"
@@ -132,7 +132,7 @@
             <path d="M8 11h6" />
           </svg>
         </div>
-        <p class="m-0 text-lg font-semibold text-brand-blue-900">No facilities found</p>
+        <p class="text-brand-blue-900 m-0 text-lg font-semibold">No facilities found</p>
         <p class="mx-auto mt-1.5 max-w-100 text-sm text-gray-500">
           @if (isFiltered()) {
             No facilities match your search or filter.
@@ -154,7 +154,7 @@
             <td mat-cell *matCellDef="let facility">
               <a
                 [routerLink]="['/facilities', facility.id]"
-                class="font-semibold text-brand-blue-900 no-underline hover:text-brand-orange-500 hover:underline"
+                class="text-brand-blue-900 hover:text-brand-orange-500 font-semibold no-underline hover:underline"
                 >{{ facility.name }}</a
               >
               <div class="mt-0.5 text-xs text-gray-500">

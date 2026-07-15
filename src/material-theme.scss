@@ -3,7 +3,7 @@
 // components according to the Material 3 design spec.
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 html {
   height: 100%;
@@ -11,10 +11,10 @@ html {
     (
       color: (
         primary: mat.$blue-palette,
-        tertiary: mat.$orange-palette,
+        tertiary: mat.$orange-palette
       ),
       typography: Roboto,
-      density: 0,
+      density: 0
     )
   );
 }

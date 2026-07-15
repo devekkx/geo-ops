@@ -1,21 +1,21 @@
-import { Location } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, computed, inject, signal } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from "@angular/common";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Component, computed, inject, signal } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from '../../../core/facilities/facility-repository';
-import type { Facility } from '../../../core/models/facility.model';
-import { StatusBadge } from '../../../shared/status-badge/status-badge';
-import { FacilityMap } from '../facility-map/facility-map';
+import { FACILITY_REPOSITORY } from "../../../core/facilities/facility-repository";
+import type { Facility } from "../../../core/models/facility.model";
+import { StatusBadge } from "../../../shared/status-badge/status-badge";
+import { FacilityMap } from "../facility-map/facility-map";
 
-type DetailState = 'loading' | 'loaded' | 'error';
+type DetailState = "loading" | "loaded" | "error";
 
 @Component({
-  selector: 'geo-facility-detail',
+  selector: "geo-facility-detail",
   imports: [MatButtonModule, StatusBadge, FacilityMap],
-  templateUrl: './facility-detail.html',
-  styleUrl: './facility-detail.css',
+  templateUrl: "./facility-detail.html",
+  styleUrl: "./facility-detail.css"
 })
 export class FacilityDetail {
   private readonly repository = inject(FACILITY_REPOSITORY);
@@ -23,9 +23,9 @@ export class FacilityDetail {
   private readonly router = inject(Router);
   private readonly location = inject(Location);
 
-  protected readonly state = signal<DetailState>('loading');
+  protected readonly state = signal<DetailState>("loading");
   protected readonly facility = signal<Facility | null>(null);
-  protected readonly errorMessage = signal('');
+  protected readonly errorMessage = signal("");
 
   protected readonly mapFacilities = computed(() => {
     const facility = this.facility();
@@ -43,36 +43,36 @@ export class FacilityDetail {
   protected onEdit(): void {
     const id = this.facility()?.id;
     if (id) {
-      void this.router.navigate(['/facilities', id, 'edit']);
+      void this.router.navigate(["/facilities", id, "edit"]);
     }
   }
 
   private loadFacility(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get("id");
     if (!id) {
-      this.state.set('error');
-      this.errorMessage.set('No facility was specified.');
+      this.state.set("error");
+      this.errorMessage.set("No facility was specified.");
       return;
     }
 
-    this.state.set('loading');
+    this.state.set("loading");
     this.repository
       .getById(id)
       .pipe(takeUntilDestroyed())
       .subscribe({
         next: (facility) => {
           if (!facility) {
-            this.state.set('error');
+            this.state.set("error");
             this.errorMessage.set(`We couldn't find a facility with id "${id}".`);
             return;
           }
           this.facility.set(facility);
-          this.state.set('loaded');
+          this.state.set("loaded");
         },
         error: () => {
-          this.state.set('error');
-          this.errorMessage.set('Something went wrong while retrieving this facility.');
-        },
+          this.state.set("error");
+          this.errorMessage.set("Something went wrong while retrieving this facility.");
+        }
       });
   }
 }

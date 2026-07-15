@@ -1,5 +1,5 @@
 @switch (state()) {
-  @case ('loading') {
+  @case ("loading") {
     <div class="mx-auto max-w-260 animate-pulse space-y-5">
       <div class="h-8 w-72 rounded bg-gray-200"></div>
       <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -8,7 +8,7 @@
       </div>
     </div>
   }
-  @case ('error') {
+  @case ("error") {
     <div
       class="mx-auto max-w-160 rounded-xl border border-gray-200 bg-white p-15 text-center shadow-sm"
     >
@@ -31,14 +31,14 @@
           <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
         </svg>
       </div>
-      <p class="m-0 text-lg font-semibold text-brand-blue-900">Couldn't load this facility</p>
+      <p class="text-brand-blue-900 m-0 text-lg font-semibold">Couldn't load this facility</p>
       <p class="mx-auto mt-1.5 max-w-100 text-sm text-gray-500">{{ errorMessage() }}</p>
       <button mat-stroked-button type="button" class="!mt-5" (click)="onBack()">
         Back to facilities
       </button>
     </div>
   }
-  @case ('loaded') {
+  @case ("loaded") {
     @if (facility(); as facility) {
       <div class="mx-auto max-w-260">
         <button mat-button type="button" class="!-ml-2 !text-gray-500" (click)="onBack()">
@@ -61,7 +61,7 @@
 
         <div class="mt-3.5 mb-5.5 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h2 class="m-0 text-[28px] font-semibold tracking-tight text-brand-blue-900">
+            <h2 class="text-brand-blue-900 m-0 text-[28px] font-semibold tracking-tight">
               {{ facility.name }}
             </h2>
             <div class="mt-2.5 flex flex-wrap items-center gap-3">
@@ -99,49 +99,49 @@
           class="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]"
         >
           <div class="rounded-xl border border-gray-200 bg-white px-5.5 pt-2 pb-3.5 shadow-sm">
-            <div class="pt-3.5 pb-1 text-[15px] font-semibold text-brand-blue-900">
+            <div class="text-brand-blue-900 pt-3.5 pb-1 text-[15px] font-semibold">
               Facility details
             </div>
             <dl class="m-0">
               <div class="flex justify-between gap-4 border-t border-gray-100 py-3">
                 <dt class="text-[13px] text-gray-500">Type</dt>
-                <dd class="m-0 text-right text-sm font-medium text-brand-blue-900">
+                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
                   {{ facility.type }}
                 </dd>
               </div>
               <div class="flex justify-between gap-4 border-t border-gray-100 py-3">
                 <dt class="text-[13px] text-gray-500">Manager</dt>
-                <dd class="m-0 text-right text-sm font-medium text-brand-blue-900">
-                  {{ facility.manager || '—' }}
+                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
+                  {{ facility.manager || "—" }}
                 </dd>
               </div>
               <div class="flex justify-between gap-4 border-t border-gray-100 py-3">
                 <dt class="text-[13px] text-gray-500">Capacity</dt>
-                <dd class="m-0 text-right text-sm font-medium text-brand-blue-900">
-                  {{ facility.capacity || '—' }}
+                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
+                  {{ facility.capacity || "—" }}
                 </dd>
               </div>
               <div class="flex justify-between gap-4 border-t border-gray-100 py-3">
                 <dt class="text-[13px] text-gray-500">Region</dt>
-                <dd class="m-0 text-right text-sm font-medium text-brand-blue-900">
-                  {{ facility.region || '—' }}
+                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
+                  {{ facility.region || "—" }}
                 </dd>
               </div>
               <div class="flex justify-between gap-4 border-t border-gray-100 py-3">
                 <dt class="text-[13px] text-gray-500">Last updated</dt>
-                <dd class="m-0 text-right text-sm font-medium text-brand-blue-900">
+                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
                   {{ facility.updatedAt }}
                 </dd>
               </div>
               <div class="flex justify-between gap-4 border-t border-gray-100 py-3">
                 <dt class="text-[13px] text-gray-500">Latitude</dt>
-                <dd class="m-0 text-right font-mono text-sm font-medium text-brand-blue-900">
+                <dd class="text-brand-blue-900 m-0 text-right font-mono text-sm font-medium">
                   {{ facility.latitude }}
                 </dd>
               </div>
               <div class="flex justify-between gap-4 border-t border-gray-100 py-3">
                 <dt class="text-[13px] text-gray-500">Longitude</dt>
-                <dd class="m-0 text-right font-mono text-sm font-medium text-brand-blue-900">
+                <dd class="text-brand-blue-900 m-0 text-right font-mono text-sm font-medium">
                   {{ facility.longitude }}
                 </dd>
               </div>
@@ -150,7 +150,7 @@
 
           <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
             <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
-              <div class="text-[15px] font-semibold text-brand-blue-900">Location</div>
+              <div class="text-brand-blue-900 text-[15px] font-semibold">Location</div>
               <div class="font-mono text-xs text-gray-500">
                 {{ facility.latitude }}, {{ facility.longitude }}
               </div>
@@ -163,7 +163,7 @@
 
         @if (facility.description) {
           <div class="mt-5 rounded-xl border border-gray-200 bg-white px-5.5 py-5 shadow-sm">
-            <div class="mb-2 text-[15px] font-semibold text-brand-blue-900">
+            <div class="text-brand-blue-900 mb-2 text-[15px] font-semibold">
               About this facility
             </div>
             <p class="m-0 max-w-160 text-sm leading-relaxed text-gray-700">
