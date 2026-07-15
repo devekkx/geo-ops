@@ -23,10 +23,10 @@
   }
   @case ("loaded") {
     <div
-      class="grid h-[calc(100vh-64px-52px)] grid-cols-1 gap-5 md:grid-cols-[328px_minmax(0,1fr)]"
+      class="flex h-[calc(100vh-64px-52px)] flex-col gap-5 md:grid md:grid-cols-[328px_minmax(0,1fr)]"
     >
       <div
-        class="border-brand-gray-200 flex flex-col overflow-hidden rounded-xl border bg-white shadow-sm"
+        class="border-brand-gray-200 flex h-56 shrink-0 flex-col overflow-hidden rounded-xl border bg-white shadow-sm md:h-auto"
       >
         <div
           class="border-brand-gray-200 flex shrink-0 items-center justify-between border-b px-4.5 py-4"
@@ -71,7 +71,9 @@
         </div>
       </div>
 
-      <div class="border-brand-gray-200 overflow-hidden rounded-xl border bg-white shadow-sm">
+      <div
+        class="border-brand-gray-200 min-h-0 flex-1 overflow-hidden rounded-xl border bg-white shadow-sm md:flex-none"
+      >
         <geo-facility-map
           [facilities]="facilities()"
           [selectedId]="selectedId()"
