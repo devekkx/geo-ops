@@ -44,6 +44,25 @@ To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use th
 ng test
 ```
 
+## Linting and formatting
+
+This project uses [ESLint](https://eslint.org/) (via [`@angular-eslint`](https://github.com/angular-eslint/angular-eslint)) for linting — including TypeScript rules, Angular-specific rules, template accessibility rules, and [`eslint-plugin-security`](https://github.com/eslint-community/eslint-plugin-security) checks — and [Prettier](https://prettier.io/) for formatting.
+
+```bash
+bun run lint          # check for lint issues
+bun run lint:fix      # auto-fix lint issues where possible
+bun run format        # format all files with Prettier
+bun run format:check  # check formatting without writing changes
+```
+
+## Test coverage
+
+To run unit tests with coverage enforced at an 80% minimum (statements, branches, functions, lines), run:
+
+```bash
+bun run test:coverage
+```
+
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:

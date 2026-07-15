@@ -1,0 +1,267 @@
+= *Technical Test - Front-end Developer*
+
+== *Objective*
+
+The purpose of this test is to assess your ability to develop a small front-end feature from start to finish using Angular.
+
+Particular attention will be paid to:
+
+* Project organisation.
+* Code quality and readability.
+* Separation of concerns.
+* Appropriate use of Angular and TypeScript.
+* Your ability to explain and justify technical decisions.
+* Proper handling of loading, error and empty states.
+* Integration of an external library such as OpenLayers.
+
+We are not looking for a visually complex application or a fully finished product. We would prefer a solution that is simple, clear and maintainable.
+
+== *Estimated time*
+
+The estimated time required to complete the test is approximately *5 hours*.
+
+The test may be submitted:
+
+* On the same afternoon as the interview.
+* By the end of the following day at the latest.
+
+You are not expected to spend more time than indicated. If any functionality remains incomplete, please explain it in the README and briefly describe how you would implement it.
+
+== *Task description*
+
+Develop a small Angular application for viewing and managing geolocated facilities.
+
+The application must include:
+
+* A list view.
+* A detail view.
+* An edit form.
+* A map displaying the location of each facility.
+
+== *Facility data*
+
+Each facility must contain, at a minimum, the following fields:
+
+* Identifier.
+* Name.
+* Type.
+* Status.
+* Last updated date.
+* Latitude.
+* Longitude.
+
+You may add any other fields you consider useful.
+
+The facility status values may include, for example:
+
+* Active.
+* Inactive.
+* Maintenance.
+
+Facility types may be entered as free text or selected from a predefined list of your choice.
+
+== *1. List view*
+
+The main screen must display a table or list of facilities.
+
+At a minimum, it must include the following columns:
+
+* Name.
+* Type.
+* Status.
+* Last updated date.
+* Actions.
+
+The screen must allow users to:
+
+* Search for facilities by name.
+* Filter facilities by status.
+* Open the detail view of a facility.
+* Open the edit view of a facility.
+* Paginate the results or limit the number of displayed items.
+
+The following states must also be handled:
+
+* Data loading.
+* Empty results.
+* Error while retrieving data.
+
+The application does not need to be connected to a real backend. Data may be retrieved from a local JSON file, a mocked service or a mock API.
+
+== *2. Detail view*
+
+When a facility is selected, a detail screen must display the following information:
+
+* Name.
+* Type.
+* Status.
+* Last updated date.
+* Latitude.
+* Longitude.
+* Any other information you consider relevant.
+
+The screen must include an OpenLayers map showing the location of the facility.
+
+It must also include:
+
+* An action to return to the list view.
+* An action to edit the facility.
+
+It will be considered a plus if the previously applied filters or search term are preserved when returning to the list view.
+
+== 3. Edit form
+
+The form must allow users to modify:
+
+* Name.
+* Type.
+* Status.
+* Latitude.
+* Longitude.
+
+The form must be implemented using Angular Reactive Forms.
+
+It must include:
+
+* Required fields.
+* Latitude validation.
+* Longitude validation.
+* Clear validation messages.
+* A Save button.
+* A Cancel button.
+* A loading indicator while saving.
+* Prevention of duplicate submissions.
+
+The save operation may be simulated. The information does not need to be persisted in a real backend.
+
+It will be considered a plus if, after saving, the user receives visual confirmation and is redirected to either the detail view or the list view.
+
+== 4. OpenLayers map
+
+The detail view must display a map using OpenLayers.
+
+At a minimum, it must include:
+
+* A base layer.
+* A marker or vector feature representing the facility location.
+* The map centred on the facility.
+* An appropriate zoom level.
+
+The following aspects will be taken into account:
+
+* Correct map initialisation.
+* Proper cleanup of resources when the component is destroyed.
+* Separation of map-related logic from the rest of the screen.
+* Correct coordinate transformation where necessary.
+
+== Mandatory technical requirements
+
+The solution must use:
+
+* Angular.
+* TypeScript.
+* Angular Material or PrimeNG.
+* Angular routing.
+* Reactive Forms.
+* Services for retrieving and updating data.
+* OpenLayers.
+* ESLint.
+* Prettier.
+
+The project must include:
+
+* A clear and maintainable structure.
+* Typed models and responses.
+* Navigation between the list, detail and edit views.
+* Error handling.
+* Loading-state management.
+* A README containing execution instructions.
+
+You may use standalone components or an equivalent modular structure.
+
+== Optional requirements
+
+The following items are not mandatory, but will be considered positively:
+
+* Lazy loading.
+* Signals.
+* HTTP interceptor.
+* Mock authentication guard.
+* Filter persistence using query parameters.
+* Centralised error handling.
+* Responsive design.
+* Accessibility.
+* Unit tests.
+* Dockerfile.
+* Basic GitLab CI pipeline.
+* Skeleton loading states.
+* Success and error notifications.
+* Separation between DTOs and view models.
+
+You are not expected to implement every optional requirement.
+
+== Mock data
+
+You may use any mechanism to simulate data:
+
+* A local JSON file.
+* An Angular service using Observables.
+* A mock server.
+* JSON Server.
+* A public API, provided that it does not require credentials.
+
+The application must be able to run without depending on private services.
+
+Please include enough data to test:
+
+* Search.
+* Filtering.
+* Pagination.
+* The different UI states.
+* Map display.
+
+Including between 10 and 20 facilities is recommended.
+
+== Deliverables
+
+The submission must include:
+
+* The project source code, either in a Git repository or compressed file.
+* A README.
+* A brief description of the improvements you would make with more time.
+
+If you use artificial intelligence tools, you may briefly state which tools you used and how you used them.
+
+== Use of artificial intelligence
+
+You may use artificial intelligence tools as support during the test.
+
+Their use will not be penalised.
+
+However, you must:
+
+* Understand all submitted code.
+* Be able to explain the decisions you made.
+* Review any generated code.
+* Verify that all libraries and APIs used actually exist.
+* Avoid including code that you would not be able to maintain.
+* Never share credentials or sensitive information.
+
+== Evaluation criteria
+
+The test will be assessed based on the aspects described above.
+
+The application will not be evaluated solely on whether it works.
+
+Particular attention will be paid to whether the solution is:
+
+* Clear.
+* Easy to understand.
+* Easy to run.
+* Easy to maintain.
+* Consistent with the requirements.
+* Technically well justified.
+
+You are not expected to complete every section if time does not allow it. In that case, please document what remains incomplete and explain how you would approach it.
+
+*_Keep calm, good luck, and enjoy the challenge!_*
