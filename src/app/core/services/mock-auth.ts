@@ -3,7 +3,7 @@ import { delay, map, type Observable, of, throwError } from "rxjs";
 
 import { DEMO_PASSWORD, DEMO_USER, LOGIN_LATENCY_MS, SESSION_KEY } from "@core/constants/auth";
 import type { AuthUser } from "@core/interfaces/auth";
-import type { AuthPort } from "../tokens/auth.token";
+import type { AuthPort } from "../tokens/auth";
 
 function readStoredUser(): AuthUser | null {
   const raw = sessionStorage.getItem(SESSION_KEY);

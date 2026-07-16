@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 import { RouterLink } from "@angular/router";
 import type { Facility } from "@core/interfaces/facility";
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { FacilityMap } from "@features/facilities/facility-map/facility-map";
 import { StatusBadge } from "@shared/components/status-badge/status-badge";
 import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages";

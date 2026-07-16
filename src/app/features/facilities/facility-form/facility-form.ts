@@ -12,8 +12,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/constants/facility";
 import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility";
 import { NotificationService } from "@core/services/notification";
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import { rangeValidator } from "@core/validators/range.validator";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
+import { rangeValidator } from "@core/validators/range";
 import {
   FacilityLocationPicker,
   type FacilityCoordinates

@@ -13,7 +13,7 @@ import { debounceTime, timer } from "rxjs";
 
 import { FACILITY_STATUSES } from "@core/constants/facility";
 import type { Facility, FacilityStatus } from "@core/interfaces/facility";
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { StatusBadge } from "@shared/components/status-badge/status-badge";
 import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages";
 import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";

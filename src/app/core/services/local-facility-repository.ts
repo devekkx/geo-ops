@@ -7,7 +7,7 @@ import type { Facility, FacilityDraft } from "@core/interfaces/facility";
 import { toFacility } from "@core/mappers/facility";
 import { Clock } from "@core/services/clock";
 import { LocalStorageService } from "@core/services/local-storage";
-import type { FacilityRepository } from "../tokens/facility-repository.token";
+import type { FacilityRepository } from "../tokens/facility-repository";
 
 const DATA_URL = "data/facilities.json";
 const STORAGE_KEY = "geo-ops.facilities";

@@ -1,5 +1,5 @@
-import { toSignal } from "@angular/core/rxjs-interop";
 import { Component, computed, inject, signal } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@angular/router";
 import { filter } from "rxjs";
 
-import { AUTH_PORT } from "@core/tokens/auth.token";
+import { AUTH_PORT } from "@core/tokens/auth";
 import { NAV_ITEMS } from "./main-layout.constants";
 
 @Component({

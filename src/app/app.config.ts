@@ -5,8 +5,8 @@ import { provideRouter } from "@angular/router";
 import { provideIconRegistry } from "@core/services/icon-registry.provider";
 import { LocalFacilityRepository } from "@core/services/local-facility-repository";
 import { MockAuthService } from "@core/services/mock-auth";
-import { AUTH_PORT } from "@core/tokens/auth.token";
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import { AUTH_PORT } from "@core/tokens/auth";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { routes } from "./app.routes";
 
 export const appConfig: ApplicationConfig = {
