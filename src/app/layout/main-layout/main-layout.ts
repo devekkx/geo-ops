@@ -18,8 +18,7 @@ import { NAV_ITEMS } from "./main-layout.constants";
 @Component({
   selector: "geo-main-layout",
   imports: [RouterOutlet, RouterLink, RouterLinkActive, MatButtonModule, MatIconModule],
-  templateUrl: "./main-layout.html",
-  styleUrl: "./main-layout.css"
+  templateUrl: "./main-layout.html"
 })
 export class MainLayout {
   private readonly router = inject(Router);

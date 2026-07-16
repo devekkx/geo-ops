@@ -18,7 +18,12 @@ import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { StatusBadge } from "@shared/components/status-badge/status-badge";
 import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages";
 import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
-import { PAGE_SIZE, PAGE_SIZE_OPTIONS, SEARCH_DEBOUNCE_MS } from "./facility-list.constants";
+import {
+  PAGE_SIZE,
+  PAGE_SIZE_OPTIONS,
+  SEARCH_DEBOUNCE_MS,
+  TABLE_HEADERS
+} from "./facility-list.constants";
 
 type ListState = "loading" | "loaded" | "error";
 type StatusFilter = FacilityStatus | "all";
@@ -39,8 +44,7 @@ type StatusFilter = FacilityStatus | "all";
     RouterLink,
     DatePipe
   ],
-  templateUrl: "./facility-list.html",
-  styleUrl: "./facility-list.css"
+  templateUrl: "./facility-list.html"
 })
 export class FacilityList {
   protected readonly displayedColumns = ["name", "type", "status", "updatedAt", "actions"];
@@ -62,6 +66,7 @@ export class FacilityList {
     this.searchControl.valueChanges.pipe(debounceTime(SEARCH_DEBOUNCE_MS)),
     { initialValue: this.searchControl.value }
   );
+  protected readonly tableHeaders = TABLE_HEADERS;
   protected readonly state = signal<ListState>("loading");
   protected readonly facilities = signal<Facility[]>([]);
   protected readonly errorMessage = signal("");

@@ -1,12 +1,21 @@
 <div class="mb-4 flex flex-wrap items-center gap-3">
-  <mat-form-field appearance="outline" class="!mb-[-1.25em] max-w-100 min-w-60 flex-1">
-    <mat-label>Search facilities by name</mat-label>
-    <input matInput [formControl]="searchControl" />
+  <mat-form-field appearance="outline" class="mb-[-1.25em]! max-w-100 min-w-60 flex-1">
+    <mat-label id="search-label">Search facilities by name</mat-label>
+    <input
+      matInput
+      id="search-input"
+      aria-labelledby="search-label"
+      [formControl]="searchControl"
+    />
   </mat-form-field>
 
-  <mat-form-field appearance="outline" class="!mb-[-1.25em] w-45">
-    <mat-label>Status</mat-label>
-    <mat-select [value]="status()" (selectionChange)="onStatusChange($event.value)">
+  <mat-form-field appearance="outline" class="mb-[-1.25em]! w-45">
+    <mat-label id="status-label">Status</mat-label>
+    <mat-select
+      [value]="status()"
+      (selectionChange)="onStatusChange($event.value)"
+      aria-labelledby="status-label"
+    >
       <mat-option value="all">All statuses</mat-option>
       @for (facilityStatus of facilityStatuses; track facilityStatus) {
         <mat-option [value]="facilityStatus">{{ facilityStatus | sentenceCase }}</mat-option>
@@ -26,51 +35,24 @@
       <table class="w-full border-collapse">
         <thead>
           <tr class="bg-brand-gray-50">
-            <th
-              class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
-            >
-              Name
-            </th>
-            <th
-              class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
-            >
-              Type
-            </th>
-            <th
-              class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
-            >
-              Status
-            </th>
-            <th
-              class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
-            >
-              Last updated
-            </th>
-            <th
-              class="text-brand-gray-500 px-4 py-3.5 text-right text-[11px] font-semibold tracking-wide uppercase"
-            >
-              Actions
-            </th>
+            @for (header of tableHeaders; track header) {
+              <th
+                class="text-brand-gray-500 px-4 py-3.5 text-left text-[11px] font-semibold tracking-wide uppercase"
+              >
+                {{ header }}
+              </th>
+            }
           </tr>
         </thead>
+
         <tbody>
           @for (row of skeletonRows; track $index) {
             <tr class="border-brand-gray-200 border-t">
-              <td class="px-4 py-4">
-                <div class="bg-brand-gray-200 h-3.5 w-40 animate-pulse rounded"></div>
-              </td>
-              <td class="px-4 py-4">
-                <div class="bg-brand-gray-200 h-3.5 w-24 animate-pulse rounded"></div>
-              </td>
-              <td class="px-4 py-4">
-                <div class="bg-brand-gray-200 h-5.5 w-20 animate-pulse rounded-full"></div>
-              </td>
-              <td class="px-4 py-4">
-                <div class="bg-brand-gray-200 h-3.5 w-20 animate-pulse rounded"></div>
-              </td>
-              <td class="px-4 py-4 text-right">
-                <div class="bg-brand-gray-200 ml-auto h-7.5 w-18 animate-pulse rounded"></div>
-              </td>
+              @for (cell of tableHeaders; track $index) {
+                <td class="px-4 py-4">
+                  <div class="bg-brand-gray-200 h-3.5 w-40 animate-pulse rounded"></div>
+                </td>
+              }
             </tr>
           }
         </tbody>
@@ -82,14 +64,14 @@
       <div
         class="bg-brand-error-50 text-brand-error-500 mx-auto mb-4 flex size-14 items-center justify-center rounded-full"
       >
-        <mat-icon svgIcon="alert" class="!h-6.5 !w-6.5" aria-hidden="true" />
+        <mat-icon svgIcon="alert" class="h-6.5! w-6.5!" aria-hidden="true" />
       </div>
       <p class="text-brand-blue-900 m-0 text-lg font-semibold">Couldn't load facilities</p>
       <p class="text-brand-gray-500 mx-auto mt-1.5 max-w-95 text-sm">{{ errorMessage() }}</p>
       <button
         mat-flat-button
         type="button"
-        class="!bg-brand-orange-500 !mt-5 !text-white"
+        class="bg-brand-orange-500! mt-5! text-white!"
         (click)="onRetry()"
       >
         Retry
@@ -102,7 +84,7 @@
         <div
           class="bg-brand-orange-50 text-brand-orange-500 mx-auto mb-4 flex size-14 items-center justify-center rounded-full"
         >
-          <mat-icon svgIcon="search" class="!h-6.5 !w-6.5" aria-hidden="true" />
+          <mat-icon svgIcon="search" class="h-6.5! w-6.5!" aria-hidden="true" />
         </div>
         <p class="text-brand-blue-900 m-0 text-lg font-semibold">No facilities found</p>
         <p class="text-brand-gray-500 mx-auto mt-1.5 max-w-100 text-sm">
@@ -113,7 +95,7 @@
           }
         </p>
         @if (isFiltered()) {
-          <button mat-stroked-button type="button" class="!mt-5" (click)="onClearFilters()">
+          <button mat-stroked-button type="button" class="mt-5!" (click)="onClearFilters()">
             Clear filters
           </button>
         }
@@ -165,14 +147,14 @@
                   [routerLink]="['/facilities', facility.id]"
                   [attr.aria-label]="'View ' + facility.name"
                 >
-                  <mat-icon svgIcon="eye" class="!h-4 !w-4" aria-hidden="true" />
+                  <mat-icon svgIcon="eye" class="h-4! w-4!" aria-hidden="true" />
                 </a>
                 <a
                   mat-icon-button
                   [routerLink]="['/facilities', facility.id, 'edit']"
                   [attr.aria-label]="'Edit ' + facility.name"
                 >
-                  <mat-icon svgIcon="pencil" class="!h-4 !w-4" aria-hidden="true" />
+                  <mat-icon svgIcon="pencil" class="h-4! w-4!" aria-hidden="true" />
                 </a>
               </td>
             </ng-container>
