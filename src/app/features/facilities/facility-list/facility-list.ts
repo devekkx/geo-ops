@@ -17,7 +17,7 @@ import type { Facility, FacilityStatus } from "@core/interfaces/facility";
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { StatusBadge } from "@shared/components/status-badge/status-badge";
 import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages";
-import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
+import { SentenceCasePipe } from "@shared/pipes/sentence-case";
 import {
   PAGE_SIZE,
   PAGE_SIZE_OPTIONS,

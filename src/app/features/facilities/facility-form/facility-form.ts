@@ -18,7 +18,7 @@ import {
   FacilityLocationPicker,
   type FacilityCoordinates
 } from "@features/facilities/facility-location-picker/facility-location-picker";
-import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
+import { SentenceCasePipe } from "@shared/pipes/sentence-case";
 
 type FormState = "loading" | "ready" | "error";
 

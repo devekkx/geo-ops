@@ -1,7 +1,7 @@
 import { Component, computed, input } from "@angular/core";
 
 import type { FacilityStatus } from "@core/interfaces/facility";
-import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
+import { SentenceCasePipe } from "@shared/pipes/sentence-case";
 
 const STYLES: Record<FacilityStatus, { pill: string; dot: string }> = {
   active: { pill: "bg-brand-success-50 text-brand-success-700", dot: "bg-brand-success-500" },
