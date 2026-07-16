@@ -75,6 +75,45 @@ describe("LocalFacilityRepository", () => {
     expect(result).toEqual(expect.objectContaining({ id: "FC-0002", name: "Kumasi Solar Plant" }));
   });
 
+  it("caches facilities after the first load instead of re-fetching", async () => {
+    const firstPromise = firstValueFrom(repository.getAll());
+    flushFacilities(httpMock);
+    await firstPromise;
+
+    const secondResult = await firstValueFrom(repository.getAll());
+
+    expect(secondResult).toEqual(
+      expect.arrayContaining([expect.objectContaining({ id: "FC-0001" })])
+    );
+  });
+
+  it("shares a single in-flight request between two concurrent callers", async () => {
+    const firstPromise = firstValueFrom(repository.getAll());
+    const secondPromise = firstValueFrom(repository.getAll());
+
+    flushFacilities(httpMock);
+
+    const [first, second] = await Promise.all([firstPromise, secondPromise]);
+
+    expect(first).toEqual(second);
+  });
+
+  it("ignores facilities with a non-numeric id when generating the next id", async () => {
+    const draft: FacilityDraft = {
+      name: "New Facility",
+      type: "Office",
+      status: "active",
+      latitude: 1,
+      longitude: 1
+    };
+
+    const createdPromise = firstValueFrom(repository.create(draft));
+    httpMock.expectOne("data/facilities.json").flush([{ ...DTOS[0], id: "FC-UNPARSEABLE" }]);
+    const created = await createdPromise;
+
+    expect(created.id).toBe("FC-0001");
+  });
+
   it("returns undefined for an unknown id", async () => {
     const resultPromise = firstValueFrom(repository.getById("FC-9999"));
     flushFacilities(httpMock);

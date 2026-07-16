@@ -1,3 +1,4 @@
+import { TestBed } from "@angular/core/testing";
 import { firstValueFrom } from "rxjs";
 
 import { DEMO_CREDENTIALS, MockAuthService } from "./mock-auth.service";
@@ -5,6 +6,7 @@ import { DEMO_CREDENTIALS, MockAuthService } from "./mock-auth.service";
 describe("MockAuthService", () => {
   beforeEach(() => {
     sessionStorage.clear();
+    TestBed.configureTestingModule({ providers: [MockAuthService] });
   });
 
   afterEach(() => {
@@ -15,6 +17,16 @@ describe("MockAuthService", () => {
     const service = new MockAuthService();
     expect(service.isAuthenticated()).toBe(false);
     expect(service.currentUser()).toBeNull();
+  });
+
+  it("restores an existing session from sessionStorage on construction", () => {
+    const user = { uid: "1", email: DEMO_CREDENTIALS.email, displayName: "Demo User" };
+    sessionStorage.setItem("geo-ops.auth-user", JSON.stringify(user));
+
+    const service = TestBed.inject(MockAuthService);
+
+    expect(service.isAuthenticated()).toBe(true);
+    expect(service.currentUser()).toEqual(user);
   });
 
   it("logs in with the demo credentials and persists the session", async () => {
