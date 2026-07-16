@@ -22,6 +22,8 @@ describe("NotificationService", () => {
 
     expect(snackBar.open).toHaveBeenCalledWith("Facility saved", "Dismiss", {
       duration: 4000,
+      horizontalPosition: "center",
+      verticalPosition: "top",
       panelClass: ["geo-snackbar", "geo-snackbar--success"]
     });
   });

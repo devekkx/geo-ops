@@ -12,6 +12,8 @@ export class NotificationService {
   public success(message: string): void {
     this._snackBar.open(message, "Dismiss", {
       duration: DEFAULT_DURATION_MS,
+      horizontalPosition: "center",
+      verticalPosition: "top",
       panelClass: ["geo-snackbar", "geo-snackbar--success"]
     });
   }

@@ -265,8 +265,7 @@ its own errors, but there's no interceptor sitting in front of `HttpClient` - se
 - **An HTTP interceptor** for centralized error handling (e.g. normalizing error shapes, retry-once
   on transient failures) instead of each call site handling its own `error:` callback. Currently
   low-value here specifically because there's only one real HTTP call in the whole app
-  (`LocalFacilityRepository`'s initial JSON fetch - `create`/`update` never touch `HttpClient`),
-  but it's the clearest structural gap against the optional requirements list.
+  (`LocalFacilityRepository`'s initial JSON fetch - `create`/`update` never touch `HttpClient`)
 - **A Playwright E2E smoke test** for the full create → view → edit flow, and specifically for the
   two OpenLayers components' actual map behavior (click-to-place, drag, marker rendering), which
   unit tests structurally cannot exercise - see the Testing section above.
@@ -280,15 +279,4 @@ its own errors, but there's no interceptor sitting in front of `HttpClient` - se
 
 ## AI-assisted development
 
-Enhanced development workflow with Claude Code across an iterative, plan-then-implement workflow: each feature
-or refactor was scoped into its own branch, implemented, verified (lint/build/test/coverage), and
-merged via its own pull request before the next began. The architecture, folder structure, and
-overall design were driven by me throughout - including function implementation and code
-organisation - with Claude Code offloading the repetitive and redundant parts of that work: scaffolding the
-FDD folder structure, generating the bulk of component/service code and tests from plans I laid
-out, extracting/refactoring existing code (constants, icons, the localStorage persistence layer),
-and iterating on lint/type/coverage feedback. All generated code was reviewed; architectural
-decisions (the repository/port pattern, no external backend, the two-OpenLayers-components split,
-the coverage-config split between `angular.json` and `vitest.config.ts`) were made by me and
-confirmed before implementation, and verified empirically where the outcome wasn't obvious upfront
-(e.g. the Vitest external-config coverage-attribution issue documented in `vitest.config.ts`).
+Enhanced development workflow with Claude (Claude code and Claude design) across an iterative, plan-then-implement workflow: each feature or refactor was scoped into its own branch, implemented, verified (lint/build/test/coverage), and merged via its own pull request before the next began. The architecture, folder structure, and overall design were driven by me throughout - including function implementation and code organisation - with Claude Design designing the prototype (screens) and Claude Code offloading the repetitive and redundant parts of that work: scaffolding the FDD folder structure, generating the bulk of component/service code and tests from plans I laid out, extracting/refactoring existing code (constants, icons, the localStorage persistence layer) and iterating on lint/type/coverage feedback. All generated code was reviewed; architectural decisions (the repository/port pattern, no external backend, the two-OpenLayers-components split) were made by me and confirmed before implementation, and verified where the outcome wasn't obvious upfront.
