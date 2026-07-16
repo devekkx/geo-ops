@@ -15,7 +15,7 @@ import { debounceTime, timer } from "rxjs";
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
 import { FACILITY_STATUSES } from "@core/constants/facility.constants";
 import type { Facility, FacilityStatus } from "@core/interfaces/facility.interface";
-import { StatusBadge } from "@shared/status-badge/status-badge";
+import { StatusBadge } from "@shared/components/status-badge/status-badge";
 import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
 import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages.constants";
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS, SEARCH_DEBOUNCE_MS } from "./facility-list.constants";

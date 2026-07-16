@@ -4,7 +4,7 @@ import { RouterLink } from "@angular/router";
 
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
 import type { Facility } from "@core/interfaces/facility.interface";
-import { StatusBadge } from "@shared/status-badge/status-badge";
+import { StatusBadge } from "@shared/components/status-badge/status-badge";
 import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages.constants";
 import { FacilityMap } from "@features/facilities/facility-map/facility-map";
 
