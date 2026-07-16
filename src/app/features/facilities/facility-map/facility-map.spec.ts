@@ -1,6 +1,6 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed, type ComponentFixture } from "@angular/core/testing";
 
-import type { Facility } from "@core/interfaces/facility.interface";
+import type { Facility } from "@core/interfaces/facility";
 import { FacilityMap } from "./facility-map";
 
 const FACILITY_A: Facility = {
@@ -24,7 +24,7 @@ const FACILITY_B: Facility = {
 };
 
 describe("FacilityMap", () => {
-  function createFixture() {
+  function createFixture(): ComponentFixture<FacilityMap> {
     TestBed.configureTestingModule({ imports: [FacilityMap] });
     return TestBed.createComponent(FacilityMap);
   }

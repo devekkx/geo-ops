@@ -4,7 +4,7 @@ import { Pipe, type PipeTransform } from "@angular/core";
   name: "sentenceCase"
 })
 export class SentenceCasePipe implements PipeTransform {
-  transform(value: string): string {
+  public transform(value: string): string {
     if (!value) {
       return value;
     }

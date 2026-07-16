@@ -6,8 +6,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Router } from "@angular/router";
 
-import { AUTH_PORT } from "@core/tokens/auth.token";
-import { DEMO_CREDENTIALS } from "@core/constants/auth.constants";
+import { DEMO_CREDENTIALS } from "@core/constants/auth";
+import { AUTH_PORT } from "@core/tokens/auth";
 
 @Component({
   selector: "geo-login",
@@ -18,8 +18,7 @@ import { DEMO_CREDENTIALS } from "@core/constants/auth.constants";
     MatButtonModule,
     MatProgressSpinnerModule
   ],
-  templateUrl: "./login.html",
-  styleUrl: "./login.css"
+  templateUrl: "./login.html"
 })
 export class Login {
   protected readonly form = new FormGroup({
@@ -37,8 +36,8 @@ export class Login {
   });
   protected readonly submitting = signal(false);
   protected readonly errorMessage = signal("");
-  private readonly auth = inject(AUTH_PORT);
-  private readonly router = inject(Router);
+  private readonly _auth = inject(AUTH_PORT);
+  private readonly _router = inject(Router);
 
   protected onSubmit(): void {
     if (this.submitting()) {
@@ -53,10 +52,10 @@ export class Login {
     this.errorMessage.set("");
     const { email, password } = this.form.getRawValue();
 
-    this.auth.login(email, password).subscribe({
+    this._auth.login(email, password).subscribe({
       next: () => {
         this.submitting.set(false);
-        void this.router.navigate(["/facilities"]);
+        void this._router.navigate(["/facilities"]);
       },
       error: (error: unknown) => {
         this.submitting.set(false);

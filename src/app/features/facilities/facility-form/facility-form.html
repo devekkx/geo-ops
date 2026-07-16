@@ -11,15 +11,21 @@
     >
       <p class="text-brand-blue-900 m-0 text-lg font-semibold">Couldn't load this facility</p>
       <p class="text-brand-gray-500 mx-auto mt-1.5 max-w-100 text-sm">{{ errorMessage() }}</p>
-      <button mat-stroked-button type="button" class="!mt-5" (click)="onCancel()">
+      <button mat-stroked-button type="button" class="mt-5!" (click)="onCancel()">
         Back to facilities
       </button>
     </div>
   }
   @case ("ready") {
     <form class="mx-auto max-w-180" [formGroup]="form" (ngSubmit)="onSave()">
-      <button mat-button type="button" class="!text-brand-gray-500 !-ml-2" (click)="onCancel()">
-        <mat-icon svgIcon="arrow-left" class="!h-[17px] !w-[17px]" aria-hidden="true" />
+      <button
+        title="Cancel"
+        mat-button
+        type="button"
+        class="text-brand-gray-500! -ml-2!"
+        (click)="onCancel()"
+      >
+        <mat-icon svgIcon="arrow-left" class="h-4.25! w-4.25!" aria-hidden="true" />
         Cancel
       </button>
 
@@ -32,8 +38,14 @@
 
       <div class="border-brand-gray-200 rounded-xl border bg-white p-6.5 shadow-sm">
         <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" placeholder="e.g. Accra Central Data Center" />
+          <mat-label id="name-label">Name</mat-label>
+          <input
+            matInput
+            id="name"
+            aria-labelledby="name-label"
+            formControlName="name"
+            placeholder="e.g. Accra Central Data Center"
+          />
           @if (form.controls.name.hasError("required") && form.controls.name.touched) {
             <mat-error>Name is required.</mat-error>
           }
@@ -79,15 +91,16 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <mat-form-field appearance="outline">
-            <mat-label>Latitude</mat-label>
+            <mat-label id="latitude-label">Latitude</mat-label>
             <input
               matInput
               type="number"
               step="any"
               formControlName="latitude"
               placeholder="e.g. 5.6037"
+              aria-labelledby="latitude-label"
             />
             @if (form.controls.latitude.hasError("required") && form.controls.latitude.touched) {
               <mat-error>Latitude is required.</mat-error>
@@ -101,13 +114,14 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Longitude</mat-label>
+            <mat-label id="longitude-label">Longitude</mat-label>
             <input
               matInput
               type="number"
               step="any"
               formControlName="longitude"
               placeholder="e.g. -0.1870"
+              aria-labelledby="longitude-label"
             />
             @if (form.controls.longitude.hasError("required") && form.controls.longitude.touched) {
               <mat-error>Longitude is required.</mat-error>
@@ -121,22 +135,47 @@
           </mat-form-field>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <mat-form-field appearance="outline" class="mt-4 w-full">
+          <mat-label id="region-label">Region</mat-label>
+          <input
+            matInput
+            id="region"
+            aria-labelledby="region-label"
+            formControlName="region"
+            placeholder="Optional"
+          />
+        </mat-form-field>
+
+        <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <mat-form-field appearance="outline">
-            <mat-label>Manager</mat-label>
-            <input matInput formControlName="manager" placeholder="Optional" />
+            <mat-label id="manager-label">Manager</mat-label>
+            <input
+              matInput
+              id="manager"
+              aria-labelledby="manager-label"
+              formControlName="manager"
+              placeholder="Optional"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Capacity</mat-label>
-            <input matInput formControlName="capacity" placeholder="Optional" />
+            <mat-label id="capacity-label">Capacity</mat-label>
+            <input
+              matInput
+              id="capacity"
+              aria-labelledby="capacity-label"
+              formControlName="capacity"
+              placeholder="Optional"
+            />
           </mat-form-field>
         </div>
 
         <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Description</mat-label>
+          <mat-label id="description-label">Description</mat-label>
           <textarea
             matInput
+            id="description"
+            aria-labelledby="description-label"
             formControlName="description"
             rows="3"
             placeholder="Optional notes about this facility"
@@ -150,12 +189,12 @@
           <button
             mat-flat-button
             type="submit"
-            class="!bg-brand-orange-500 !text-white"
+            class="bg-brand-orange-500! text-white!"
             [disabled]="saving()"
             [attr.aria-label]="saving() ? 'Saving…' : null"
           >
             @if (saving()) {
-              <mat-spinner diameter="18" class="!inline-block !align-middle" />
+              <mat-spinner diameter="18" class="inline-block! align-middle!" />
             } @else {
               {{ isEditMode ? "Save changes" : "Create facility" }}
             }

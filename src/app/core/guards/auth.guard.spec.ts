@@ -3,8 +3,8 @@ import { TestBed } from "@angular/core/testing";
 import type { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Router, provideRouter } from "@angular/router";
 
-import type { AuthPort } from "@core/tokens/auth.token";
-import { AUTH_PORT } from "@core/tokens/auth.token";
+import type { AuthPort } from "@core/tokens/auth";
+import { AUTH_PORT } from "@core/tokens/auth";
 import { authGuard, guestGuard } from "./auth.guard";
 
 const ROUTE = {} as unknown as ActivatedRouteSnapshot;

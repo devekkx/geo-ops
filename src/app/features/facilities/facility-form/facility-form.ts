@@ -1,5 +1,5 @@
-import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { Component, DestroyRef, computed, inject, signal } from "@angular/core";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -9,16 +9,16 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/constants/facility.constants";
-import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility.interface";
-import { NotificationService } from "@core/services/notification.service";
-import { rangeValidator } from "@core/validators/range.validator";
-import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
+import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/constants/facility";
+import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility";
+import { NotificationService } from "@core/services/notification";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
+import { rangeValidator } from "@core/validators/range";
 import {
   FacilityLocationPicker,
   type FacilityCoordinates
 } from "@features/facilities/facility-location-picker/facility-location-picker";
+import { SentenceCasePipe } from "@shared/pipes/sentence-case";
 
 type FormState = "loading" | "ready" | "error";
 
@@ -35,19 +35,18 @@ type FormState = "loading" | "ready" | "error";
     SentenceCasePipe,
     FacilityLocationPicker
   ],
-  templateUrl: "./facility-form.html",
-  styleUrl: "./facility-form.css"
+  templateUrl: "./facility-form.html"
 })
 export class FacilityForm {
-  private readonly repository = inject(FACILITY_REPOSITORY);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly notifications = inject(NotificationService);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly _repository = inject(FACILITY_REPOSITORY);
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+  private readonly _notifications = inject(NotificationService);
+  private readonly _destroyRef = inject(DestroyRef);
 
-  private readonly facilityId = this.route.snapshot.paramMap.get("id");
+  private readonly _facilityId = this._route.snapshot.paramMap.get("id");
 
-  protected readonly isEditMode = this.facilityId !== null;
+  protected readonly isEditMode = this._facilityId !== null;
   protected readonly facilityTypes = FACILITY_TYPES;
   protected readonly facilityStatuses = FACILITY_STATUSES;
 
@@ -74,6 +73,7 @@ export class FacilityForm {
     longitude: new FormControl<number | null>(null, {
       validators: [(control) => Validators.required(control), rangeValidator(-180, 180)]
     }),
+    region: new FormControl("", { nonNullable: true }),
     manager: new FormControl("", { nonNullable: true }),
     capacity: new FormControl("", { nonNullable: true }),
     description: new FormControl("", { nonNullable: true })
@@ -92,8 +92,8 @@ export class FacilityForm {
   );
 
   constructor() {
-    if (this.isEditMode && this.facilityId) {
-      this.loadFacility(this.facilityId);
+    if (this.isEditMode && this._facilityId) {
+      this._loadFacility(this._facilityId);
     }
   }
 
@@ -108,8 +108,8 @@ export class FacilityForm {
 
   protected onCancel(): void {
     const target =
-      this.isEditMode && this.facilityId ? ["/facilities", this.facilityId] : ["/facilities"];
-    void this.router.navigate(target);
+      this.isEditMode && this._facilityId ? ["/facilities", this._facilityId] : ["/facilities"];
+    void this._router.navigate(target);
   }
 
   protected onSave(): void {
@@ -129,35 +129,36 @@ export class FacilityForm {
       status: raw.status as FacilityStatus,
       latitude: Number(raw.latitude),
       longitude: Number(raw.longitude),
+      region: raw.region.trim() || undefined,
       manager: raw.manager.trim() || undefined,
       capacity: raw.capacity.trim() || undefined,
       description: raw.description.trim() || undefined
     };
 
     const save$ =
-      this.isEditMode && this.facilityId
-        ? this.repository.update(this.facilityId, draft)
-        : this.repository.create(draft);
+      this.isEditMode && this._facilityId
+        ? this._repository.update(this._facilityId, draft)
+        : this._repository.create(draft);
 
-    save$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    save$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: (facility) => {
         this.saving.set(false);
-        this.notifications.success(
+        this._notifications.success(
           this.isEditMode ? `${facility.name} was updated.` : `${facility.name} was created.`
         );
-        void this.router.navigate(["/facilities", facility.id]);
+        void this._router.navigate(["/facilities", facility.id]);
       },
       error: () => {
         this.saving.set(false);
-        this.notifications.error("Unable to save this facility. Please try again.");
+        this._notifications.error("Unable to save this facility. Please try again.");
       }
     });
   }
 
-  private loadFacility(id: string): void {
-    this.repository
+  private _loadFacility(id: string): void {
+    this._repository
       .getById(id)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (facility) => {
           if (!facility) {

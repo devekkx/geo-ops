@@ -1,28 +1,27 @@
 import { DatePipe, Location } from "@angular/common";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Component, computed, inject, signal } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import type { Facility } from "@core/interfaces/facility.interface";
-import { StatusBadge } from "@shared/components/status-badge/status-badge";
+import type { Facility } from "@core/interfaces/facility";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { FacilityMap } from "@features/facilities/facility-map/facility-map";
+import { StatusBadge } from "@shared/components/status-badge/status-badge";
 
 type DetailState = "loading" | "loaded" | "error";
 
 @Component({
   selector: "geo-facility-detail",
   imports: [MatButtonModule, MatIconModule, StatusBadge, FacilityMap, DatePipe],
-  templateUrl: "./facility-detail.html",
-  styleUrl: "./facility-detail.css"
+  templateUrl: "./facility-detail.html"
 })
 export class FacilityDetail {
-  private readonly repository = inject(FACILITY_REPOSITORY);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly location = inject(Location);
+  private readonly _repository = inject(FACILITY_REPOSITORY);
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+  private readonly _location = inject(Location);
 
   protected readonly state = signal<DetailState>("loading");
   protected readonly facility = signal<Facility | null>(null);
@@ -33,23 +32,61 @@ export class FacilityDetail {
     return facility ? [facility] : [];
   });
 
+  protected readonly facilityDetails = computed(() => {
+    return [
+      {
+        label: "Type",
+        value: this.facility()?.type ?? ""
+      },
+      {
+        label: "Status",
+        value: this.facility()?.status ?? ""
+      },
+      {
+        label: "Region",
+        value: this.facility()?.region ?? ""
+      },
+      {
+        label: "Manager",
+        value: this.facility()?.manager ?? ""
+      },
+      {
+        label: "Capacity",
+        value: this.facility()?.capacity ?? ""
+      },
+      {
+        label: "Latitude",
+        value: this.facility()?.latitude ?? ""
+      },
+      {
+        label: "Longitude",
+        value: this.facility()?.longitude ?? ""
+      },
+      {
+        label: "Last Updated",
+        value: this.facility()?.updatedAt ?? "",
+        isDate: true
+      }
+    ];
+  });
+
   constructor() {
-    this.loadFacility();
+    this._loadFacility();
   }
 
   protected onBack(): void {
-    this.location.back();
+    this._location.back();
   }
 
   protected onEdit(): void {
     const id = this.facility()?.id;
     if (id) {
-      void this.router.navigate(["/facilities", id, "edit"]);
+      void this._router.navigate(["/facilities", id, "edit"]);
     }
   }
 
-  private loadFacility(): void {
-    const id = this.route.snapshot.paramMap.get("id");
+  private _loadFacility(): void {
+    const id = this._route.snapshot.paramMap.get("id");
     if (!id) {
       this.state.set("error");
       this.errorMessage.set("No facility was specified.");
@@ -57,7 +94,7 @@ export class FacilityDetail {
     }
 
     this.state.set("loading");
-    this.repository
+    this._repository
       .getById(id)
       .pipe(takeUntilDestroyed())
       .subscribe({

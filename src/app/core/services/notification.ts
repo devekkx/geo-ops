@@ -6,17 +6,21 @@ const ERROR_DURATION_MS = 6000;
 
 @Service()
 export class NotificationService {
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly _snackBar = inject(MatSnackBar);
 
-  success(message: string): void {
-    this.snackBar.open(message, "Dismiss", {
+  /** Shows a success toast with the given message. */
+  public success(message: string): void {
+    this._snackBar.open(message, "Dismiss", {
       duration: DEFAULT_DURATION_MS,
+      horizontalPosition: "center",
+      verticalPosition: "top",
       panelClass: ["geo-snackbar", "geo-snackbar--success"]
     });
   }
 
-  error(message: string): void {
-    this.snackBar.open(message, "Dismiss", {
+  /** Shows an error toast with the given message. */
+  public error(message: string): void {
+    this._snackBar.open(message, "Dismiss", {
       duration: ERROR_DURATION_MS,
       panelClass: ["geo-snackbar", "geo-snackbar--error"]
     });

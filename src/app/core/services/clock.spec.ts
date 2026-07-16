@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 
-import { Clock } from "./clock.service";
+import { Clock } from "./clock";
 
 describe("Clock", () => {
   it("returns the current date", () => {

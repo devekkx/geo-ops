@@ -1,11 +1,8 @@
 import { defineConfig } from "vitest/config";
 
-// Angular's unit-test builder also needs `coverageInclude`/`coverageExclude` set in
-// angular.json — it uses its own copy to scope what gets instrumented in the first
-// place. Removing that copy silently zeroes out coverage attribution entirely, even
-// though this file's settings are otherwise honored correctly (verified empirically).
 export default defineConfig({
   test: {
+    setupFiles: ["src/test-setup.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html", "lcov"],
@@ -15,6 +12,7 @@ export default defineConfig({
         "src/app/app.ts",
         "src/app/app.config.ts",
         "src/app/app.routes.ts",
+        "src/app/features/facilities/routes.ts",
         "src/app/core/tokens/**",
         "src/app/core/interfaces/**",
         "src/app/core/dtos/**"

@@ -1,34 +1,31 @@
+import { Component, computed, DestroyRef, inject, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { Component, DestroyRef, computed, inject, signal } from "@angular/core";
-import { RouterLink } from "@angular/router";
 
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import type { Facility } from "@core/interfaces/facility.interface";
-import { StatusBadge } from "@shared/components/status-badge/status-badge";
-import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages.constants";
+import { RouterLink } from "@angular/router";
+import type { Facility } from "@core/interfaces/facility";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { FacilityMap } from "@features/facilities/facility-map/facility-map";
+import { StatusBadge } from "@shared/components/status-badge/status-badge";
+import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages";
 
 type OverviewState = "loading" | "loaded" | "error";
 
 @Component({
   selector: "geo-facilities-map-overview",
-  imports: [RouterLink, StatusBadge, FacilityMap],
-  templateUrl: "./facilities-map-overview.html",
-  styleUrl: "./facilities-map-overview.css"
+  imports: [StatusBadge, FacilityMap, RouterLink],
+  templateUrl: "./facilities-map-overview.html"
 })
 export class FacilitiesMapOverview {
-  private readonly repository = inject(FACILITY_REPOSITORY);
-  private readonly destroyRef = inject(DestroyRef);
-
   protected readonly state = signal<OverviewState>("loading");
   protected readonly facilities = signal<Facility[]>([]);
   protected readonly selectedId = signal<string | null>(null);
   protected readonly errorMessage = signal("");
-
   protected readonly count = computed(() => this.facilities().length);
+  private readonly _repository = inject(FACILITY_REPOSITORY);
+  private readonly _destroyRef = inject(DestroyRef);
 
   constructor() {
-    this.loadFacilities();
+    this._loadFacilities();
   }
 
   protected onSelect(id: string): void {
@@ -36,14 +33,14 @@ export class FacilitiesMapOverview {
   }
 
   protected onRetry(): void {
-    this.loadFacilities();
+    this._loadFacilities();
   }
 
-  private loadFacilities(): void {
+  private _loadFacilities(): void {
     this.state.set("loading");
-    this.repository
+    this._repository
       .getAll()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (facilities) => {
           this.facilities.set(facilities);

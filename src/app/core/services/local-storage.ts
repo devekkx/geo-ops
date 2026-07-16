@@ -2,7 +2,8 @@ import { Service } from "@angular/core";
 
 @Service()
 export class LocalStorageService {
-  getItem<T>(key: string): T | null {
+  /** Reads and parses the JSON value stored under `key`, or `null` if it's absent or malformed. */
+  public getItem<T>(key: string): T | null {
     const raw = localStorage.getItem(key);
     if (!raw) {
       return null;
@@ -14,11 +15,13 @@ export class LocalStorageService {
     }
   }
 
-  setItem<T>(key: string, value: T): void {
+  /** Serialises `value` to JSON and stores it under `key`. */
+  public setItem<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  removeItem(key: string): void {
+  /** Removes the value stored under `key`. */
+  public removeItem(key: string): void {
     localStorage.removeItem(key);
   }
 }

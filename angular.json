@@ -79,6 +79,7 @@
                 "src/app/app.ts",
                 "src/app/app.config.ts",
                 "src/app/app.routes.ts",
+                "src/app/features/facilities/routes.ts",
                 "src/app/core/tokens/**",
                 "src/app/core/interfaces/**",
                 "src/app/core/dtos/**"

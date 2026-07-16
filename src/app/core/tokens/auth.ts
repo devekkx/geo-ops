@@ -1,7 +1,7 @@
 import { InjectionToken, type Signal } from "@angular/core";
 import type { Observable } from "rxjs";
 
-import type { AuthUser } from "@core/interfaces/auth.interface";
+import type { AuthUser } from "@core/interfaces/auth";
 
 export interface AuthPort {
   readonly currentUser: Signal<AuthUser | null>;

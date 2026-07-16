@@ -3,6 +3,7 @@
     <div
       class="fixed inset-0 z-30 bg-black/40 lg:hidden"
       (click)="closeNav()"
+      keydown.escape="closeNav()"
       aria-hidden="true"
     ></div>
   }
@@ -13,9 +14,7 @@
   >
     <div class="flex items-center gap-3 px-2 pb-5">
       <div aria-hidden="true" class="flex flex-col gap-1">
-        <span class="bg-brand-orange-500 block h-0.5 w-5 rounded-full"></span>
-        <span class="bg-brand-orange-500 block h-0.5 w-5 rounded-full"></span>
-        <span class="bg-brand-orange-500 block h-0.5 w-5 rounded-full"></span>
+        <img src="logo.png" alt="logo" class="h-10 w-10" />
       </div>
       <div class="leading-tight">
         <div class="font-display text-base font-bold tracking-wide text-white">GeoOps</div>
@@ -28,7 +27,7 @@
         mat-icon-button
         type="button"
       >
-        <mat-icon svgIcon="close" class="!h-[17px] !w-[17px]" aria-hidden="true" />
+        <mat-icon svgIcon="close" class="h-4.25! w-4.25!" aria-hidden="true" />
       </button>
     </div>
 
@@ -44,7 +43,7 @@
           routerLinkActive="bg-white/10 text-white"
           (click)="closeNav()"
         >
-          <mat-icon [svgIcon]="item.icon" class="!h-[19px] !w-[19px]" aria-hidden="true" />
+          <mat-icon [svgIcon]="item.icon" class="h-4.75! w-4.75!" aria-hidden="true" />
           <span>{{ item.label }}</span>
         </a>
       }
@@ -67,7 +66,7 @@
         mat-icon-button
         type="button"
       >
-        <mat-icon svgIcon="logout" class="!h-[17px] !w-[17px]" aria-hidden="true" />
+        <img class="invert-100" src="icons/logout.svg" alt="logout" />
       </button>
     </div>
   </aside>
@@ -84,7 +83,7 @@
           mat-icon-button
           type="button"
         >
-          <mat-icon svgIcon="menu" class="!h-[19px] !w-[19px]" aria-hidden="true" />
+          <mat-icon svgIcon="menu" class="h-4.75! w-4.75!" aria-hidden="true" />
         </button>
         <div class="min-w-0">
           <h1 class="text-brand-blue-900 font-display truncate text-lg font-semibold">
@@ -100,11 +99,12 @@
       <div class="flex shrink-0 items-center gap-3.5">
         <button
           (click)="onNewFacility()"
-          class="!bg-brand-orange-500 !text-white"
+          class="bg-brand-orange-500! text-white!"
+          title="New facility"
           mat-flat-button
           type="button"
         >
-          <mat-icon svgIcon="plus" class="!h-[17px] !w-[17px]" aria-hidden="true" />
+          <mat-icon svgIcon="plus" class="h-4.25! w-4.25!" aria-hidden="true" />
           <span class="hidden sm:inline">New facility</span>
         </button>
         <span

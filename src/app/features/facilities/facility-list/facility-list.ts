@@ -1,6 +1,5 @@
-import { DatePipe } from "@angular/common";
+import { Component, computed, DestroyRef, effect, inject, signal } from "@angular/core";
 import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
-import { Component, DestroyRef, computed, effect, inject, signal } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -12,13 +11,19 @@ import { MatTableModule } from "@angular/material/table";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { debounceTime, timer } from "rxjs";
 
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import { FACILITY_STATUSES } from "@core/constants/facility.constants";
-import type { Facility, FacilityStatus } from "@core/interfaces/facility.interface";
+import { DatePipe } from "@angular/common";
+import { FACILITY_STATUSES } from "@core/constants/facility";
+import type { Facility, FacilityStatus } from "@core/interfaces/facility";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { StatusBadge } from "@shared/components/status-badge/status-badge";
-import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
-import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages.constants";
-import { PAGE_SIZE, PAGE_SIZE_OPTIONS, SEARCH_DEBOUNCE_MS } from "./facility-list.constants";
+import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages";
+import { SentenceCasePipe } from "@shared/pipes/sentence-case";
+import {
+  PAGE_SIZE,
+  PAGE_SIZE_OPTIONS,
+  SEARCH_DEBOUNCE_MS,
+  TABLE_HEADERS
+} from "./facility-list.constants";
 
 type ListState = "loading" | "loaded" | "error";
 type StatusFilter = FacilityStatus | "all";
@@ -27,7 +32,6 @@ type StatusFilter = FacilityStatus | "all";
   selector: "geo-facility-list",
   imports: [
     ReactiveFormsModule,
-    RouterLink,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -37,44 +41,35 @@ type StatusFilter = FacilityStatus | "all";
     MatIconModule,
     StatusBadge,
     SentenceCasePipe,
+    RouterLink,
     DatePipe
   ],
-  templateUrl: "./facility-list.html",
-  styleUrl: "./facility-list.css"
+  templateUrl: "./facility-list.html"
 })
 export class FacilityList {
-  private readonly repository = inject(FACILITY_REPOSITORY);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly destroyRef = inject(DestroyRef);
-
-  private readonly initialParams = this.route.snapshot.queryParamMap;
-
   protected readonly displayedColumns = ["name", "type", "status", "updatedAt", "actions"];
+
+  private readonly _repository = inject(FACILITY_REPOSITORY);
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _initialParams = this._route.snapshot.queryParamMap;
+
   protected readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
   protected readonly facilityStatuses = FACILITY_STATUSES;
   protected readonly skeletonRows = Array.from({ length: 6 });
-
-  protected readonly searchControl = new FormControl(this.initialParams.get("search") ?? "", {
+  protected readonly pageSize = signal(this._readInitialPageSize());
+  protected readonly searchControl = new FormControl(this._initialParams.get("search") ?? "", {
     nonNullable: true
   });
-  protected readonly status = signal<StatusFilter>(
-    (this.initialParams.get("status") as StatusFilter | null) ?? "all"
-  );
-  protected readonly pageIndex = signal(
-    Math.max(0, Number.parseInt(this.initialParams.get("page") ?? "1", 10) - 1 || 0)
-  );
-  protected readonly pageSize = signal(this.readInitialPageSize());
-
   protected readonly search = toSignal(
     this.searchControl.valueChanges.pipe(debounceTime(SEARCH_DEBOUNCE_MS)),
     { initialValue: this.searchControl.value }
   );
-
+  protected readonly tableHeaders = TABLE_HEADERS;
   protected readonly state = signal<ListState>("loading");
   protected readonly facilities = signal<Facility[]>([]);
   protected readonly errorMessage = signal("");
-
   protected readonly filtered = computed(() => {
     const term = this.search().trim().toLowerCase();
     const status = this.status();
@@ -84,7 +79,6 @@ export class FacilityList {
         (!term || facility.name.toLowerCase().includes(term))
     );
   });
-
   protected readonly total = computed(() => this.filtered().length);
   protected readonly pageCount = computed(() =>
     Math.max(1, Math.ceil(this.total() / this.pageSize()))
@@ -92,12 +86,10 @@ export class FacilityList {
   protected readonly clampedPageIndex = computed(() =>
     Math.min(this.pageIndex(), this.pageCount() - 1)
   );
-
   protected readonly paged = computed(() => {
     const start = this.clampedPageIndex() * this.pageSize();
     return this.filtered().slice(start, start + this.pageSize());
   });
-
   protected readonly rangeLabel = computed(() => {
     if (this.total() === 0) {
       return "0 facilities";
@@ -106,9 +98,15 @@ export class FacilityList {
     const end = Math.min(start + this.pageSize() - 1, this.total());
     return `${start}-${end} of ${this.total()} facilities`;
   });
-
   protected readonly isFiltered = computed(
     () => this.search().trim() !== "" || this.status() !== "all"
+  );
+
+  protected readonly status = signal<StatusFilter>(
+    (this._initialParams.get("status") as StatusFilter | null) ?? "all"
+  );
+  protected readonly pageIndex = signal(
+    Math.max(0, Number.parseInt(this._initialParams.get("page") ?? "1", 10) - 1 || 0)
   );
 
   constructor() {
@@ -119,15 +117,15 @@ export class FacilityList {
         page: this.clampedPageIndex() > 0 ? String(this.clampedPageIndex() + 1) : null,
         pageSize: this.pageSize() !== PAGE_SIZE ? String(this.pageSize()) : null
       };
-      void this.router.navigate([], {
-        relativeTo: this.route,
+      void this._router.navigate([], {
+        relativeTo: this._route,
         queryParams,
         queryParamsHandling: "merge",
         replaceUrl: true
       });
     });
 
-    this.loadFacilities();
+    this._loadFacilities();
   }
 
   protected onStatusChange(status: StatusFilter): void {
@@ -147,21 +145,21 @@ export class FacilityList {
   }
 
   protected onRetry(): void {
-    this.loadFacilities();
+    this._loadFacilities();
   }
 
-  private readInitialPageSize(): number {
-    const parsed = Number.parseInt(this.initialParams.get("pageSize") ?? "", 10);
+  private _readInitialPageSize(): number {
+    const parsed = Number.parseInt(this._initialParams.get("pageSize") ?? "", 10);
     return PAGE_SIZE_OPTIONS.includes(parsed) ? parsed : PAGE_SIZE;
   }
 
-  private loadFacilities(): void {
+  private _loadFacilities(): void {
     this.state.set("loading");
     this.errorMessage.set("");
 
-    if (this.route.snapshot.queryParamMap.has("simulateError")) {
+    if (this._route.snapshot.queryParamMap.has("simulateError")) {
       timer(500)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe(() => {
           this.state.set("error");
           this.errorMessage.set(GENERIC_LOAD_ERROR_MESSAGE);
@@ -169,9 +167,9 @@ export class FacilityList {
       return;
     }
 
-    this.repository
+    this._repository
       .getAll()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (facilities) => {
           this.facilities.set(facilities);

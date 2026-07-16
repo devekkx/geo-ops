@@ -1,4 +1,4 @@
-import { SentenceCasePipe } from "./sentence-case.pipe";
+import { SentenceCasePipe } from "./sentence-case";
 
 describe("SentenceCasePipe", () => {
   const pipe = new SentenceCasePipe();
