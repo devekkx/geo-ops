@@ -18,8 +18,7 @@ import { AUTH_PORT } from "@core/tokens/auth";
     MatButtonModule,
     MatProgressSpinnerModule
   ],
-  templateUrl: "./login.html",
-  styleUrl: "./login.css"
+  templateUrl: "./login.html"
 })
 export class Login {
   protected readonly form = new FormGroup({

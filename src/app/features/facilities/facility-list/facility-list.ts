@@ -8,9 +8,10 @@ import { MatInputModule } from "@angular/material/input";
 import { MatPaginatorModule, type PageEvent } from "@angular/material/paginator";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTableModule } from "@angular/material/table";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { debounceTime, timer } from "rxjs";
 
+import { DatePipe } from "@angular/common";
 import { FACILITY_STATUSES } from "@core/constants/facility";
 import type { Facility, FacilityStatus } from "@core/interfaces/facility";
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
@@ -34,17 +35,29 @@ type StatusFilter = FacilityStatus | "all";
     MatButtonModule,
     MatIconModule,
     StatusBadge,
-    SentenceCasePipe
+    SentenceCasePipe,
+    RouterLink,
+    DatePipe
   ],
   templateUrl: "./facility-list.html",
   styleUrl: "./facility-list.css"
 })
 export class FacilityList {
   protected readonly displayedColumns = ["name", "type", "status", "updatedAt", "actions"];
+
+  private readonly repository = inject(FACILITY_REPOSITORY);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly initialParams = this.route.snapshot.queryParamMap;
+
   protected readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
   protected readonly facilityStatuses = FACILITY_STATUSES;
   protected readonly skeletonRows = Array.from({ length: 6 });
   protected readonly pageSize = signal(this.readInitialPageSize());
+  protected readonly searchControl = new FormControl(this.initialParams.get("search") ?? "", {
+    nonNullable: true
+  });
   protected readonly search = toSignal(
     this.searchControl.valueChanges.pipe(debounceTime(SEARCH_DEBOUNCE_MS)),
     { initialValue: this.searchControl.value }
@@ -83,14 +96,7 @@ export class FacilityList {
   protected readonly isFiltered = computed(
     () => this.search().trim() !== "" || this.status() !== "all"
   );
-  private readonly repository = inject(FACILITY_REPOSITORY);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly initialParams = this.route.snapshot.queryParamMap;
-  protected readonly searchControl = new FormControl(this.initialParams.get("search") ?? "", {
-    nonNullable: true
-  });
+
   protected readonly status = signal<StatusFilter>(
     (this.initialParams.get("status") as StatusFilter | null) ?? "all"
   );

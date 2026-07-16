@@ -3,6 +3,7 @@
     <div
       class="fixed inset-0 z-30 bg-black/40 lg:hidden"
       (click)="closeNav()"
+      keydown.escape="closeNav()"
       aria-hidden="true"
     ></div>
   }
@@ -13,9 +14,7 @@
   >
     <div class="flex items-center gap-3 px-2 pb-5">
       <div aria-hidden="true" class="flex flex-col gap-1">
-        <span class="bg-brand-orange-500 block h-0.5 w-5 rounded-full"></span>
-        <span class="bg-brand-orange-500 block h-0.5 w-5 rounded-full"></span>
-        <span class="bg-brand-orange-500 block h-0.5 w-5 rounded-full"></span>
+        <img src="logo.png" alt="logo" class="h-10 w-10" />
       </div>
       <div class="leading-tight">
         <div class="font-display text-base font-bold tracking-wide text-white">GeoOps</div>
