@@ -13,17 +13,7 @@ import {
 import { filter } from "rxjs";
 
 import { AUTH_PORT } from "@core/tokens/auth.token";
-
-interface NavItem {
-  label: string;
-  path: string;
-  icon: string;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { label: "Facilities", path: "/facilities", icon: "nav-facilities" },
-  { label: "Map overview", path: "/facilities/map", icon: "nav-map" }
-];
+import { NAV_ITEMS } from "./main-layout.constants";
 
 @Component({
   selector: "geo-main-layout",

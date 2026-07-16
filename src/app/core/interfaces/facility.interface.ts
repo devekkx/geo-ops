@@ -15,17 +15,3 @@ export interface Facility {
 }
 
 export type FacilityDraft = Omit<Facility, "id" | "updatedAt">;
-
-export const FACILITY_STATUSES: FacilityStatus[] = ["active", "inactive", "maintenance"];
-
-export const FACILITY_TYPES: string[] = [
-  "Data Center",
-  "Solar Plant",
-  "Network Tower",
-  "Training Hub",
-  "Substation",
-  "Water Facility",
-  "Warehouse",
-  "Office",
-  "Clinic"
-];

@@ -13,19 +13,15 @@ import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { debounceTime, timer } from "rxjs";
 
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import { FACILITY_STATUSES } from "@core/interfaces/facility.interface";
+import { FACILITY_STATUSES } from "@core/constants/facility.constants";
 import type { Facility, FacilityStatus } from "@core/interfaces/facility.interface";
 import { StatusBadge } from "@shared/status-badge/status-badge";
 import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
+import { GENERIC_LOAD_ERROR_MESSAGE } from "@shared/constants/messages.constants";
+import { PAGE_SIZE, PAGE_SIZE_OPTIONS, SEARCH_DEBOUNCE_MS } from "./facility-list.constants";
 
 type ListState = "loading" | "loaded" | "error";
 type StatusFilter = FacilityStatus | "all";
-
-const PAGE_SIZE = 8;
-const PAGE_SIZE_OPTIONS = [5, 8, 10, 25, 50];
-const SEARCH_DEBOUNCE_MS = 300;
-const ERROR_MESSAGE =
-  "Something went wrong while retrieving the data. Please check your connection and try again.";
 
 @Component({
   selector: "geo-facility-list",
@@ -168,7 +164,7 @@ export class FacilityList {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => {
           this.state.set("error");
-          this.errorMessage.set(ERROR_MESSAGE);
+          this.errorMessage.set(GENERIC_LOAD_ERROR_MESSAGE);
         });
       return;
     }
@@ -183,7 +179,7 @@ export class FacilityList {
         },
         error: () => {
           this.state.set("error");
-          this.errorMessage.set(ERROR_MESSAGE);
+          this.errorMessage.set(GENERIC_LOAD_ERROR_MESSAGE);
         }
       });
   }

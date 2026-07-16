@@ -21,21 +21,15 @@ import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
 import { Icon, Style } from "ol/style";
 
-import type { Facility, FacilityStatus } from "@core/interfaces/facility.interface";
+import { FACILITY_STATUS_COLORS } from "@core/constants/facility.constants";
+import type { Facility } from "@core/interfaces/facility.interface";
+import { MARKER_ICON_ANCHOR, MARKER_ICON_SRC } from "@shared/constants/map-marker.constants";
 
 const SINGLE_MARKER_ZOOM = 13;
 const MAX_FIT_ZOOM = 15;
 const FIT_PADDING = [48, 48, 48, 48];
-const MARKER_SRC = "icons/marker.svg";
-const MARKER_ANCHOR: [number, number] = [0.5, 1];
 const MARKER_SCALE = 1.1;
 const SELECTED_MARKER_SCALE = 1.4;
-
-const STATUS_COLORS: Record<FacilityStatus, string> = {
-  active: "#007d00",
-  inactive: "#6b6b6b",
-  maintenance: "#b45309"
-};
 
 @Component({
   selector: "geo-facility-map",
@@ -120,9 +114,9 @@ export class FacilityMap implements OnDestroy {
       feature.setStyle(
         new Style({
           image: new Icon({
-            src: MARKER_SRC,
-            anchor: MARKER_ANCHOR,
-            color: STATUS_COLORS[facility.status],
+            src: MARKER_ICON_SRC,
+            anchor: MARKER_ICON_ANCHOR,
+            color: FACILITY_STATUS_COLORS[facility.status],
             scale: isSelected ? SELECTED_MARKER_SCALE : MARKER_SCALE
           })
         })

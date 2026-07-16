@@ -6,7 +6,7 @@ import { of, Subject, throwError } from "rxjs";
 import type { MockInstance } from "vitest";
 
 import type { AuthUser } from "@core/interfaces/auth.interface";
-import { DEMO_CREDENTIALS } from "@core/services/mock-auth.service";
+import { DEMO_CREDENTIALS } from "@core/constants/auth.constants";
 import type { AuthPort } from "@core/tokens/auth.token";
 import { AUTH_PORT } from "@core/tokens/auth.token";
 import { Login } from "./login";
