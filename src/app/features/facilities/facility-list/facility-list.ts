@@ -4,6 +4,7 @@ import { Component, DestroyRef, computed, effect, inject, signal } from "@angula
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatPaginatorModule, type PageEvent } from "@angular/material/paginator";
 import { MatSelectModule } from "@angular/material/select";
@@ -37,6 +38,7 @@ const ERROR_MESSAGE =
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
+    MatIconModule,
     StatusBadge,
     SentenceCasePipe,
     DatePipe
