@@ -40,6 +40,7 @@ describe("LocalFacilityRepository", () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
+    localStorage.clear();
     TestBed.configureTestingModule({
       providers: [
         LocalFacilityRepository,
@@ -54,6 +55,7 @@ describe("LocalFacilityRepository", () => {
 
   afterEach(() => {
     httpMock.verify();
+    localStorage.clear();
   });
 
   it("loads and maps facilities from the JSON asset", async () => {
@@ -176,5 +178,66 @@ describe("LocalFacilityRepository", () => {
     flushFacilities(httpMock);
 
     await expect(resultPromise).rejects.toBeInstanceOf(Error);
+  });
+
+  it("reads from localStorage instead of the network when a cache exists", async () => {
+    localStorage.setItem("geo-ops.facilities", JSON.stringify(DTOS.map((dto) => ({ ...dto }))));
+
+    // A fresh repository instance picks up whatever is already cached in localStorage.
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        LocalFacilityRepository,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: Clock, useValue: { now: () => FIXED_DATE } }
+      ]
+    });
+    const freshRepository = TestBed.inject(LocalFacilityRepository);
+    const freshHttpMock = TestBed.inject(HttpTestingController);
+
+    const result = await firstValueFrom(freshRepository.getAll());
+
+    expect(result.length).toBeGreaterThan(0);
+    freshHttpMock.expectNone("data/facilities.json");
+  });
+
+  it("persists newly created facilities to localStorage", async () => {
+    const draft: FacilityDraft = {
+      name: "New Facility",
+      type: "Office",
+      status: "active",
+      latitude: 1,
+      longitude: 1
+    };
+
+    const createdPromise = firstValueFrom(repository.create(draft));
+    flushFacilities(httpMock);
+    await createdPromise;
+
+    const stored = JSON.parse(localStorage.getItem("geo-ops.facilities") ?? "[]") as {
+      id: string;
+    }[];
+    expect(stored.some((facility) => facility.id === "FC-0003")).toBe(true);
+  });
+
+  it("persists updated facilities to localStorage", async () => {
+    const updatedPromise = firstValueFrom(
+      repository.update("FC-0001", {
+        name: "Renamed",
+        type: "Data Center",
+        status: "inactive",
+        latitude: 5.6037,
+        longitude: -0.187
+      })
+    );
+    flushFacilities(httpMock);
+    await updatedPromise;
+
+    const stored = JSON.parse(localStorage.getItem("geo-ops.facilities") ?? "[]") as {
+      id: string;
+      name: string;
+    }[];
+    expect(stored.find((facility) => facility.id === "FC-0001")?.name).toBe("Renamed");
   });
 });
