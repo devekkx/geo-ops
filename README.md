@@ -282,11 +282,13 @@ its own errors, but there's no interceptor sitting in front of `HttpClient` - se
 
 Enhanced development workflow with Claude Code across an iterative, plan-then-implement workflow: each feature
 or refactor was scoped into its own branch, implemented, verified (lint/build/test/coverage), and
-merged via its own pull request before the next began. Claude Code was used to scaffold the FDD
-folder structure, generate the bulk of the component/service code and tests from discussed plans,
-extract/refactor existing code (constants, icons, the localStorage persistence layer), and iterate
-on lint/type/coverage feedback. All generated code was reviewed; architectural decisions (the
-repository/port pattern, no external backend, the two-OpenLayers-components split, the
-coverage-config split between `angular.json` and `vitest.config.ts`) were discussed and confirmed
-before implementation, and verified empirically where the outcome wasn't obvious upfront (e.g. the
-Vitest external-config coverage-attribution issue documented in `vitest.config.ts`).
+merged via its own pull request before the next began. The architecture, folder structure, and
+overall design were driven by me throughout - including function implementation and code
+organisation - with Claude Code offloading the repetitive and redundant parts of that work: scaffolding the
+FDD folder structure, generating the bulk of component/service code and tests from plans I laid
+out, extracting/refactoring existing code (constants, icons, the localStorage persistence layer),
+and iterating on lint/type/coverage feedback. All generated code was reviewed; architectural
+decisions (the repository/port pattern, no external backend, the two-OpenLayers-components split,
+the coverage-config split between `angular.json` and `vitest.config.ts`) were made by me and
+confirmed before implementation, and verified empirically where the outcome wasn't obvious upfront
+(e.g. the Vitest external-config coverage-attribution issue documented in `vitest.config.ts`).
