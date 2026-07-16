@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { TestBed } from "@angular/core/testing";
+import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { ActivatedRoute, provideRouter, Router } from "@angular/router";
 import { of, throwError } from "rxjs";
@@ -29,7 +29,9 @@ function createRepository(overrides: Partial<FacilityRepository> = {}): Facility
   };
 }
 
-function setup(options: { id?: string | null; repository?: FacilityRepository } = {}) {
+function setup(
+  options: { id?: string | null; repository?: FacilityRepository } = {}
+): ComponentFixture<FacilityDetail> {
   const id = options.id === undefined ? FACILITY.id : options.id;
   const repository = options.repository ?? createRepository();
 

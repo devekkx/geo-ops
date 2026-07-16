@@ -19,7 +19,7 @@ Open `http://localhost:4200`. Sign in with the pre-filled demo credentials - the
 already populated, just click **Sign in**.
 
 No backend, database, or external account is required. Facility data ships as a bundled JSON file
-(`public/data/facilities.json`, 15 facilities across Ghana and Rwanda), served through an
+(`public/data/facilities.json`, 15 facilities across different locations), served through an
 in-memory + `localStorage`-backed repository, and authentication is a mock service backed by
 `sessionStorage`. This is deliberate: requirements.adoc asks that the app run "without depending
 on private services."

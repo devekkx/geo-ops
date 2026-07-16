@@ -13,17 +13,20 @@ const STYLES: Record<FacilityStatus, { pill: string; dot: string }> = {
   selector: "geo-status-badge",
   imports: [SentenceCasePipe],
   template: `
-    <span
-      class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold"
-      [class]="styles().pill"
-    >
-      <span class="size-1.5 rounded-full" [class]="styles().dot" aria-hidden="true"></span>
+    <span [class]="pillClass()">
+      <span [class]="dotClass()" aria-hidden="true"></span>
       {{ status() | sentenceCase }}
     </span>
   `
 })
 export class StatusBadge {
-  readonly status = input.required<FacilityStatus>();
+  public readonly status = input.required<FacilityStatus>();
 
-  protected readonly styles = computed(() => STYLES[this.status()]);
+  protected readonly pillClass = computed(
+    () =>
+      `inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${STYLES[this.status()].pill}`
+  );
+  protected readonly dotClass = computed(
+    () => `size-1.5 rounded-full ${STYLES[this.status()].dot}`
+  );
 }

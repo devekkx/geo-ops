@@ -1,8 +1,8 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { ActivatedRoute, provideRouter, Router } from "@angular/router";
 import { of, Subject, throwError } from "rxjs";
-import type { MockInstance } from "vitest";
+import type { Mock, MockInstance } from "vitest";
 
 import type { Facility } from "@core/interfaces/facility";
 import { NotificationService } from "@core/services/notification";
@@ -24,7 +24,16 @@ const FACILITY: Facility = {
   description: "A data center."
 };
 
-function setup(options: { id?: string | null; repository?: Partial<FacilityRepository> }) {
+function setup(options: { id?: string | null; repository?: Partial<FacilityRepository> }): {
+  fixture: ComponentFixture<FacilityForm>;
+  navigateSpy: MockInstance<Router["navigate"]>;
+  getAll: FacilityRepository["getAll"];
+  getById: FacilityRepository["getById"];
+  create: FacilityRepository["create"];
+  update: FacilityRepository["update"];
+  notifySuccess: Mock;
+  notifyError: Mock;
+} {
   const id = options.id === undefined ? null : options.id;
   const getAll: FacilityRepository["getAll"] =
     options.repository?.getAll ?? vi.fn().mockReturnValue(of([]));

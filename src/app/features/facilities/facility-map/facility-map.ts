@@ -47,65 +47,66 @@ import {
   ]
 })
 export class FacilityMap implements OnDestroy {
-  readonly facilities = input.required<Facility[]>();
-  readonly selectedId = input<string | null>(null);
-  readonly markerClick = output<string>();
+  public readonly facilities = input.required<Facility[]>();
+  public readonly selectedId = input<string | null>(null);
+  public readonly markerClick = output<string>();
   protected readonly ariaLabel = computed(() => {
     const facilities = this.facilities();
     return facilities.length === 1
       ? `Map showing the location of ${facilities[0].name}`
       : `Map showing the location of ${facilities.length} facilities`;
   });
-  private readonly mapHost = viewChild.required<ElementRef<HTMLDivElement>>("mapHost");
-  private readonly vectorSource = new VectorSource();
-  private map?: Map;
+  private readonly _mapHost = viewChild.required<ElementRef<HTMLDivElement>>("mapHost");
+  private readonly _vectorSource = new VectorSource();
+  private _map?: Map;
 
   constructor() {
     effect(() => {
       this.facilities();
       this.selectedId();
-      this.renderMarkers();
+      this._renderMarkers();
     });
 
     afterNextRender(() => {
-      this.initializeMap(this.mapHost().nativeElement);
+      this._initializeMap(this._mapHost().nativeElement);
     });
   }
 
-  ngOnDestroy(): void {
-    this.map?.setTarget();
-    this.map = undefined;
+  /** Tears down the OpenLayers map instance. */
+  public ngOnDestroy(): void {
+    this._map?.setTarget();
+    this._map = undefined;
   }
 
-  private initializeMap(target: HTMLDivElement): void {
-    if (this.map) {
+  private _initializeMap(target: HTMLDivElement): void {
+    if (this._map) {
       return;
     }
-    this.map = new Map({
+    this._map = new Map({
       target,
       layers: [
         new TileLayer({ source: new OSM() }),
-        new VectorLayer({ source: this.vectorSource })
+        new VectorLayer({ source: this._vectorSource })
       ],
       view: new View({ center: fromLonLat([0, 0]), zoom: 2 }),
       controls: []
     });
-    this.map.on("click", (event) => {
-      const feature = this.map?.forEachFeatureAtPixel(event.pixel, (found) => found);
+    this._map.on("click", (event) => {
+      const feature = this._map?.forEachFeatureAtPixel(event.pixel, (found) => found);
       const facilityId = feature?.get("facilityId") as string | undefined;
       if (facilityId) {
         this.markerClick.emit(facilityId);
       }
     });
-    this.renderMarkers();
+    this._renderMarkers();
   }
 
-  private renderMarkers(): void {
-    if (!this.map) {
+  private _renderMarkers(): void {
+    if (!this._map) {
       return;
     }
     const facilities = this.facilities();
-    this.vectorSource.clear();
+    this._vectorSource.clear();
 
     for (const facility of facilities) {
       const feature = new Feature({
@@ -123,17 +124,17 @@ export class FacilityMap implements OnDestroy {
           })
         })
       );
-      this.vectorSource.addFeature(feature);
+      this._vectorSource.addFeature(feature);
     }
 
-    this.fitView(facilities);
+    this._fitView(facilities);
   }
 
-  private fitView(facilities: Facility[]): void {
-    if (!this.map || facilities.length === 0) {
+  private _fitView(facilities: Facility[]): void {
+    if (!this._map || facilities.length === 0) {
       return;
     }
-    const view = this.map.getView();
+    const view = this._map.getView();
     const selected = facilities.find((facility) => facility.id === this.selectedId());
 
     if (facilities.length === 1 || selected) {

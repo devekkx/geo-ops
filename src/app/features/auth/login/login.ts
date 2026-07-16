@@ -36,8 +36,8 @@ export class Login {
   });
   protected readonly submitting = signal(false);
   protected readonly errorMessage = signal("");
-  private readonly auth = inject(AUTH_PORT);
-  private readonly router = inject(Router);
+  private readonly _auth = inject(AUTH_PORT);
+  private readonly _router = inject(Router);
 
   protected onSubmit(): void {
     if (this.submitting()) {
@@ -52,10 +52,10 @@ export class Login {
     this.errorMessage.set("");
     const { email, password } = this.form.getRawValue();
 
-    this.auth.login(email, password).subscribe({
+    this._auth.login(email, password).subscribe({
       next: () => {
         this.submitting.set(false);
-        void this.router.navigate(["/facilities"]);
+        void this._router.navigate(["/facilities"]);
       },
       error: (error: unknown) => {
         this.submitting.set(false);

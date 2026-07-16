@@ -52,6 +52,15 @@ export default defineConfig(
           leadingUnderscore: "require"
         }
       ],
+      "@typescript-eslint/explicit-member-accessibility": [
+        "error",
+        {
+          accessibility: "explicit",
+          overrides: {
+            constructors: "no-public"
+          }
+        }
+      ],
 
       // --- Angular Best Practices & Optimization ---
       "@angular-eslint/component-selector": [

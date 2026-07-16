@@ -12,10 +12,15 @@ function readStoredUser(): AuthUser | null {
 
 @Injectable()
 export class MockAuthService implements AuthPort {
-  readonly currentUser = signal<AuthUser | null>(readStoredUser());
-  readonly isAuthenticated = computed(() => this.currentUser() !== null);
+  public readonly currentUser = signal<AuthUser | null>(readStoredUser());
+  public readonly isAuthenticated = computed(() => this.currentUser() !== null);
 
-  login(email: string, password: string): Observable<AuthUser> {
+  /**
+   * Signs in with the given credentials against the demo user.
+   *
+   * @throws Error via the returned observable if the credentials don't match the demo user.
+   */
+  public login(email: string, password: string): Observable<AuthUser> {
     if (email.trim().toLowerCase() !== DEMO_USER.email || password !== DEMO_PASSWORD) {
       return throwError(() => new Error("Invalid email or password.")).pipe(
         delay(LOGIN_LATENCY_MS)
@@ -31,7 +36,8 @@ export class MockAuthService implements AuthPort {
     );
   }
 
-  logout(): void {
+  /** Signs out the current user and clears the persisted session. */
+  public logout(): void {
     sessionStorage.removeItem(SESSION_KEY);
     this.currentUser.set(null);
   }

@@ -16,40 +16,48 @@ const WRITE_LATENCY_MS = 700;
 
 @Injectable()
 export class LocalFacilityRepository implements FacilityRepository {
-  private readonly http = inject(HttpClient);
-  private readonly clock = inject(Clock);
-  private readonly storage = inject(LocalStorageService);
-  private readonly store = new BehaviorSubject<Facility[] | null>(null);
-  private load$?: Observable<Facility[]>;
+  private readonly _http = inject(HttpClient);
+  private readonly _clock = inject(Clock);
+  private readonly _storage = inject(LocalStorageService);
+  private readonly _store = new BehaviorSubject<Facility[] | null>(null);
+  private _load$?: Observable<Facility[]>;
 
-  getAll(): Observable<Facility[]> {
-    return this.ensureLoaded().pipe(delay(READ_LATENCY_MS));
+  /** Retrieves every facility, loading and caching them on first call. */
+  public getAll(): Observable<Facility[]> {
+    return this._ensureLoaded().pipe(delay(READ_LATENCY_MS));
   }
 
-  getById(id: string): Observable<Facility | undefined> {
-    return this.ensureLoaded().pipe(
+  /** Retrieves a single facility by its `id`, or `undefined` if none matches. */
+  public getById(id: string): Observable<Facility | undefined> {
+    return this._ensureLoaded().pipe(
       delay(READ_LATENCY_MS),
       map((facilities) => facilities.find((facility) => facility.id === id))
     );
   }
 
-  create(draft: FacilityDraft): Observable<Facility> {
-    return this.ensureLoaded().pipe(
+  /** Creates a new facility from `draft`, assigning it an id and persisting the change. */
+  public create(draft: FacilityDraft): Observable<Facility> {
+    return this._ensureLoaded().pipe(
       delay(WRITE_LATENCY_MS),
       map((facilities) => {
         const facility: Facility = {
           ...draft,
-          id: this.nextId(facilities),
-          updatedAt: this.clock.now().toISOString().slice(0, 10)
+          id: this._nextId(facilities),
+          updatedAt: this._clock.now().toISOString().slice(0, 10)
         };
-        this.persist([facility, ...facilities]);
+        this._persist([facility, ...facilities]);
         return facility;
       })
     );
   }
 
-  update(id: string, draft: FacilityDraft): Observable<Facility> {
-    return this.ensureLoaded().pipe(
+  /**
+   * Updates the facility with the given `id` from `draft` and persists the change.
+   *
+   * @throws Error via the returned observable if no facility with `id` exists.
+   */
+  public update(id: string, draft: FacilityDraft): Observable<Facility> {
+    return this._ensureLoaded().pipe(
       delay(WRITE_LATENCY_MS),
       map((facilities) => {
         const exists = facilities.some((facility) => facility.id === id);
@@ -59,38 +67,38 @@ export class LocalFacilityRepository implements FacilityRepository {
         const updated: Facility = {
           ...draft,
           id,
-          updatedAt: this.clock.now().toISOString().slice(0, 10)
+          updatedAt: this._clock.now().toISOString().slice(0, 10)
         };
-        this.persist(facilities.map((facility) => (facility.id === id ? updated : facility)));
+        this._persist(facilities.map((facility) => (facility.id === id ? updated : facility)));
         return updated;
       })
     );
   }
 
-  private ensureLoaded(): Observable<Facility[]> {
-    const current = this.store.value;
+  private _ensureLoaded(): Observable<Facility[]> {
+    const current = this._store.value;
     if (current) {
       return of(current);
     }
-    const cached = this.storage.getItem<Facility[]>(STORAGE_KEY);
+    const cached = this._storage.getItem<Facility[]>(STORAGE_KEY);
     if (cached) {
-      this.store.next(cached);
+      this._store.next(cached);
       return of(cached);
     }
-    this.load$ ??= this.http.get<FacilityDto[]>(DATA_URL).pipe(
+    this._load$ ??= this._http.get<FacilityDto[]>(DATA_URL).pipe(
       map((dtos) => dtos.map(toFacility)),
-      tap((facilities) => this.persist(facilities)),
+      tap((facilities) => this._persist(facilities)),
       shareReplay(1)
     );
-    return this.load$;
+    return this._load$;
   }
 
-  private persist(facilities: Facility[]): void {
-    this.store.next(facilities);
-    this.storage.setItem(STORAGE_KEY, facilities);
+  private _persist(facilities: Facility[]): void {
+    this._store.next(facilities);
+    this._storage.setItem(STORAGE_KEY, facilities);
   }
 
-  private nextId(facilities: Facility[]): string {
+  private _nextId(facilities: Facility[]): string {
     const maxSequence = facilities.reduce((max, facility) => {
       const sequence = Number.parseInt(facility.id.replace(/\D/g, ""), 10);
       return Number.isNaN(sequence) ? max : Math.max(max, sequence);

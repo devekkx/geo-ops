@@ -11,6 +11,7 @@ function toFacilityStatus(value: string): FacilityStatus {
   return match;
 }
 
+/** Maps a raw {@link FacilityDto} from the data source into the {@link Facility} domain model. */
 export function toFacility(dto: FacilityDto): Facility {
   return {
     id: dto.id,
@@ -27,6 +28,7 @@ export function toFacility(dto: FacilityDto): Facility {
   };
 }
 
+/** Maps a {@link Facility} back into the raw {@link FacilityDto} wire shape for persistence. */
 export function toFacilityDto(facility: Facility): FacilityDto {
   return {
     id: facility.id,

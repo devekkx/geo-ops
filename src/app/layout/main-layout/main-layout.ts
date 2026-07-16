@@ -21,29 +21,29 @@ import { NAV_ITEMS } from "./main-layout.constants";
   templateUrl: "./main-layout.html"
 })
 export class MainLayout {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly auth = inject(AUTH_PORT);
+  private readonly _router = inject(Router);
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _auth = inject(AUTH_PORT);
 
   protected readonly navItems = NAV_ITEMS;
-  protected readonly user = this.auth.currentUser;
+  protected readonly user = this._auth.currentUser;
   protected readonly navOpen = signal(false);
 
-  private readonly navigationEnd = toSignal(
-    this.router.events.pipe(
+  private readonly _navigationEnd = toSignal(
+    this._router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ),
     { initialValue: null }
   );
 
   protected readonly pageTitle = computed(() => {
-    this.navigationEnd();
-    return (this.deepestRouteData()["pageTitle"] as string | undefined) ?? "Facility Manager";
+    this._navigationEnd();
+    return (this._deepestRouteData()["pageTitle"] as string | undefined) ?? "Facility Manager";
   });
 
   protected readonly pageSubtitle = computed(() => {
-    this.navigationEnd();
-    return (this.deepestRouteData()["pageSubtitle"] as string | undefined) ?? "";
+    this._navigationEnd();
+    return (this._deepestRouteData()["pageSubtitle"] as string | undefined) ?? "";
   });
 
   protected readonly initials = computed(() => {
@@ -57,7 +57,7 @@ export class MainLayout {
   });
 
   protected onNewFacility(): void {
-    void this.router.navigate(["/facilities/new"]);
+    void this._router.navigate(["/facilities/new"]);
   }
 
   protected toggleNav(): void {
@@ -69,12 +69,12 @@ export class MainLayout {
   }
 
   protected onLogout(): void {
-    this.auth.logout();
-    void this.router.navigate(["/login"]);
+    this._auth.logout();
+    void this._router.navigate(["/login"]);
   }
 
-  private deepestRouteData(): Record<string, unknown> {
-    let current = this.route.firstChild;
+  private _deepestRouteData(): Record<string, unknown> {
+    let current = this._route.firstChild;
     while (current?.firstChild) {
       current = current.firstChild;
     }

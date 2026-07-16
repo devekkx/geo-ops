@@ -21,11 +21,11 @@ export class FacilitiesMapOverview {
   protected readonly selectedId = signal<string | null>(null);
   protected readonly errorMessage = signal("");
   protected readonly count = computed(() => this.facilities().length);
-  private readonly repository = inject(FACILITY_REPOSITORY);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly _repository = inject(FACILITY_REPOSITORY);
+  private readonly _destroyRef = inject(DestroyRef);
 
   constructor() {
-    this.loadFacilities();
+    this._loadFacilities();
   }
 
   protected onSelect(id: string): void {
@@ -33,14 +33,14 @@ export class FacilitiesMapOverview {
   }
 
   protected onRetry(): void {
-    this.loadFacilities();
+    this._loadFacilities();
   }
 
-  private loadFacilities(): void {
+  private _loadFacilities(): void {
     this.state.set("loading");
-    this.repository
+    this._repository
       .getAll()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (facilities) => {
           this.facilities.set(facilities);

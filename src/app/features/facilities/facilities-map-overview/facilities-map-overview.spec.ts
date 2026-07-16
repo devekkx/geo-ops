@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
 import { Subject, of, throwError } from "rxjs";
@@ -39,7 +39,9 @@ function createRepository(overrides: Partial<FacilityRepository> = {}): Facility
   };
 }
 
-function setup(repository: FacilityRepository = createRepository()) {
+function setup(
+  repository: FacilityRepository = createRepository()
+): ComponentFixture<FacilitiesMapOverview> {
   TestBed.configureTestingModule({
     providers: [provideRouter([]), { provide: FACILITY_REPOSITORY, useValue: repository }]
   });
