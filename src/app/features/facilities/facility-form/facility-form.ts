@@ -10,7 +10,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/interfaces/facility.interface";
+import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/constants/facility.constants";
 import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility.interface";
 import { NotificationService } from "@core/services/notification.service";
 import { rangeValidator } from "@core/validators/range.validator";

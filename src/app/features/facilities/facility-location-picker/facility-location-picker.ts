@@ -23,6 +23,8 @@ import View from "ol/View";
 
 import type { Coordinate } from "ol/coordinate";
 
+import { MARKER_ICON_ANCHOR, MARKER_ICON_SRC } from "@shared/constants/map-marker.constants";
+
 export interface FacilityCoordinates {
   latitude: number;
   longitude: number;
@@ -32,15 +34,13 @@ const DEFAULT_CENTER: Coordinate = [-0.187, 5.6037];
 const DEFAULT_ZOOM = 7;
 const SELECTED_ZOOM = 13;
 const COORDINATE_EPSILON = 1e-6;
-const MARKER_SRC = "icons/marker.svg";
-const MARKER_ANCHOR: [number, number] = [0.5, 1];
 const MARKER_SCALE = 1.4;
 const MARKER_COLOR = "#ff5a00";
 
 const MARKER_STYLE = new Style({
   image: new Icon({
-    src: MARKER_SRC,
-    anchor: MARKER_ANCHOR,
+    src: MARKER_ICON_SRC,
+    anchor: MARKER_ICON_ANCHOR,
     color: MARKER_COLOR,
     scale: MARKER_SCALE
   })

@@ -1,18 +1,14 @@
 import { computed, Injectable, signal } from "@angular/core";
 import { delay, map, type Observable, of, throwError } from "rxjs";
 
+import {
+  DEMO_PASSWORD,
+  DEMO_USER,
+  LOGIN_LATENCY_MS,
+  SESSION_KEY
+} from "@core/constants/auth.constants";
 import type { AuthUser } from "@core/interfaces/auth.interface";
 import type { AuthPort } from "../tokens/auth.token";
-
-const SESSION_KEY = "geo-ops.auth-user";
-const LOGIN_LATENCY_MS = 600;
-
-const DEMO_USER: AuthUser = {
-  uid: "demo-emmanuel-kpendo",
-  email: "emmanuelkpendo1@gmail.com",
-  displayName: "Emmanuel Komla Kpendo"
-};
-const DEMO_PASSWORD = "demo1234";
 
 function readStoredUser(): AuthUser | null {
   const raw = sessionStorage.getItem(SESSION_KEY);
@@ -45,5 +41,3 @@ export class MockAuthService implements AuthPort {
     this.currentUser.set(null);
   }
 }
-
-export const DEMO_CREDENTIALS = { email: DEMO_USER.email, password: DEMO_PASSWORD };

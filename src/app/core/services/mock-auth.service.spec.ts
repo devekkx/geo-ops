@@ -1,7 +1,8 @@
 import { TestBed } from "@angular/core/testing";
 import { firstValueFrom } from "rxjs";
 
-import { DEMO_CREDENTIALS, MockAuthService } from "./mock-auth.service";
+import { DEMO_CREDENTIALS } from "@core/constants/auth.constants";
+import { MockAuthService } from "./mock-auth.service";
 
 describe("MockAuthService", () => {
   beforeEach(() => {
