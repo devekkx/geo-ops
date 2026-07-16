@@ -35,8 +35,7 @@ type FormState = "loading" | "ready" | "error";
     SentenceCasePipe,
     FacilityLocationPicker
   ],
-  templateUrl: "./facility-form.html",
-  styleUrl: "./facility-form.css"
+  templateUrl: "./facility-form.html"
 })
 export class FacilityForm {
   private readonly repository = inject(FACILITY_REPOSITORY);
@@ -74,6 +73,7 @@ export class FacilityForm {
     longitude: new FormControl<number | null>(null, {
       validators: [(control) => Validators.required(control), rangeValidator(-180, 180)]
     }),
+    region: new FormControl("", { nonNullable: true }),
     manager: new FormControl("", { nonNullable: true }),
     capacity: new FormControl("", { nonNullable: true }),
     description: new FormControl("", { nonNullable: true })
@@ -129,6 +129,7 @@ export class FacilityForm {
       status: raw.status as FacilityStatus,
       latitude: Number(raw.latitude),
       longitude: Number(raw.longitude),
+      region: raw.region.trim() || undefined,
       manager: raw.manager.trim() || undefined,
       capacity: raw.capacity.trim() || undefined,
       description: raw.description.trim() || undefined

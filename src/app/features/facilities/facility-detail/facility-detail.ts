@@ -15,8 +15,7 @@ type DetailState = "loading" | "loaded" | "error";
 @Component({
   selector: "geo-facility-detail",
   imports: [MatButtonModule, MatIconModule, StatusBadge, FacilityMap, DatePipe],
-  templateUrl: "./facility-detail.html",
-  styleUrl: "./facility-detail.css"
+  templateUrl: "./facility-detail.html"
 })
 export class FacilityDetail {
   private readonly repository = inject(FACILITY_REPOSITORY);
@@ -31,6 +30,44 @@ export class FacilityDetail {
   protected readonly mapFacilities = computed(() => {
     const facility = this.facility();
     return facility ? [facility] : [];
+  });
+
+  protected readonly facilityDetails = computed(() => {
+    return [
+      {
+        label: "Type",
+        value: this.facility()?.type ?? ""
+      },
+      {
+        label: "Status",
+        value: this.facility()?.status ?? ""
+      },
+      {
+        label: "Region",
+        value: this.facility()?.region ?? ""
+      },
+      {
+        label: "Manager",
+        value: this.facility()?.manager ?? ""
+      },
+      {
+        label: "Capacity",
+        value: this.facility()?.capacity ?? ""
+      },
+      {
+        label: "Latitude",
+        value: this.facility()?.latitude ?? ""
+      },
+      {
+        label: "Longitude",
+        value: this.facility()?.longitude ?? ""
+      },
+      {
+        label: "Last Updated",
+        value: this.facility()?.updatedAt ?? "",
+        isDate: true
+      }
+    ];
   });
 
   constructor() {

@@ -34,7 +34,7 @@ const DEFAULT_CENTER: Coordinate = [-0.187, 5.6037];
 const DEFAULT_ZOOM = 7;
 const SELECTED_ZOOM = 13;
 const COORDINATE_EPSILON = 1e-6;
-const MARKER_SCALE = 1.4;
+const MARKER_SCALE = 0.4;
 const MARKER_COLOR = "#ff5a00";
 
 const MARKER_STYLE = new Style({

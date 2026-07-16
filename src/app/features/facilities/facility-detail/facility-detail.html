@@ -15,11 +15,11 @@
       <div
         class="bg-brand-error-50 text-brand-error-500 mx-auto mb-4 flex size-14 items-center justify-center rounded-full"
       >
-        <mat-icon svgIcon="alert" class="!h-6.5 !w-6.5" aria-hidden="true" />
+        <mat-icon svgIcon="alert" class="h-6.5! w-6.5!" aria-hidden="true" />
       </div>
       <p class="text-brand-blue-900 m-0 text-lg font-semibold">Couldn't load this facility</p>
       <p class="text-brand-gray-500 mx-auto mt-1.5 max-w-100 text-sm">{{ errorMessage() }}</p>
-      <button mat-stroked-button type="button" class="!mt-5" (click)="onBack()">
+      <button mat-stroked-button type="button" class="mt-5!" (click)="onBack()">
         Back to facilities
       </button>
     </div>
@@ -27,12 +27,18 @@
   @case ("loaded") {
     @if (facility(); as facility) {
       <div class="mx-auto max-w-260">
-        <button mat-button type="button" class="!text-brand-gray-500 !-ml-2" (click)="onBack()">
-          <mat-icon svgIcon="arrow-left" class="!h-[17px] !w-[17px]" aria-hidden="true" />
+        <button
+          title="Back to facilities"
+          mat-button
+          type="button"
+          class="text-brand-gray-500! -ml-2!"
+          (click)="onBack()"
+        >
+          <mat-icon svgIcon="arrow-left" class="h-4.25! w-4.25!" aria-hidden="true" />
           Back to facilities
         </button>
 
-        <div class="mt-3.5 mb-5.5 flex flex-wrap items-start justify-between gap-4">
+        <section class="mt-3.5 mb-5.5 flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2
               class="text-brand-blue-900 font-display m-0 text-[28px] font-semibold tracking-tight"
@@ -49,70 +55,43 @@
           <button
             mat-flat-button
             type="button"
-            class="!bg-brand-blue-900 !text-white"
+            title="Edit facility"
+            class="bg-brand-blue-900! text-white!"
             (click)="onEdit()"
           >
-            <mat-icon svgIcon="pencil" class="!h-4 !w-4" aria-hidden="true" />
+            <mat-icon svgIcon="pencil" class="h-4! w-4!" aria-hidden="true" />
             Edit facility
           </button>
-        </div>
+        </section>
 
         <div
           class="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]"
         >
-          <div
+          <section
             class="border-brand-gray-200 rounded-xl border bg-white px-5.5 pt-2 pb-3.5 shadow-sm"
           >
             <div class="text-brand-blue-900 font-display pt-3.5 pb-1 text-[15px] font-semibold">
               Facility details
             </div>
-            <dl class="m-0">
-              <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
-                <dt class="text-brand-gray-500 text-[13px]">Type</dt>
-                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
-                  {{ facility.type }}
-                </dd>
-              </div>
-              <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
-                <dt class="text-brand-gray-500 text-[13px]">Manager</dt>
-                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
-                  {{ facility.manager || "—" }}
-                </dd>
-              </div>
-              <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
-                <dt class="text-brand-gray-500 text-[13px]">Capacity</dt>
-                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
-                  {{ facility.capacity || "—" }}
-                </dd>
-              </div>
-              <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
-                <dt class="text-brand-gray-500 text-[13px]">Region</dt>
-                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
-                  {{ facility.region || "—" }}
-                </dd>
-              </div>
-              <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
-                <dt class="text-brand-gray-500 text-[13px]">Last updated</dt>
-                <dd class="text-brand-blue-900 m-0 text-right text-sm font-medium">
-                  {{ facility.updatedAt | date: "d MMM y" }}
-                </dd>
-              </div>
-              <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
-                <dt class="text-brand-gray-500 text-[13px]">Latitude</dt>
-                <dd class="text-brand-blue-900 m-0 text-right font-mono text-sm font-medium">
-                  {{ facility.latitude }}
-                </dd>
-              </div>
-              <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
-                <dt class="text-brand-gray-500 text-[13px]">Longitude</dt>
-                <dd class="text-brand-blue-900 m-0 text-right font-mono text-sm font-medium">
-                  {{ facility.longitude }}
-                </dd>
-              </div>
-            </dl>
-          </div>
+            <div class="m-0">
+              @for (item of facilityDetails(); track item.label) {
+                <div class="border-brand-gray-100 flex justify-between gap-4 border-t py-3">
+                  <span class="text-brand-gray-500 text-[13px]">{{ item.label }}</span>
+                  <span class="text-brand-blue-900 m-0 text-right text-sm font-medium">
+                    @if (item.isDate) {
+                      {{ item.value | date: "d MMM y" }}
+                    } @else {
+                      {{ item.value || "—" }}
+                    }
+                  </span>
+                </div>
+              }
+            </div>
+          </section>
 
-          <div class="border-brand-gray-200 overflow-hidden rounded-xl border bg-white shadow-sm">
+          <section
+            class="border-brand-gray-200 overflow-hidden rounded-xl border bg-white shadow-sm"
+          >
             <div class="border-brand-gray-200 flex items-center justify-between border-b px-5 py-4">
               <div class="text-brand-blue-900 font-display text-[15px] font-semibold">Location</div>
               <div class="text-brand-gray-500 font-mono text-xs">
@@ -122,18 +101,20 @@
             <div class="h-98">
               <geo-facility-map [facilities]="mapFacilities()" />
             </div>
-          </div>
+          </section>
         </div>
 
         @if (facility.description) {
-          <div class="border-brand-gray-200 mt-5 rounded-xl border bg-white px-5.5 py-5 shadow-sm">
+          <section
+            class="border-brand-gray-200 mt-5 rounded-xl border bg-white px-5.5 py-5 shadow-sm"
+          >
             <div class="text-brand-blue-900 font-display mb-2 text-[15px] font-semibold">
               About this facility
             </div>
             <p class="text-brand-gray-700 m-0 max-w-160 text-sm leading-relaxed">
               {{ facility.description }}
             </p>
-          </div>
+          </section>
         }
       </div>
     }

@@ -13,8 +13,7 @@ type OverviewState = "loading" | "loaded" | "error";
 @Component({
   selector: "geo-facilities-map-overview",
   imports: [StatusBadge, FacilityMap, RouterLink],
-  templateUrl: "./facilities-map-overview.html",
-  styleUrl: "./facilities-map-overview.css"
+  templateUrl: "./facilities-map-overview.html"
 })
 export class FacilitiesMapOverview {
   protected readonly state = signal<OverviewState>("loading");
