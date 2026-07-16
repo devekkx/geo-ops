@@ -3,9 +3,9 @@ import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
 import { Subject, of, throwError } from "rxjs";
 
-import type { Facility } from "@core/interfaces/facility.interface";
-import type { FacilityRepository } from "@core/tokens/facility-repository.token";
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import type { Facility } from "@core/interfaces/facility";
+import type { FacilityRepository } from "@core/tokens/facility-repository";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { FacilityMap } from "@features/facilities/facility-map/facility-map";
 import { FacilitiesMapOverview } from "./facilities-map-overview";
 

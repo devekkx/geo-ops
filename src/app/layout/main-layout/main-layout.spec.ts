@@ -4,9 +4,9 @@ import { By } from "@angular/platform-browser";
 import { ActivatedRoute, NavigationEnd, provideRouter, Router } from "@angular/router";
 import { Subject } from "rxjs";
 
-import type { AuthUser } from "@core/interfaces/auth.interface";
-import type { AuthPort } from "@core/tokens/auth.token";
-import { AUTH_PORT } from "@core/tokens/auth.token";
+import type { AuthUser } from "@core/interfaces/auth";
+import type { AuthPort } from "@core/tokens/auth";
+import { AUTH_PORT } from "@core/tokens/auth";
 import { MainLayout } from "./main-layout";
 
 interface FakeRoute {

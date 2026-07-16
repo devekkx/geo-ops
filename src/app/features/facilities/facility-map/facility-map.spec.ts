@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 
-import type { Facility } from "@core/interfaces/facility.interface";
+import type { Facility } from "@core/interfaces/facility";
 import { FacilityMap } from "./facility-map";
 
 const FACILITY_A: Facility = {

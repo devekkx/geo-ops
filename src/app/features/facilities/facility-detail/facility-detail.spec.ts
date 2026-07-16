@@ -4,9 +4,9 @@ import { By } from "@angular/platform-browser";
 import { ActivatedRoute, provideRouter, Router } from "@angular/router";
 import { of, throwError } from "rxjs";
 
-import type { Facility } from "@core/interfaces/facility.interface";
-import type { FacilityRepository } from "@core/tokens/facility-repository.token";
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import type { Facility } from "@core/interfaces/facility";
+import type { FacilityRepository } from "@core/tokens/facility-repository";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { FacilityDetail } from "./facility-detail";
 
 const FACILITY: Facility = {

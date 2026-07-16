@@ -1,13 +1,13 @@
 import { TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { ActivatedRoute, provideRouter, Router } from "@angular/router";
-import { Subject, of, throwError } from "rxjs";
+import { of, Subject, throwError } from "rxjs";
 import type { MockInstance } from "vitest";
 
-import type { Facility } from "@core/interfaces/facility.interface";
-import { NotificationService } from "@core/services/notification.service";
-import type { FacilityRepository } from "@core/tokens/facility-repository.token";
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import type { Facility } from "@core/interfaces/facility";
+import { NotificationService } from "@core/services/notification";
+import type { FacilityRepository } from "@core/tokens/facility-repository";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { FacilityLocationPicker } from "@features/facilities/facility-location-picker/facility-location-picker";
 import { FacilityForm } from "./facility-form";
 

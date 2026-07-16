@@ -4,9 +4,9 @@ import { ActivatedRoute, provideRouter, Router } from "@angular/router";
 import { of, throwError } from "rxjs";
 import type { MockInstance } from "vitest";
 
-import type { Facility } from "@core/interfaces/facility.interface";
-import type { FacilityRepository } from "@core/tokens/facility-repository.token";
-import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
+import type { Facility } from "@core/interfaces/facility";
+import type { FacilityRepository } from "@core/tokens/facility-repository";
+import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository";
 import { FacilityList } from "./facility-list";
 
 const FACILITY_A: Facility = {
@@ -122,7 +122,7 @@ describe("FacilityList", () => {
     const { fixture } = setup();
 
     const rows = rowTexts(fixture);
-    expect(rows.length).toBe(3);
+    expect(rows).toHaveLength(3);
     expect(bodyText(fixture)).toContain("1-3 of 3 facilities");
   });
 
@@ -137,7 +137,7 @@ describe("FacilityList", () => {
     fixture.detectChanges();
 
     const rows = rowTexts(fixture);
-    expect(rows.length).toBe(1);
+    expect(rows).toHaveLength(1);
     expect(rows[0]).toContain(FACILITY_B.name);
   });
 
@@ -150,7 +150,7 @@ describe("FacilityList", () => {
     fixture.detectChanges();
 
     const rows = rowTexts(fixture);
-    expect(rows.length).toBe(1);
+    expect(rows).toHaveLength(1);
     expect(rows[0]).toContain(FACILITY_B.name);
   });
 
@@ -183,7 +183,7 @@ describe("FacilityList", () => {
     vi.advanceTimersByTime(300);
     fixture.detectChanges();
 
-    expect(rowTexts(fixture).length).toBe(3);
+    expect(rowTexts(fixture)).toHaveLength(3);
     expect(input.value).toBe("");
   });
 
@@ -199,7 +199,7 @@ describe("FacilityList", () => {
     findButtonByText(fixture, "Retry").click();
     fixture.detectChanges();
 
-    expect(rowTexts(fixture).length).toBe(3);
+    expect(rowTexts(fixture)).toHaveLength(3);
     expect(getAll).toHaveBeenCalledTimes(2);
   });
 
@@ -223,7 +223,7 @@ describe("FacilityList", () => {
     expect(inputElement(fixture).value).toBe("kumasi");
 
     const rows = rowTexts(fixture);
-    expect(rows.length).toBe(1);
+    expect(rows).toHaveLength(1);
     expect(rows[0]).toContain(FACILITY_B.name);
   });
 
@@ -235,7 +235,7 @@ describe("FacilityList", () => {
       .triggerEventHandler("page", { pageIndex: 0, pageSize: 1, length: 3 });
     fixture.detectChanges();
 
-    expect(rowTexts(fixture).length).toBe(1);
+    expect(rowTexts(fixture)).toHaveLength(1);
     expect(bodyText(fixture)).toContain("1-1 of 3 facilities");
   });
 
@@ -247,7 +247,7 @@ describe("FacilityList", () => {
       .triggerEventHandler("page", { pageIndex: 1, pageSize: 1, length: 3 });
     fixture.detectChanges();
 
-    expect(rowTexts(fixture).length).toBe(1);
+    expect(rowTexts(fixture)).toHaveLength(1);
     expect(bodyText(fixture)).toContain("2-2 of 3 facilities");
   });
 
