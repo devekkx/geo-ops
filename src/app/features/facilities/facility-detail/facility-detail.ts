@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
 import type { Facility } from "@core/interfaces/facility.interface";
-import { StatusBadge } from "@shared/status-badge/status-badge";
+import { StatusBadge } from "@shared/components/status-badge/status-badge";
 import { FacilityMap } from "@features/facilities/facility-map/facility-map";
 
 type DetailState = "loading" | "loaded" | "error";
