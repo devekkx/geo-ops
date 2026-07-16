@@ -1,6 +1,7 @@
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Component, computed, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -16,26 +17,17 @@ import { AUTH_PORT } from "@core/tokens/auth.token";
 interface NavItem {
   label: string;
   path: string;
-  iconPath: string;
+  icon: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  {
-    label: "Facilities",
-    path: "/facilities",
-    iconPath: "M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"
-  },
-  {
-    label: "Map overview",
-    path: "/facilities/map",
-    iconPath:
-      "M9 20 3.6 17.9A1 1 0 0 1 3 17V5.5a1 1 0 0 1 1.4-.9L9 6.5m0 13.5 6-2.5m-6 2.5V6.5m6 11 4.6 1.9a1 1 0 0 0 1.4-.9V7a1 1 0 0 0-.6-.9L15 4m0 13V4m0 0-6 2.5"
-  }
+  { label: "Facilities", path: "/facilities", icon: "nav-facilities" },
+  { label: "Map overview", path: "/facilities/map", icon: "nav-map" }
 ];
 
 @Component({
   selector: "geo-main-layout",
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatButtonModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatButtonModule, MatIconModule],
   templateUrl: "./main-layout.html",
   styleUrl: "./main-layout.css"
 })

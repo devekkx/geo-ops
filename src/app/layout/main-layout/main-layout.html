@@ -28,19 +28,7 @@
         mat-icon-button
         type="button"
       >
-        <svg
-          fill="none"
-          height="17"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.75"
-          viewBox="0 0 24 24"
-          width="17"
-        >
-          <path d="M18 6 6 18" />
-          <path d="m6 6 12 12" />
-        </svg>
+        <mat-icon svgIcon="close" class="!h-[17px] !w-[17px]" aria-hidden="true" />
       </button>
     </div>
 
@@ -56,19 +44,7 @@
           routerLinkActive="bg-white/10 text-white"
           (click)="closeNav()"
         >
-          <svg
-            aria-hidden="true"
-            fill="none"
-            height="19"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.75"
-            viewBox="0 0 24 24"
-            width="19"
-          >
-            <path [attr.d]="item.iconPath" />
-          </svg>
+          <mat-icon [svgIcon]="item.icon" class="!h-[19px] !w-[19px]" aria-hidden="true" />
           <span>{{ item.label }}</span>
         </a>
       }
@@ -91,20 +67,7 @@
         mat-icon-button
         type="button"
       >
-        <svg
-          fill="none"
-          height="17"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.75"
-          viewBox="0 0 24 24"
-          width="17"
-        >
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          <path d="M16 17l5-5-5-5" />
-          <path d="M21 12H9" />
-        </svg>
+        <mat-icon svgIcon="logout" class="!h-[17px] !w-[17px]" aria-hidden="true" />
       </button>
     </div>
   </aside>
@@ -121,20 +84,7 @@
           mat-icon-button
           type="button"
         >
-          <svg
-            fill="none"
-            height="19"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.75"
-            viewBox="0 0 24 24"
-            width="19"
-          >
-            <path d="M4 6h16" />
-            <path d="M4 12h16" />
-            <path d="M4 18h16" />
-          </svg>
+          <mat-icon svgIcon="menu" class="!h-[19px] !w-[19px]" aria-hidden="true" />
         </button>
         <div class="min-w-0">
           <h1 class="text-brand-blue-900 font-display truncate text-lg font-semibold">
@@ -154,19 +104,7 @@
           mat-flat-button
           type="button"
         >
-          <svg
-            fill="none"
-            height="17"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="17"
-          >
-            <path d="M12 5v14" />
-            <path d="M5 12h14" />
-          </svg>
+          <mat-icon svgIcon="plus" class="!h-[17px] !w-[17px]" aria-hidden="true" />
           <span class="hidden sm:inline">New facility</span>
         </button>
         <span

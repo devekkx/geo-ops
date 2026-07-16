@@ -2,6 +2,7 @@ import { DatePipe, Location } from "@angular/common";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Component, computed, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
@@ -13,7 +14,7 @@ type DetailState = "loading" | "loaded" | "error";
 
 @Component({
   selector: "geo-facility-detail",
-  imports: [MatButtonModule, StatusBadge, FacilityMap, DatePipe],
+  imports: [MatButtonModule, MatIconModule, StatusBadge, FacilityMap, DatePipe],
   templateUrl: "./facility-detail.html",
   styleUrl: "./facility-detail.css"
 })

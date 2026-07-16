@@ -18,7 +18,7 @@ import Map from "ol/Map";
 import { fromLonLat, toLonLat } from "ol/proj";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
-import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import { Icon, Style } from "ol/style";
 import View from "ol/View";
 
 import type { Coordinate } from "ol/coordinate";
@@ -32,12 +32,17 @@ const DEFAULT_CENTER: Coordinate = [-0.187, 5.6037];
 const DEFAULT_ZOOM = 7;
 const SELECTED_ZOOM = 13;
 const COORDINATE_EPSILON = 1e-6;
+const MARKER_SRC = "icons/marker.svg";
+const MARKER_ANCHOR: [number, number] = [0.5, 1];
+const MARKER_SCALE = 1.4;
+const MARKER_COLOR = "#ff5a00";
 
 const MARKER_STYLE = new Style({
-  image: new CircleStyle({
-    radius: 9,
-    fill: new Fill({ color: "#ff5a00" }),
-    stroke: new Stroke({ color: "#ffffff", width: 2 })
+  image: new Icon({
+    src: MARKER_SRC,
+    anchor: MARKER_ANCHOR,
+    color: MARKER_COLOR,
+    scale: MARKER_SCALE
   })
 });
 

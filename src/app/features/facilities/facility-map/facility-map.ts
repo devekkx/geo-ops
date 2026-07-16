@@ -19,13 +19,17 @@ import VectorLayer from "ol/layer/Vector";
 import { fromLonLat } from "ol/proj";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
-import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import { Icon, Style } from "ol/style";
 
 import type { Facility, FacilityStatus } from "@core/interfaces/facility.interface";
 
 const SINGLE_MARKER_ZOOM = 13;
 const MAX_FIT_ZOOM = 15;
 const FIT_PADDING = [48, 48, 48, 48];
+const MARKER_SRC = "icons/marker.svg";
+const MARKER_ANCHOR: [number, number] = [0.5, 1];
+const MARKER_SCALE = 1.1;
+const SELECTED_MARKER_SCALE = 1.4;
 
 const STATUS_COLORS: Record<FacilityStatus, string> = {
   active: "#007d00",
@@ -115,10 +119,11 @@ export class FacilityMap implements OnDestroy {
       const isSelected = facility.id === this.selectedId();
       feature.setStyle(
         new Style({
-          image: new CircleStyle({
-            radius: isSelected ? 9 : 7,
-            fill: new Fill({ color: STATUS_COLORS[facility.status] }),
-            stroke: new Stroke({ color: "#ffffff", width: 2 })
+          image: new Icon({
+            src: MARKER_SRC,
+            anchor: MARKER_ANCHOR,
+            color: STATUS_COLORS[facility.status],
+            scale: isSelected ? SELECTED_MARKER_SCALE : MARKER_SCALE
           })
         })
       );
