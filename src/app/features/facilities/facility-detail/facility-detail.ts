@@ -1,14 +1,14 @@
 import { DatePipe, Location } from "@angular/common";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Component, computed, inject, signal } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
 
+import type { Facility } from "@core/interfaces/facility";
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import type { Facility } from "@core/interfaces/facility.interface";
-import { StatusBadge } from "@shared/components/status-badge/status-badge";
 import { FacilityMap } from "@features/facilities/facility-map/facility-map";
+import { StatusBadge } from "@shared/components/status-badge/status-badge";
 
 type DetailState = "loading" | "loaded" | "error";
 

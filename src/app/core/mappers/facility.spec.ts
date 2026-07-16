@@ -1,6 +1,6 @@
-import type { FacilityDto } from "@core/dtos/facility.dto";
-import { toFacility, toFacilityDto } from "./facility.mapper";
-import type { Facility } from "@core/interfaces/facility.interface";
+import type { FacilityDto } from "@core/dtos/facility";
+import type { Facility } from "@core/interfaces/facility";
+import { toFacility, toFacilityDto } from "./facility";
 
 describe("facility mapper", () => {
   const dto: FacilityDto = {

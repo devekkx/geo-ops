@@ -3,10 +3,10 @@ import { HttpTestingController, provideHttpClientTesting } from "@angular/common
 import { TestBed } from "@angular/core/testing";
 import { firstValueFrom } from "rxjs";
 
-import type { FacilityDto } from "@core/dtos/facility.dto";
-import type { FacilityDraft } from "@core/interfaces/facility.interface";
-import { Clock } from "@core/services/clock.service";
-import { LocalFacilityRepository } from "./local-facility-repository.service";
+import type { FacilityDto } from "@core/dtos/facility";
+import type { FacilityDraft } from "@core/interfaces/facility";
+import { Clock } from "@core/services/clock";
+import { LocalFacilityRepository } from "./local-facility-repository";
 
 const FIXED_DATE = new Date("2026-01-15T00:00:00.000Z");
 

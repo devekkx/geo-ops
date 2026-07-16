@@ -1,4 +1,4 @@
-import type { AuthUser } from "@core/interfaces/auth.interface";
+import type { AuthUser } from "@core/interfaces/auth";
 
 export const SESSION_KEY = "geo-ops.auth-user";
 export const LOGIN_LATENCY_MS = 600;

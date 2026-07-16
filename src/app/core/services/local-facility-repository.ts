@@ -2,11 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { BehaviorSubject, type Observable, delay, map, of, shareReplay, tap } from "rxjs";
 
-import type { FacilityDto } from "@core/dtos/facility.dto";
-import { toFacility } from "@core/mappers/facility.mapper";
-import type { Facility, FacilityDraft } from "@core/interfaces/facility.interface";
-import { Clock } from "@core/services/clock.service";
-import { LocalStorageService } from "@core/services/local-storage.service";
+import type { FacilityDto } from "@core/dtos/facility";
+import type { Facility, FacilityDraft } from "@core/interfaces/facility";
+import { toFacility } from "@core/mappers/facility";
+import { Clock } from "@core/services/clock";
+import { LocalStorageService } from "@core/services/local-storage";
 import type { FacilityRepository } from "../tokens/facility-repository.token";
 
 const DATA_URL = "data/facilities.json";

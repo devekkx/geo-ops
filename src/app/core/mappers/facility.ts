@@ -1,5 +1,5 @@
-import type { FacilityDto } from "@core/dtos/facility.dto";
-import type { Facility, FacilityStatus } from "@core/interfaces/facility.interface";
+import type { FacilityDto } from "@core/dtos/facility";
+import type { Facility, FacilityStatus } from "@core/interfaces/facility";
 
 const VALID_STATUSES: readonly FacilityStatus[] = ["active", "inactive", "maintenance"];
 

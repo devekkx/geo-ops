@@ -1,4 +1,4 @@
-import type { FacilityStatus } from "@core/interfaces/facility.interface";
+import type { FacilityStatus } from "@core/interfaces/facility";
 
 export const FACILITY_STATUSES: FacilityStatus[] = ["active", "inactive", "maintenance"];
 

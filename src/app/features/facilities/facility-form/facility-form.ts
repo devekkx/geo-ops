@@ -1,5 +1,5 @@
-import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { Component, DestroyRef, computed, inject, signal } from "@angular/core";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -9,16 +9,16 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
 import { ActivatedRoute, Router } from "@angular/router";
 
+import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/constants/facility";
+import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility";
+import { NotificationService } from "@core/services/notification";
 import { FACILITY_REPOSITORY } from "@core/tokens/facility-repository.token";
-import { FACILITY_STATUSES, FACILITY_TYPES } from "@core/constants/facility.constants";
-import type { FacilityDraft, FacilityStatus } from "@core/interfaces/facility.interface";
-import { NotificationService } from "@core/services/notification.service";
 import { rangeValidator } from "@core/validators/range.validator";
-import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
 import {
   FacilityLocationPicker,
   type FacilityCoordinates
 } from "@features/facilities/facility-location-picker/facility-location-picker";
+import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
 
 type FormState = "loading" | "ready" | "error";
 

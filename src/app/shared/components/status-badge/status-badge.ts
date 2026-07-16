@@ -1,6 +1,6 @@
 import { Component, computed, input } from "@angular/core";
 
-import type { FacilityStatus } from "@core/interfaces/facility.interface";
+import type { FacilityStatus } from "@core/interfaces/facility";
 import { SentenceCasePipe } from "@shared/pipes/sentence-case.pipe";
 
 const STYLES: Record<FacilityStatus, { pill: string; dot: string }> = {

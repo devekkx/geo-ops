@@ -1,13 +1,8 @@
 import { computed, Injectable, signal } from "@angular/core";
 import { delay, map, type Observable, of, throwError } from "rxjs";
 
-import {
-  DEMO_PASSWORD,
-  DEMO_USER,
-  LOGIN_LATENCY_MS,
-  SESSION_KEY
-} from "@core/constants/auth.constants";
-import type { AuthUser } from "@core/interfaces/auth.interface";
+import { DEMO_PASSWORD, DEMO_USER, LOGIN_LATENCY_MS, SESSION_KEY } from "@core/constants/auth";
+import type { AuthUser } from "@core/interfaces/auth";
 import type { AuthPort } from "../tokens/auth.token";
 
 function readStoredUser(): AuthUser | null {

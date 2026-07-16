@@ -1,10 +1,10 @@
 import {
   afterNextRender,
   Component,
-  ElementRef,
-  OnDestroy,
   effect,
+  ElementRef,
   input,
+  OnDestroy,
   output,
   viewChild
 } from "@angular/core";
@@ -23,7 +23,7 @@ import View from "ol/View";
 
 import type { Coordinate } from "ol/coordinate";
 
-import { MARKER_ICON_ANCHOR, MARKER_ICON_SRC } from "@shared/constants/map-marker.constants";
+import { MARKER_ICON_ANCHOR, MARKER_ICON_SRC } from "@shared/constants/map";
 
 export interface FacilityCoordinates {
   latitude: number;

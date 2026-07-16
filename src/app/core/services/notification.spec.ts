@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-import { NotificationService } from "./notification.service";
+import { NotificationService } from "./notification";
 
 describe("NotificationService", () => {
   let snackBar: { open: ReturnType<typeof vi.fn> };

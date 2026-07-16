@@ -21,15 +21,17 @@ import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
 import { Icon, Style } from "ol/style";
 
-import { FACILITY_STATUS_COLORS } from "@core/constants/facility.constants";
-import type { Facility } from "@core/interfaces/facility.interface";
-import { MARKER_ICON_ANCHOR, MARKER_ICON_SRC } from "@shared/constants/map-marker.constants";
-
-const SINGLE_MARKER_ZOOM = 13;
-const MAX_FIT_ZOOM = 15;
-const FIT_PADDING = [48, 48, 48, 48];
-const MARKER_SCALE = 1.1;
-const SELECTED_MARKER_SCALE = 1.4;
+import { FACILITY_STATUS_COLORS } from "@core/constants/facility";
+import type { Facility } from "@core/interfaces/facility";
+import {
+  FIT_PADDING,
+  MARKER_ICON_ANCHOR,
+  MARKER_ICON_SRC,
+  MARKER_SCALE,
+  MAX_FIT_ZOOM,
+  SELECTED_MARKER_SCALE,
+  SINGLE_MARKER_ZOOM
+} from "@shared/constants/map";
 
 @Component({
   selector: "geo-facility-map",
