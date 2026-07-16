@@ -1,8 +1,9 @@
 # Facility Manager
 
-An Angular application for viewing and managing geolocated facilities — a list view, a detail
-view with an OpenLayers map, a create/edit form, and an all-facilities map overview. Built as a
-front-end technical test (see `project requirements.adoc`).
+An Angular application for viewing and managing geolocated facilities — a searchable/filterable
+list, a detail view with an OpenLayers map, a create/edit form with a click-to-place map picker,
+and an all-facilities map overview. Built as a front-end technical test (see
+`project requirements.adoc`).
 
 ## Quick start
 
@@ -14,30 +15,32 @@ bun install
 bun start
 ```
 
-Open `http://localhost:4200`. Sign in with the pre-filled demo credentials — the field values are
+Open `http://localhost:4200`. Sign in with the pre-filled demo credentials — the fields are
 already populated, just click **Sign in**.
 
 No backend, database, or external account is required. Facility data ships as a bundled JSON file
-(`public/data/facilities.json`, 15 facilities across Ghana and Rwanda) served by an in-memory
-repository, and authentication is a mock service backed by `sessionStorage`. This is deliberate:
-requirements.adoc asks that the app run "without depending on private services."
+(`public/data/facilities.json`, 15 facilities across Ghana and Rwanda), served through an
+in-memory + `localStorage`-backed repository, and authentication is a mock service backed by
+`sessionStorage`. This is deliberate: requirements.adoc asks that the app run "without depending
+on private services."
 
 ## Scripts
 
 ```bash
-bun start             # dev server at localhost:4200
-bun run build          # production build to dist/geo-ops
-bun run test            # unit tests (Vitest, via the Angular CLI unit-test builder)
-bun run test:coverage   # unit tests with an 80% coverage threshold
-bun run lint             # ESLint (TypeScript + Angular + template a11y + security rules)
+bun start               # dev server at localhost:4200
+bun run build            # production build to dist/geo-ops
+bun run test              # unit tests (Vitest, via the Angular CLI unit-test builder)
+bun run test:coverage     # unit tests with a 90% coverage threshold (see vitest.config.ts)
+bun run lint               # ESLint (TypeScript + Angular + template a11y + security rules)
 bun run lint:fix
-bun run format           # Prettier (writes)
-bun run format:check     # Prettier (check only)
+bun run format             # Prettier (writes)
+bun run format:check       # Prettier (check only)
 ```
 
 ## Demoing the loading / error / empty states
 
-- **Loading**: happens naturally on first load (mock latency is ~500ms).
+- **Loading**: happens naturally on first load (mock latency is ~500ms) and shows a skeleton
+  table/row placeholder.
 - **Error**: visit `/facilities?simulateError=1` — the list deterministically shows the error +
   retry state without needing a real network failure.
 - **Empty**: search for something that doesn't match any facility name (e.g. "zzz"), or filter by
@@ -45,28 +48,49 @@ bun run format:check     # Prettier (check only)
 
 ## Architecture
 
-Feature-driven structure — each screen owns its folder; shared/reusable pieces live under
-`core/` and `shared/`.
+Feature-driven, type-grouped structure: `core/` and `shared/` are organized by _what kind of thing_
+each file is (a service, a guard, a constant, a pipe...), and `features/`/`layout/` are organized
+by _what screen_ they belong to.
 
 ```
 src/app/
   core/
-    models/        Facility & FacilityDto (+ mapper), AuthUser
-    facilities/     FacilityRepository port + LocalFacilityRepository (HttpClient + in-memory store)
-    auth/            AuthPort port + MockAuthService, functional route guards
-    notifications/   NotificationService (MatSnackBar wrapper)
-    validators/      shared Reactive Forms validators (e.g. lat/lng range)
-    utils/           Clock (injectable wrapper around `new Date()`, for testability)
-  layout/shell/       app chrome: sidebar nav + header, reads page title from route data
+    constants/      static reference data: facility status/type options + colors, demo
+                     credentials — anything that's app-wide "static data", not view-specific
+    dtos/            FacilityDto — the raw wire shape (lat/lng/updated), separate from the
+                     domain model
+    guards/          authGuard / guestGuard (functional route guards)
+    interfaces/      Facility, FacilityStatus, FacilityDraft, AuthUser — types only
+    mappers/         facility.mapper.ts — FacilityDto -> Facility (+ the reverse for writes)
+    services/        LocalFacilityRepository, MockAuthService, NotificationService,
+                     LocalStorageService, Clock, the MatIconRegistry registration provider
+    tokens/          AUTH_PORT / FACILITY_REPOSITORY — InjectionTokens for the port interfaces
+    validators/       shared Reactive Forms validators (lat/lng range)
+  layout/
+    main-layout/      app chrome: collapsible sidebar nav (drawer below the lg breakpoint) +
+                     header, reads the page title/subtitle from route data
   features/
     auth/login/
     facilities/
-      facility-list/              search, status filter, pagination, loading/error/empty states
-      facility-detail/             info card + map, preserves list filters on "back"
-      facility-form/               shared create/edit Reactive Form
-      facility-map/                shared OpenLayers wrapper (single or multi-marker)
-      facilities-map-overview/     all facilities on one map + a picker list
-  shared/status-badge/            Active/Inactive/Maintenance pill, reused across screens
+      facility-list/               search, status filter, pagination (with a page-size
+                                   dropdown), loading/error/empty states
+      facility-detail/              info card + map, preserves list filters on "back"
+      facility-form/                shared create/edit Reactive Form
+      facility-map/                 read-only OpenLayers wrapper (single or multi-marker,
+                                   status-colored pins)
+      facility-location-picker/     editable OpenLayers wrapper for the form — click, drag,
+                                   or type coordinates, all kept in sync
+      facilities-map-overview/      all facilities on one map + a picker list
+  shared/
+    components/status-badge/      Active/Inactive/Maintenance pill, reused across screens
+    constants/                    data shared across 2+ features (the generic load-error
+                                   copy, the marker icon src/anchor)
+    pipes/                        SentenceCasePipe (statuses are stored lowercase; this pipe
+                                   is the only thing that capitalizes them for display)
+
+public/
+  data/facilities.json            the bundled mock dataset
+  icons/                          every icon in the app as a standalone SVG (see "Icons" below)
 ```
 
 All routes are lazy-loaded (`loadComponent`) under `app.routes.ts`.
@@ -87,7 +111,7 @@ interface Facility {
   id: string;
   name: string;
   type: string;
-  status: "Active" | "Inactive" | "Maintenance";
+  status: "active" | "inactive" | "maintenance";
   updatedAt: string;
   latitude: number;
   longitude: number;
@@ -100,27 +124,63 @@ interface Facility {
 
 The bundled JSON is a `FacilityDto` (raw shape: `lat`/`lng`/`updated`) mapped to the `Facility`
 domain model in `facility.mapper.ts` — a deliberately small illustration of separating wire format
-from the view/domain model.
+from the view/domain model. Status is stored lowercase as plain data; `SentenceCasePipe` is the
+only place that turns it into `Active`/`Inactive`/`Maintenance` for display, so the data layer
+never has to think about presentation casing.
 
-### The map
+### Persistence
 
-`FacilityMap` (`features/facilities/facility-map`) is the one place that touches OpenLayers. It:
+`LocalFacilityRepository` seeds `localStorage` from the bundled JSON on the very first load, and
+every `create`/`update` writes the full facility list back to it. Reloading the page, or coming
+back later, keeps whatever you've added or changed — it isn't reset to the bundled dataset every
+session. Auth session persistence works the same way, via `sessionStorage`, in `MockAuthService`.
 
-- accepts one or many facilities and an optional `selectedId`;
-- fits the view to the bounding box of all markers, or centers/zooms on a single or selected one;
-- transforms `[longitude, latitude]` to the map's projection via `fromLonLat`;
-- defers map creation to `afterNextRender` (so the DOM target element exists first) and tears the
+### The map(s)
+
+Two small, single-purpose OpenLayers wrapper components, both under `features/facilities/`:
+
+- **`FacilityMap`** (read-only) — accepts one or many facilities and an optional `selectedId`;
+  fits the view to the bounding box of all markers, or centers/zooms on a single or selected one;
+  renders each facility as a teardrop pin (`public/icons/marker.svg`) tinted per status via
+  OpenLayers' `Icon` `color` option, so one asset covers all three statuses instead of three
+  separate files.
+- **`FacilityLocationPicker`** (editable) — used only in the create/edit form. Clicking the map or
+  dragging the marker (via `ol/interaction/Translate`) updates the form's latitude/longitude
+  fields; typing directly into those fields moves the marker and re-centers the map. Both
+  directions are kept in sync without a feedback loop (guarded by a last-emitted-coordinate check).
+
+Both:
+
+- transform `[longitude, latitude]` to the map's projection via `fromLonLat` (and back via
+  `toLonLat` for user-driven changes);
+- defer map creation to `afterNextRender` (so the DOM target element exists first) and tear the
   map down in `ngOnDestroy` via `map.setTarget(undefined)`, releasing its resources.
 
-It's reused, unmodified, by both the detail view (single marker) and the map overview (many
-markers, click-to-select).
+### Icons
+
+Every icon in the app (nav, buttons, empty/error states, the map markers) is a standalone SVG
+under `public/icons/`, registered once via `MatIconRegistry.addSvgIcon()` and rendered as
+`<mat-icon svgIcon="...">`. Because Material fetches and inlines the SVG into the DOM (rather than
+loading it as an opaque `<img>`), icons still pick up `currentColor` and respond to hover/active
+state color changes exactly as the old inline `<svg>` markup did — externalizing them didn't cost
+any theming flexibility. The registration logic itself (`registerIcons()`) is a plain, directly
+unit-tested function; only the thin `provideAppInitializer` wrapper around it depends on Angular's
+DI/bootstrap lifecycle.
 
 ### Filter persistence
 
-The list syncs `search` / `status` / `page` to the URL's query params (`replaceUrl: true`, so
-filtering doesn't spam browser history). The detail view's "Back to facilities" button calls
-`Location.back()` rather than a hardcoded `routerLink`, so it lands back on whatever
-filtered/paginated state was last on screen.
+The list syncs `search` / `status` / `page` / `pageSize` to the URL's query params
+(`replaceUrl: true`, so filtering doesn't spam browser history). The detail view's
+"Back to facilities" button calls `Location.back()` rather than a hardcoded `routerLink`, so it
+lands back on whatever filtered/paginated state was last on screen.
+
+### Responsive design
+
+The sidebar collapses into a slide-in drawer (toggled by a hamburger button) below the `lg`
+breakpoint, with a backdrop and close button. The facilities table scrolls horizontally on narrow
+viewports instead of squeezing its columns unreadably. The facility form's Cancel/Save buttons
+stack full-width on mobile. The map-overview's list/map split explicitly sizes both panes on
+mobile (a grid without defined row heights would otherwise collapse both to zero height there).
 
 ### Deviations from the general house style
 
@@ -130,22 +190,30 @@ filtered/paginated state was last on screen.
 
 ## Testing
 
-Unit tests cover the parts with actual logic worth verifying in isolation, rather than chasing a
-coverage number end to end:
+```bash
+bun run test:coverage
+```
 
-- `facility.mapper.spec.ts` — DTO ↔ domain mapping, and the unknown-status guard.
-- `local-facility-repository.spec.ts` — `getAll`/`getById`/`create`/`update` against
-  `HttpTestingController`, including the "update a non-existent id throws" path.
-- `mock-auth.service.spec.ts` — login success/failure and logout, including session persistence.
-- `range-validator.spec.ts` — the shared lat/lng range validator, boundary values included.
+103 tests across 19 spec files, enforcing a 90% minimum on statements/branches/functions/lines
+(configured in `vitest.config.ts`, wired up via `angular.json`'s `runnerConfig` option — see the
+comment in that file for why `angular.json` still keeps its own copy of the include/exclude globs
+alongside it). Covers:
 
-Not covered: component-level tests (list/detail/form rendering, route guards in situ) and E2E.
-With more time, I'd add:
+- every guard, service, pipe, and constants-adjacent provider (`authGuard`/`guestGuard`,
+  `LocalFacilityRepository` including the localStorage cache/dedup paths, `MockAuthService`,
+  `NotificationService`, `LocalStorageService`, `Clock`, `SentenceCasePipe`, the icon registry);
+- every routed component (`Login`, `MainLayout`, `FacilityList`, `FacilityDetail`, `FacilityForm`,
+  `FacilitiesMapOverview`) — loading/error/empty states, form validation and the
+  duplicate-submission guard, query-param restoration, pagination, filtering, and navigation;
+- `FacilityMap`'s input-driven computed state (its `ariaLabel`, lifecycle safety).
 
-- component tests for `FacilityList` (query-param sync, pagination, all three non-loaded states)
-  and `FacilityForm` (validation messages, duplicate-submit guard);
-- a Playwright E2E smoke test for the full create → view → edit flow;
-- an integration test for `authGuard`/`guestGuard` redirects.
+**Not covered**: the OpenLayers-internal logic inside `FacilityMap`/`FacilityLocationPicker`
+(marker rendering, click/drag handling, view fitting). Both components defer map creation to
+`afterNextRender`, which — by design — never fires during a synchronous `TestBed.detectChanges()`
+call (verified empirically; forcing it via `autoDetectChanges()` + `whenStable()` doesn't help
+either), so the real `ol/Map` never actually initializes under test. That logic is exercised
+manually/visually instead; seeing it work end-to-end would need a real browser (Playwright), not
+another unit-testing trick.
 
 ## Accessibility
 
@@ -165,28 +233,60 @@ docker run --rm -p 8080:80 geo-ops
 ```
 
 Multi-stage build: `bun run build` on `node:24-alpine` (bun installed on top — bun's own Docker
-image reports a Node compatibility version below the Angular CLI's minimum, so a real Node
-binary is used instead), then the static output is served by `nginx:alpine` with an SPA fallback
+image reports a Node compatibility version below the Angular CLI's minimum, so a real Node binary
+is used instead), then the static output is served by `nginx:alpine` with an SPA fallback
 (`nginx.conf`) so deep links like `/facilities/FC-0001` work on refresh.
 
-## CI
+## CI/CD
 
-`.github/workflows/ci.yml` runs format-check, lint, test, and build on every push/PR to `main`.
+`.github/workflows/ci.yml` runs format-check, lint, `test:coverage`, and build on every push/PR to
+`main`. On a successful push to `main` specifically, a second job deploys the build to Vercel
+(`vercel pull` → `vercel build` → `vercel deploy --prebuilt --prod`), using Vercel's own Angular
+framework preset to generate the SPA fallback routing rather than a hand-rolled `vercel.json`.
+
+## Requirements checklist
+
+Everything in requirements.adoc's mandatory list is implemented: Angular + TypeScript + Angular
+Material, Angular routing, Reactive Forms, a repository/port service layer, OpenLayers, ESLint,
+Prettier, typed models, list/detail/edit navigation, error handling, loading-state management, and
+this README.
+
+Of the optional list, implemented: lazy loading, signals, a mock auth guard, filter persistence
+via query params, responsive design, accessibility basics, unit tests, a Dockerfile, a CI pipeline
+(GitHub Actions rather than GitLab CI, since the repository is hosted on GitHub), skeleton loading
+states, success/error notifications, and DTO/view-model separation.
+
+**Not implemented**: an HTTP interceptor for centralized request/error handling. There's a
+`NotificationService` for user-facing success/error messages and each repository method surfaces
+its own errors, but there's no interceptor sitting in front of `HttpClient` — see below.
 
 ## What I'd do next with more time
 
-- Component/E2E test coverage as listed above.
-- Real focus management on route change (move focus to the page's `<h1>`/`<h2>`), plus a pass with
-  an automated accessibility checker.
-- A responsive collapse for the sidebar below ~768px — the main content areas are responsive, but
-  the shell's fixed-width sidebar isn't optimized for small screens yet.
-- Debounced, cancellable in-flight requests if the mock latency were replaced with a real API
-  (today a single `getAll()` call is cached in-memory, so this isn't yet a real concern).
+- **An HTTP interceptor** for centralized error handling (e.g. normalizing error shapes, retry-once
+  on transient failures) instead of each call site handling its own `error:` callback. Currently
+  low-value here specifically because there's only one real HTTP call in the whole app
+  (`LocalFacilityRepository`'s initial JSON fetch — `create`/`update` never touch `HttpClient`),
+  but it's the clearest structural gap against the optional requirements list.
+- **A Playwright E2E smoke test** for the full create → view → edit flow, and specifically for the
+  two OpenLayers components' actual map behavior (click-to-place, drag, marker rendering), which
+  unit tests structurally cannot exercise — see the Testing section above.
+- **Real focus management on route change** (move focus to the page's `<h1>`/`<h2>`), plus a pass
+  with an automated accessibility checker (axe-core).
+- **Debounced/cancelled in-flight requests** if the mock latency were replaced with a real API
+  (today a single `getAll()` call is cached in memory and `localStorage`, so this isn't yet a real
+  concern).
+- **Conflict handling for `localStorage` persistence** across multiple tabs (no `storage` event
+  listener today — a change in one tab won't reflect in another until it reloads).
 
 ## AI-assisted development
 
-Built with Claude Code (Anthropic). It was used to scaffold the FDD folder structure, generate the
-bulk of the component/service code from a discussed plan, and iterate on lint/type errors. All
-generated code was reviewed, and the architectural decisions (repository/port pattern, no external
-backend, route structure, map component boundaries) were discussed and confirmed before
-implementation — see the plan this was built from for the reasoning behind each decision.
+Built with Claude Code (Anthropic) across an iterative, plan-then-implement workflow: each feature
+or refactor was scoped into its own branch, implemented, verified (lint/build/test/coverage), and
+merged via its own pull request before the next began. Claude Code was used to scaffold the FDD
+folder structure, generate the bulk of the component/service code and tests from discussed plans,
+extract/refactor existing code (constants, icons, the localStorage persistence layer), and iterate
+on lint/type/coverage feedback. All generated code was reviewed; architectural decisions (the
+repository/port pattern, no external backend, the two-OpenLayers-components split, the
+coverage-config split between `angular.json` and `vitest.config.ts`) were discussed and confirmed
+before implementation, and verified empirically where the outcome wasn't obvious upfront (e.g. the
+Vitest external-config coverage-attribution issue documented in `vitest.config.ts`).
